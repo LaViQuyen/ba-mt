@@ -1,32 +1,57 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+// // functions/index.js
+// const { onCall, HttpsError } = require("firebase-functions/v2/https");
+// const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const {setGlobalOptions} = require("firebase-functions");
-const {onRequest} = require("firebase-functions/https");
-const logger = require("firebase-functions/logger");
+// // KHAI BÁO API KEY GEMINI CỦA BẠN Ở ĐÂY (Hoặc dùng defineSecret tốt hơn)
+// const GEN_AI_KEY = "Dán_API_Key_Gemini_Của_Bạn_Vào_Đây"; 
+// const genAI = new GoogleGenerativeAI(GEN_AI_KEY);
 
-// For cost control, you can set the maximum number of containers that can be
-// running at the same time. This helps mitigate the impact of unexpected
-// traffic spikes by instead downgrading performance. This limit is a
-// per-function limit. You can override the limit for each function using the
-// `maxInstances` option in the function's options, e.g.
-// `onRequest({ maxInstances: 5 }, (req, res) => { ... })`.
-// NOTE: setGlobalOptions does not apply to functions using the v1 API. V1
-// functions should each use functions.runWith({ maxInstances: 10 }) instead.
-// In the v1 API, each function can only serve one request per container, so
-// this will be the maximum concurrent request count.
-setGlobalOptions({ maxInstances: 10 });
+// exports.gradeWriting = onCall({ cors: true }, async (request) => {
+//   const { taskType, essayContent } = request.data;
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+//   if (!essayContent) {
+//     throw new HttpsError('invalid-argument', 'Nội dung bài viết trống.');
+//   }
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
+//   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+//   const prompt = `
+//     You are an IELTS Examiner. Grade this ${taskType} essay based on official band descriptors.
+//     Essay: "${essayContent}"
+    
+//     Response format (Strict JSON only, no markdown code blocks):
+//     {
+//       "band_score": 6.5,
+//       "overall_comment": "Brief summary...",
+//       "detailed_feedback": {
+//          "TR_TA": "...",
+//          "CC": "...",
+//          "LR": "...",
+//          "GRA": "..."
+//       },
+//       "correction": "Corrected version or suggestion..."
+//     }
+//   `;
+
+//   try {
+//     const result = await model.generateContent(prompt);
+//     const response = result.response;
+//     let text = response.text();
+    
+//     // Làm sạch JSON nếu AI trả về dính dấu ```json
+//     text = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    
+//     const jsonResult = JSON.parse(text);
+    
+//     return {
+//       success: true,
+//       data: jsonResult
+//     };
+//   } catch (error) {
+//     console.error("AI Error:", error);
+//     return {
+//       success: false,
+//       message: error.message
+//     };
+//   }
 // });

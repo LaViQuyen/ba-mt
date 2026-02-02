@@ -1,42 +1,1698 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* src/App.css */
+*{
+  box-sizing: border-box;
+}
+/* 1. KHÓA THANH CUỘN TOÀN TRANG */
+body { 
+  margin: 0; 
+  font-family: 'Segoe UI', Roboto, sans-serif; 
+  background-color: #f4f7fc; 
+  color: #333;
+  overflow: hidden; /* ⚠️ QUAN TRỌNG: Cấm cuộn chuột ở body */
+  height: 100vh;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+a { text-decoration: none; }
+
+/* 2. LAYOUT CỐ ĐỊNH (HEADER - CONTENT - FOOTER) */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Chiều cao cố định đúng bằng màn hình */
+  overflow: hidden; /* Không cho nội dung tràn ra ngoài */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* 3. HEADER (Cố định 70px) */
+.main-navbar {
+  height: 70px; 
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 30px;
+  z-index: 10000;
+  box-sizing: border-box;
+  flex-shrink: 0; /* Không bị co lại */
+}
+
+/* 4. NỘI DUNG CHÍNH (Đã sửa lại chuẩn) */
+.app-content {
+  flex: 1; /* Chiếm toàn bộ khoảng trống giữa Header và Footer */
+  display: flex;
+  flex-direction: column;
+  
+  /* QUAN TRỌNG: Cho phép cuộn dọc, chặn cuộn ngang */
+  overflow-y: auto; 
+  overflow-x: hidden;
+  
+  /* Căn chỉnh mặc định từ trên xuống, không ép vào giữa */
+  align-items: stretch; 
+  padding: 20px;
+  position: relative;
+}
+
+/* =================================================================
+   BUTTON LOGOUT (HEADER)
+   ================================================================= */
+.btn-logout {
+  background-color: transparent;
+  color: #d32f2f; /* Màu đỏ đô nhẹ nhàng, báo hiệu hành động "Thoát" */
+  border: 1px solid #d32f2f;
+  padding: 6px 16px;
+  border-radius: 50px; /* Bo tròn kiểu viên thuốc (Pill shape) hiện đại */
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Khoảng cách giữa chữ và icon */
+  transition: all 0.2s ease-in-out;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Hiệu ứng khi di chuột vào */
+.btn-logout:hover {
+  background-color: #d32f2f;
+  color: white;
+  transform: translateY(-1px); /* Nổi lên nhẹ */
+  box-shadow: 0 2px 5px rgba(211, 47, 47, 0.2);
+}
+
+/* Hiệu ứng khi nhấn */
+.btn-logout:active {
+  transform: translateY(0);
+}
+
+/* Responsive trên điện thoại */
+@media (max-width: 600px) {
+  .btn-logout span {
+    display: none; /* Ẩn chữ "Thoát" trên mobile, chỉ hiện icon */
   }
-  to {
-    transform: rotate(360deg);
+  .btn-logout {
+    padding: 8px;
+    border-radius: 50%; /* Thành hình tròn */
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+  }
+  .btn-logout i {
+    font-size: 1.1rem;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* 🔥 QUAN TRỌNG: Tự động thu nhỏ ảnh ở trang chủ để không bị vỡ layout */
+.app-content img {
+  max-height: 50vh; /* Ảnh chỉ được cao tối đa 50% màn hình */
+  width: auto;      /* Chiều rộng tự chỉnh theo tỷ lệ */
+  object-fit: contain;
+}
+
+/* 5. FOOTER (Cố định 40px) */
+.main-footer {
+  height: 40px;
+  background-color: #002554 ; 
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  flex-shrink: 0; /* Luôn giữ đúng 40px, không bị nội dung đè bẹp */
+  z-index: 10000;
+}
+
+/* ... (GIỮ NGUYÊN CÁC CLASS KHÁC BÊN DƯỚI NHƯ .nav-center-logo, .nav-right-text...) ... */
+
+/* Class mới: Định vị Logo nằm CHÍNH GIỮA tuyệt đối */
+.nav-center-logo {
+  position: absolute;      /* Thoát khỏi dòng chảy văn bản để nằm đè lên */
+  left: 50%;               /* Đẩy sang 50% màn hình */
+  transform: translateX(-50%); /* Kéo ngược lại 50% chiều rộng của chính nó để vào giữa tâm */
+  
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo-img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Class mới: Định vị Text nằm dính bên PHẢI */
+.nav-right-text {
+  position: absolute;      /* Định vị tuyệt đối */
+  right: 30px;             /* Cách lề phải 30px */
+  
+  font-weight: 700;
+  color: #002554;
+  font-size: 16px;
+}
+
+/* --- ĐIỀU CHỈNH QUAN TRỌNG CHO TRANG LÀM BÀI --- */
+/* Cũ là 100vh, giờ phải trừ đi 70px của Header để vừa khít màn hình */
+.test-container {
+  height: calc(100vh - 70px); 
+  display: flex; 
+  flex-direction: column; 
+  background: white;
+}
+
+/* Chỉnh lại vị trí của Navbar cũ (nếu còn dùng style cũ thì xóa đi, dùng .main-navbar ở trên) */
+.logo { font-size: 22px; font-weight: 800; color: #002554; }
+
+/* Container */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+/* Chia cột thẻ trang HomePage */
+.grid { 
+  display: grid; 
+  /* 🔥 QUAN TRỌNG: Chia thành 4 cột bằng nhau trên màn hình lớn */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 25px; 
+}
+
+/* --- THÊM PHẦN RESPONSIVE ĐỂ KHÔNG BỊ LỖI TRÊN ĐIỆN THOẠI/TABLET --- */
+
+/* Màn hình Tablet hoặc Laptop nhỏ (< 1100px): Hiển thị 2 cột */
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* Màn hình Điện thoại (< 600px): Hiển thị 1 cột dọc */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+/*  */
 .card {
-  padding: 2em;
+  background: white; border-radius: 12px; padding: 25px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+.card h3 { margin-top: 10px; color: #002554; }
+.btn-start {
+  display: block; width: 100%; padding: 12px 0; margin-top: 20px;
+  background: #002554; color: white; text-align: center; border-radius: 6px; font-weight: 600;
+  border: none; cursor: pointer;
+}
+.btn-start:hover { background: #01377e; }
+
+/* Gap Input Style (Cho bài điền từ sau này) */
+.gap-input { border: none; border-bottom: 1px solid #333; background: #f9f9f9; text-align: center; width: 100px; margin: 0 5px; color: #002554; font-weight: bold; }
+.gap-input:focus { outline: none; border-bottom: 2px solid #002554; background: #e3f2fd; }
+.badge { background: #002554; color: white; font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-right: 5px; }
+
+/* --- QUESTION PALETTE (PHIÊN BẢN CHÂN TRANG) --- */
+
+/* 1. Điều chỉnh khung bao quanh để chừa chỗ cho footer */
+.test-layout-wrapper {
+  display: block; /* Bỏ flex chia cột */
+  height: calc(100vh - 130px); /* Trừ đi chiều cao Header + Footer */
+  overflow: hidden; 
+  position: relative;
 }
 
-.read-the-docs {
-  color: #888;
+.main-test-area {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* --- QUESTION PALETTE (PHIÊN BẢN COMPACT CHO PC/LAPTOP) --- */
+
+/* Thanh footer cố định */
+.bottom-palette-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px; /* Giảm chiều cao từ 70px -> 50px */
+  background: #fff;
+  border-top: 1px solid #ccc; /* Viền mỏng hơn */
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  gap: 6px; /* Giảm khoảng cách giữa các ô */
+  overflow-x: auto;
+  white-space: nowrap;
+  z-index: 9999;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+
+/* Tùy chỉnh thanh cuộn cho đẹp và mảnh hơn */
+.bottom-palette-bar::-webkit-scrollbar {
+  height: 4px; /* Thanh cuộn siêu mỏng */
+}
+.bottom-palette-bar::-webkit-scrollbar-thumb {
+  background: #002554;
+  border-radius: 2px;
+}
+
+/* Các ô tròn số câu hỏi */
+.q-circle {
+  flex-shrink: 0;
+  width: 32px;  /* Giảm size từ 40px -> 32px */
+  height: 32px;
+  border: 1px solid #ccc;
+  border-radius: 50%; /* Đổi thành hình vuông bo góc nhẹ cho hiện đại hơn, hoặc để 50% nếu thích tròn */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px; /* Chữ nhỏ lại */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #f9f9f9;
+  color: #333;
+}
+
+.q-circle:hover { background: #e3f2fd; border-color: #002554; }
+.q-circle.filled { background: #002554; color: white; border-color: #002554; } 
+.q-circle.correct { background: #2e7d32; color: white; border-color: #2e7d32; }
+.q-circle.wrong { background: #d32f2f; color: white; border-color: #d32f2f; }
+
+/* Label chữ QUESTIONS */
+.palette-label {
+    font-size: 12px; 
+    font-weight: bold; 
+    color: #002554; 
+    margin-right: 10px;
+}
+
+/* --- STYLE CHO SỐ THỨ TỰ CÂU HỎI (BADGE) --- */
+.q-badge-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e3f2fd; /* Màu nền xanh nhạt */
+  color: #002554;            /* Chữ xanh đậm */
+  font-size: 12px;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;        /* Bo góc vuông nhẹ */
+  margin: 0 5px 0 0;         /* Cách lề phải một chút */
+  vertical-align: middle;
+  border: 1px solid #90caf9;
+}
+
+/* --- TỐI ƯU Ô NHẬP LIỆU TRONG BẢNG --- */
+.gap-input {
+  display: inline-block;     /* Bắt buộc để nằm cùng dòng */
+  border: none;
+  border-bottom: 1px solid #333;
+  background: #f9f9f9;
+  text-align: center;
+  color: #002554;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 5px;
+  margin: 0 5px;
+  outline: none;
+  transition: all 0.2s;
+  
+  /* QUAN TRỌNG: Độ rộng linh hoạt */
+  width: auto;               
+  min-width: 80px;           /* Chiều rộng tối thiểu */
+  max-width: 100px;          /* Không cho quá dài */
+}
+
+.gap-input:focus {
+  border-bottom: 2px solid #002554;
+  background: #e8f0fe;
+}
+
+/* Style cho Dropdown Matching */
+.gap-select {
+  padding: 4px 8px;
+  border: 1px solid #002554;
+  border-radius: 4px;
+  background-color: white;
+  color: #002554;
+  font-weight: bold;
+  font-size: 14px;
+  margin-left: 5px;
+  cursor: pointer;
+  min-width: 60px; /* Đảm bảo đủ rộng để bấm */
+}
+
+.gap-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 37, 84, 0.2);
+}
+
+/* --- LOGIN BUTTON & MODAL --- */
+
+/* Nút đăng nhập trên Header */
+.btn-login {
+  background: #D32F2F; /* Màu đỏ nổi bật */
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-login:hover { background: #b71c1c; transform: translateY(-1px); }
+
+/* Nền đen mờ che phía sau khi hiện Popup */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Màu đen độ trong suốt 50% */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000; /* Cao hơn cả Header */
+  backdrop-filter: blur(3px); /* Làm mờ hậu cảnh */
+}
+
+/* Hộp đăng nhập */
+.modal-box {
+  background: white;
+  padding: 30px;
+  width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-align: center;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Input trong hộp đăng nhập */
+.login-input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box; /* Để padding không làm vỡ khung */
+}
+
+.btn-submit-login {
+  width: 100%;
+  padding: 12px;
+  background: #002554;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.btn-submit-login:hover { background: #01377e; }
+
+.close-modal {
+  position: absolute;
+  top: 10px; right: 15px;
+  background: none; border: none;
+  font-size: 20px; cursor: pointer; color: #999;
+}
+.close-modal:hover { color: #333; }
+
+/* --- GIAO DIỆN CHUẨN CŨ (SPLIT SCREEN & FOOTER) --- */
+
+/* 1. Layout tổng thể: Header - Main - Footer */
+.test-page-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Chiếm toàn bộ chiều cao màn hình */
+  background: #fff;
+  overflow: hidden; /* Ẩn thanh cuộn của body */
+}
+
+/* 2. Main Content: Nơi chứa nội dung bài thi */
+.test-main-content {
+  flex: 1; /* Chiếm phần còn lại */
+  overflow: hidden; /* Để nội dung con tự cuộn */
+  position: relative;
+  display: flex;
+}
+
+/* =========================================
+   NEW FULL TEST PAGE STYLES (SINGLE SKILL)
+   ========================================= */
+
+/* 1. Bao bọc toàn màn hình (Fullscreen Overlay) 
+   Mục đích: Che lấp Header chính của trang web để học viên tập trung */
+.test-page-layout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #f4f7fc;
+  z-index: 20000; /* Cao hơn Navbar chính (10000) */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 3. Khu vực nội dung chính (Co giãn theo chiều cao còn lại) */
+.test-main-content {
+  flex: 1; 
+  overflow: hidden; /* Quan trọng để scroll con hoạt động */
+  position: relative;
+  display: flex;
+  background: #fff;
+}
+
+/* --- LISTENING VIEW (Canh giữa, 1 cột) --- */
+.listening-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  overflow-y: auto; /* Scroll dọc */
+  background: #fff;
+  height: 100%;
+}
+.audio-player-sticky {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  padding-bottom: 20px;
+  z-index: 10;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+/* --- READING VIEW (Chia đôi 50/50) --- */
+.reading-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.reading-left-pane {
+  width: 50%;
+  height: 100%;
+  padding: 40px;
+  overflow-y: auto;
+  border-right: 4px solid #e0e0e0; /* Đường kẻ chia đôi dày */
+  background: #fff;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: justify;
+}
+.reading-right-pane {
+  width: 50%;
+  height: 100%;
+  padding: 40px;
+  overflow-y: auto;
+  background: #fdfdfd;
+}
+
+/* --- WRITING VIEW (Chia đôi 40/60) --- */
+.writing-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.writing-left-pane {
+  width: 40%;
+  height: 100%;
+  padding: 30px;
+  border-right: 4px solid #e0e0e0;
+  overflow-y: auto;
+  background: #fff;
+}
+.writing-right-pane {
+  width: 60%;
+  height: 100%;
+  padding: 30px;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Task Tabs trong Writing */
+.writing-task-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+.w-tab {
+  padding: 8px 25px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #666;
+  cursor: pointer;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.w-tab.active {
+  background: #002554;
+  color: white;
+  border-color: #002554;
+}
+
+.essay-input {
+  width: 100%;
+  flex: 1; /* Chiếm hết chiều cao còn lại */
+  resize: none;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.essay-input:focus { outline: none; border-color: #002554; box-shadow: 0 0 0 3px rgba(0,37,84,0.1); }
+
+/* --- FOOTER PALETTE (Thanh điều hướng câu hỏi) --- */
+.test-footer {
+  height: 60px;
+  background: #f1f1f1;
+  border-top: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 8px;
+  overflow-x: auto; /* Cho phép cuộn ngang nếu nhiều câu */
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+/* Ô vuông số câu hỏi */
+.q-nav-btn {
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid #aaa;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  font-weight: 700;
+  color: #333;
+  transition: all 0.1s;
+}
+.q-nav-btn:hover { background: #ddd; transform: translateY(-2px); }
+
+/* Trạng thái đã làm */
+.q-nav-btn.done {
+  background: #002554;
+  color: white;
+  border-color: #002554;
+}
+
+/* Common Question Styles */
+.question-part {
+  margin-bottom: 30px;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.question-part h3 {
+  background: #eef7ff;
+  color: #002554;
+  padding: 10px 15px;
+  margin: -20px -20px 20px -20px; /* Kéo full viền */
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #ddeeff;
+}
+
+/* src/App.css */
+
+/* ... (Các phần trên giữ nguyên) ... */
+
+/* === CẬP NHẬT HEADER GIỐNG DỰ ÁN CŨ === */
+
+.test-header {
+  height: 70px;
+  background: white; /* Nền trắng */
+  border-bottom: 1px solid #ccc;
+  
+  /* Layout Grid 3 cột: Trái - Giữa - Phải */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  
+  padding: 0 20px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  z-index: 100;
+}
+
+/* 1. Cột Trái (Logo) */
+.header-left {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+}
+.test-logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* 2. Cột Giữa (Đồng hồ) */
+.header-center {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timer-box {
+  background: #f0f8ff; /* Màu xanh nhạt */
+  color: #002554;      /* Chữ xanh đậm */
+  border: 1px solid #cce5ff;
+  border-radius: 6px;
+  padding: 5px 15px;
+  font-family: monospace;
+  font-size: 1.4rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 3. Cột Phải (Nút bấm) */
+.header-right {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Style cho nút AI Grade nằm trên Header */
+.btn-ai-header {
+  background: #fff;           /* Nền trắng */
+  color: #d4b106;             /* Chữ màu vàng Gold (giống màu "Magic") */
+  border: 1px solid #d4b106;  /* Viền vàng */
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  height: 38px; /* Bằng chiều cao nút Submit cho đều */
+}
+
+.btn-ai-header:hover:not(:disabled) {
+  background: #fffdf0; /* Hover vàng nhạt */
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(212, 177, 6, 0.2);
+}
+
+.btn-ai-header:disabled {
+  border-color: #ccc;
+  color: #999;
+  cursor: not-allowed;
+  background: #f9f9f9;
+}
+
+/* Responsive trên điện thoại: Chỉ hiện Icon, ẩn chữ "AI Grade" đi cho đỡ chật */
+@media (max-width: 600px) {
+  .btn-ai-header {
+    padding: 8px 10px;
+    font-size: 0; /* Ẩn chữ */
+  }
+  .btn-ai-header i {
+    font-size: 1.1rem; /* Hiện icon to lên chút */
+  }
+}
+
+/* Style cho các nút */
+.btn-exit {
+  color: #666;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: all 0.2s;
+  background: white;
+  cursor: pointer;
+}
+.btn-exit:hover {
+  background: #f5f5f5;
+  color: #333;
+  border-color: #999;
+}
+
+/* =========================================
+   WRITING TEST INTERFACE (CHUẨN DỰ ÁN CŨ)
+   ========================================= */
+
+.writing-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+}
+
+/* 1. TABS BAR (Nằm ngang trên cùng) */
+.writing-tabs-bar {
+  display: flex;
+  gap: 5px;
+  padding: 10px 20px;
+  background: #e8e8e8;
+  border-bottom: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.w-tab-btn {
+  background: #fff;
+  color: #666;
+  padding: 8px 25px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.w-tab-btn:hover { background: #f0f0f0; }
+
+.w-tab-btn.active {
+  background: #002554;
+  color: white;
+  border-color: #002554;
+}
+
+/* 2. WORKSPACE (Chia đôi màn hình) */
+.writing-workspace {
+  display: flex;
+  flex: 1; /* Chiếm hết khoảng trống còn lại */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Cột Trái: Đề bài */
+.w-left-pane {
+  width: 40%;
+  min-width: 300px;
+  padding: 30px;
+  overflow-y: auto;
+  border-right: 4px solid #e0e0e0; /* Đường kẻ chia đôi dày */
+  background: #fff;
+  color: #333;
+}
+
+.w-header-part h2 {
+  margin: 0 0 5px;
+  font-size: 1.2rem;
+  color: #002554;
+  font-weight: 700;
+}
+.w-header-part p {
+  margin: 0 0 20px 0;
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+.prompt-box {
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+.task-img {
+  width: 100% !important;       /* Bắt buộc giãn full chiều rộng cột */
+  height: auto !important;      /* Chiều cao tự động theo tỷ lệ */
+  max-height: none !important;  /* Gỡ bỏ giới hạn chiều cao 50vh */
+  margin: 16px 0;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  object-fit: contain;
+  display: block;               /* Đảm bảo ảnh là khối, không bị canh dòng inline */
+}
+
+/* Cột Phải: Ô nhập liệu */
+.w-right-pane {
+  width: 60%;
+  padding: 30px;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  /* THÊM DÒNG NÀY: Đảm bảo nội dung văn bản dài sẽ tự động xuống dòng */
+  overflow-wrap: break-word; 
+}
+
+.writing-textarea {
+  width: 100%;
+  /* THÊM DÒNG NÀY: Tính padding và border vào trong chiều rộng 100% */
+  box-sizing: border-box; 
+  flex-grow: 1; /* Tự giãn chiều cao */
+  min-height: 300px;
+  resize: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 20px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  background: #fff;
+  color: #333;
+}
+
+.writing-textarea:focus {
+  outline: none;
+  border: 1px solid #002554;
+  box-shadow: 0 0 0 3px rgba(0, 37, 84, 0.1);
+}
+
+.meta-row {
+  margin-top: 10px;
+  color: #555;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* 3. ACTIONS BAR (Thanh công cụ dưới cùng) */
+
+.footer-score {
+  background: white;
+  border: 2px solid #d63384;
+  color: #d63384;
+  padding: 5px 15px;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+/* Kết quả AI hiển thị trong Right Pane */
+.grading-box {
+  margin-top: 15px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.grade-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 5px;
+}
+.grade-label { font-weight: bold; min-width: 60px; color: #002554; }
+.grade-text { font-size: 0.9rem; color: #444; flex-grow: 1; padding: 0 10px; font-style: italic; }
+.grade-score { font-weight: bold; background: #002554; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.85rem; }
+
+/* --- RESULT SCREEN STYLES --- */
+.result-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  z-index: 30000; /* Cao nhất để che hết mọi thứ */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.result-score {
+  font-size: 5rem;
+  font-weight: 800;
+  color: #002554;
+  margin: 10px 0;
+}
+
+.btn-home {
+  margin-top: 20px;
+  background: #002554;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}
+.btn-home:hover {
+  background: #00193a;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+/* --- READING TOOLS (Highlight & Notes) --- */
+
+/* Màu highlight */
+::selection { background: #b3d4fc; } /* Màu bôi đen mặc định */
+
+/* Menu chuột phải */
+.ctx-menu {
+  position: fixed; /* Đổi thành fixed để không bị trôi khi scroll */
+  display: none;
+  background: white;
+  border: 1px solid #ccc;
+  min-width: 160px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 99999;
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
+.ctx-menu-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+  transition: 0.2s;
+}
+.ctx-menu-item:hover { background: #f0f8ff; color: #002554; }
+.ctx-menu-item i { width: 20px; text-align: center; }
+
+/* Note dán trên văn bản (Phần màu vàng cam) */
+.note-attached {
+  background-color: #ffcc80;
+  border-bottom: 2px solid #f57c00;
+  cursor: pointer;
+  transition: background 0.2s;
+  padding: 2px 0;
+}
+.note-attached:hover { background-color: #ffb74d; }
+
+/* Popup ghi chú (Cửa sổ nhập liệu) */
+.note-popup {
+  position: absolute;
+  width: 250px;
+  background: #fffFA5;
+  border: 1px solid #d4b106;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  animation: fadeIn 0.2s;
+}
+.note-header {
+  background: #f7e98d;
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e3c662;
+  font-size: 13px;
+  font-weight: bold;
+  color: #444;
+  cursor: move;
+}
+.note-close { cursor: pointer; font-size: 16px; color: #666; font-weight: bold;}
+.note-close:hover { color: #d32f2f; }
+.note-textarea {
+  width: 100%;
+  height: 120px;
+  border: none;
+  padding: 10px;
+  background: #fffFA5;
+  resize: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  outline: none;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Tooltip khi di chuột vào note */
+.note-tooltip {
+  position: fixed;
+  display: none;
+  background: #333;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 99999;
+  pointer-events: none;
+  max-width: 250px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* =================================================================
+   🎨 GIAO DIỆN TEST MENU - STYLE DỰ ÁN CŨ (FULL RESPONSIVE)
+   ================================================================= */
+
+/* 1. Grid Layout */
+.test-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Thẻ Link bao ngoài */
+.test-menu-grid > a {
+  display: block; 
+  height: 100%;
+}
+
+/* 2. Style cho thẻ Card (Desktop mặc định) */
+.skill-card-hover {
+  background: white;
+  border-radius: 20px; /* Bo tròn giống dự án cũ */
+  padding: 40px 30px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease; /* Hiệu ứng mượt */
+  cursor: pointer;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  color: #333;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 🔥 HIỆU ỨNG HOVER "THẦN THÁNH" TỪ DỰ ÁN CŨ 🔥 */
+.skill-card-hover:hover {
+  transform: translateY(-8px); /* Bay lên nhẹ */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #002554;
+}
+
+/* 3. Icon tròn */
+.skill-card-icon {
+  width: 80px;
+  height: 80px;
+  background: #eef7ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  transition: background 0.3s, color 0.3s;
+  flex-shrink: 0;
+}
+
+.skill-card-icon i {
+  font-size: 2.5rem;
+  color: #002554;
+  transition: color 0.3s;
+}
+
+/* Khi hover vào thẻ Card thì Icon đổi màu */
+.skill-card-hover:hover .skill-card-icon {
+  background: #002554; /* Nền xanh */
+}
+.skill-card-hover:hover .skill-card-icon i {
+  color: white; /* Icon trắng */
+}
+
+/* 4. Phần Nội dung Text + Nút */
+.card-content-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+}
+
+.skill-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #002554;
+  margin-bottom: 10px;
+}
+
+.skill-card-desc {
+  color: #6b7280;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* 5. Nút Bấm (Luôn hiện) */
+.skill-card-btn {
+  margin-top: auto;
+  background-color: #002554;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  border: none;
+  transition: background 0.3s;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Khi hover vào thẻ Card thì Nút đổi màu Vàng */
+.skill-card-hover:hover .skill-card-btn {
+  background-color: #d4b106; /* Màu vàng Gold */
+  color: #002554; /* Chữ xanh */
+}
+
+/* =================================================================
+   📱 MOBILE & TABLET FIX (< 900px)
+   ================================================================= */
+@media (max-width: 900px) {
+
+  /* --- HEADER FIX --- */
+  .main-navbar { padding: 0 15px !important; justify-content: space-between !important; }
+  .nav-center-logo { position: static !important; transform: none !important; margin: 0 !important; }
+  .nav-logo-img { height: 35px !important; }
+  .nav-right-text { position: static !important; right: auto !important; display: flex !important; align-items: center !important; gap: 8px !important; }
+  .nav-right-text span { font-size: 13px !important; display: flex !important; flex-direction: column; align-items: flex-end; }
+  .nav-right-text strong { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* --- TEST MENU FIX --- */
+  .test-menu-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important; /* Khoảng cách giữa các thẻ */
+    padding: 0 15px !important;
+    padding-bottom: 50px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Chỉnh lại thẻ Card nằm ngang trên điện thoại */
+  .skill-card-hover {
+    flex-direction: row !important; /* Xếp ngang: Icon trái | Text phải */
+    align-items: flex-start !important; /* Căn đỉnh trên */
+    text-align: left !important;
+    padding: 20px !important;
+  }
+
+  /* Icon nhỏ lại chút trên mobile */
+  .skill-card-icon {
+    width: 60px !important; 
+    height: 60px !important;
+    margin-right: 20px !important;
+    margin-bottom: 0 !important;
+  }
+  .skill-card-icon i { font-size: 1.8rem !important; }
+
+  /* Căn lề trái cho nhóm nội dung */
+  .card-content-group {
+    align-items: flex-start !important; /* Căn trái text và nút */
+  }
+
+  .skill-card-title { font-size: 1.3rem !important; margin-bottom: 5px !important; }
+  .skill-card-desc { font-size: 0.9rem !important; margin-bottom: 15px !important; }
+
+  /* Nút bấm trên mobile: Nhỏ hơn xíu nhưng VẪN HIỆN */
+  .skill-card-btn {
+    padding: 8px 20px !important;
+    font-size: 0.9rem !important;
+    width: auto !important; /* Tự co giãn theo nội dung */
+  }
+}
+
+/* =================================================================
+   🔥 FIX LỖI THÔNG BÁO BỊ CHE KHUẤT (Z-INDEX)
+   ================================================================= */
+.Toastify__toast-container {
+  z-index: 99999 !important; /* Đặt cao hơn Modal (20000) và Result Screen (30000) */
+}
+
+/* =================================================================
+   🎨 GIAO DIỆN BẢNG ĐIỂM AI (GIỐNG DỰ ÁN CŨ)
+   ================================================================= */
+
+/* Khung chứa kết quả */
+.grading-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Từng dòng tiêu chí (TR, CC, LR, GRA) */
+.grade-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Căn hàng trên cùng */
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #eee;
+  padding-bottom: 8px;
+}
+
+/* Nhãn tiêu chí (VD: Task Response) */
+.grade-label {
+  font-weight: 700;
+  min-width: 120px; /* Đủ rộng để tên không bị xuống dòng */
+  color: #002554;   /* Màu xanh thương hiệu */
+  font-size: 0.9rem;
+}
+
+/* Nội dung nhận xét */
+.grade-text {
+  font-size: 0.9rem;
+  color: #444;
+  flex-grow: 1; /* Chiếm hết khoảng trống giữa */
+  padding: 0 15px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Điểm số (Ô vuông màu xanh) */
+.grade-score {
+  font-weight: 800;
+  background: #002554;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  min-width: 35px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+/* Dòng tổng điểm (Overall) */
+.task-overall {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 2px solid #eee;
+  text-align: right;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #28a745; /* Màu xanh lá cây chuẩn */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =================================================================
+   PHẦN CSS MỚI CHO WRITING MODE
+   (Dán đoạn này vào cuối file App.css gốc của bạn)
+   ================================================================= */
+
+/* --- 1. HOMEPAGE UPDATE --- */
+.homepage-wrapper {
+  min-height: 100vh; display: flex; flex-direction: column; background: #f8f9fa;
+}
+.hp-container { padding: 40px 60px; flex: 1; }
+
+.hp-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 40px; border-bottom: 1px solid #e0e0e0; padding-bottom: 20px;
+}
+.hp-title h1 {
+  color: #002554; font-size: 2.2rem; font-weight: 900; margin: 0; letter-spacing: -1px;
+}
+.hp-title p { margin: 5px 0 0; color: #666; font-size: 0.95rem; }
+
+.hp-nav { display: flex; align-items: center; }
+.hp-link {
+  text-decoration: none; color: #777; font-weight: 600; font-size: 1rem;
+  transition: 0.3s; padding-bottom: 5px; margin-left: 30px;
+  border-bottom: 3px solid transparent;
+}
+.hp-link:hover { color: #002554; }
+.hp-link.active {
+  color: #002554; border-bottom: 3px solid #002554; font-weight: 800;
+}
+
+.hp-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;
+}
+.hp-card {
+  background: white; border-radius: 12px; padding: 25px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s;
+  border: 1px solid #eee;
+}
+.hp-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); border-color: #002554; }
+.hp-card h3 { margin-top: 10px; color: #002554; }
+.btn-start {
+  display: block; width: 100%; padding: 12px 0; margin-top: 20px;
+  background: #002554; color: white; text-align: center; border-radius: 6px;
+  font-weight: 600; border: none; cursor: pointer; text-decoration: none;
+}
+.btn-start:hover { background: #01377e; }
+
+/* =================================================================
+   CSS MỚI CHO WRITING LIBRARY
+   ================================================================= */
+
+.library-container {
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 1. Wrapper cho Header (Thay thế style inline cũ) */
+.lib-header-wrapper {
+    padding: 40px 60px 0 60px;
+    flex-shrink: 0;
+    background-color: #f8f9fa;
+}
+
+/* Link quay lại */
+.back-link { text-decoration: none; color: #555; font-weight: 600; font-size: 0.9rem; }
+.back-link:hover { color: #002554; }
+
+/* 2. Body Container */
+.lib-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    padding: 10px 20px 20px 20px; /* Padding top 10px giống inline cũ */
+    gap: 20px;
+}
+
+/* Cột danh sách */
+.lib-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+}
+
+.col-header { padding: 15px; background: #fff; border-bottom: 1px solid #eee; flex-shrink: 0; }
+.col-title { margin: 0 0 10px 0; color: #002554; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+
+.search-box {
+    width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; outline: none;
+}
+.search-box:focus { border-color: #002554; }
+
+.col-content { flex: 1; overflow-y: auto; padding: 10px; background: #f8f9fa; }
+
+/* --- Accordion Styles --- */
+.topic-group { margin-bottom: 10px; background: white; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+
+.topic-header {
+    padding: 12px 15px; background: #fff; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 700; color: #444; border-bottom: 1px solid transparent; transition: 0.2s; font-size: 0.95rem;
+}
+.topic-header:hover { background: #f0f7ff; color: #002554; }
+.topic-header.active { background: #e3f2fd; border-bottom: 1px solid #ddd; color: #002554; }
+
+/* Class mới: Gom nhóm icon và tiêu đề topic */
+.topic-title-wrapper {
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
+}
+
+.count-badge { background: #eee; color: #666; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; margin-left: 8px; }
+.arrow-icon { transition: transform 0.3s; font-size: 0.8rem; }
+.arrow-icon.rotate { transform: rotate(180deg); }
+
+.topic-content { display: flex; flex-direction: column; }
+
+/* --- Item Card Styles (QUAN TRỌNG: FIX LỖI LỆCH HÀNG) --- */
+.item-card {
+    display: flex; 
+    align-items: center; 
+    padding: 10px 15px; 
+    border-bottom: 1px solid #eee;
+    cursor: pointer; 
+    background: white; 
+    transition: 0.2s;
+}
+.item-card:hover { background: #f9f9f9; }
+.item-card.selected { background: #fff8e1; border-left: 4px solid #ff9800; }
+
+/* 🔥 Class mới: Khung bao ảnh cố định 55x55px */
+.item-img-wrapper {
+    width: 55px;          /* Chiều rộng cố định */
+    height: 55px;         /* Chiều cao cố định */
+    flex-shrink: 0;       /* Không cho co lại */
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border-radius: 6px; 
+    overflow: hidden; 
+    border: 1px solid #eee; 
+    background-color: #fff;
+    margin-right: 15px;   /* Khoảng cách cố định với text */
+}
+
+/* Ảnh bên trong tự co giãn */
+.item-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; /* Hiển thị trọn vẹn ảnh */
+    display: block; 
+}
+
+/* Icon thay thế cho Task 2 */
+.item-icon-placeholder {
+    width: 100%; 
+    height: 100%; 
+    background: #f0f4f8; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    color: #002554;
+    font-size: 1.2rem;
+}
+
+/* Thông tin bài thi */
+.item-info { flex: 1; min-width: 0; }
+.item-title { font-weight: 700; font-size: 0.9rem; color: #002554; margin-bottom: 2px; }
+.item-desc { font-size: 0.8rem; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Check icon */
+.check-icon { color: #ddd; font-size: 1.2rem; margin-left: 10px; }
+.check-icon.checked { color: #28a745; display: block; }
+
+/* --- Sidebar --- */
+.lib-sidebar { width: 300px; flex-shrink: 0; display: flex; flex-direction: column; }
+.sticky-box {
+    background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.sel-row { margin-bottom: 15px; border-bottom: 1px dashed #eee; padding-bottom: 10px; }
+.sel-label { font-size: 0.8rem; color: #888; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+.sel-value { font-weight: 700; color: #002554; font-size: 0.95rem; }
+
+.btn-lib-start {
+    width: 100%; padding: 12px; background: #002554; color: white; font-weight: 700;
+    border: none; border-radius: 6px; cursor: pointer; margin-top: 10px; transition: 0.2s;
+}
+.btn-lib-start:hover { background: #003377; }
+
+/* Responsive Mobile */
+@media (max-width: 900px) {
+    .lib-header-wrapper { padding: 20px; }
+    .lib-body { flex-direction: column; padding: 10px; }
+    .lib-column { max-height: 400px; flex: none; }
+    .lib-sidebar { width: 100%; }
+}
+
+/* Accordion Styles */
+.topic-group { margin-bottom: 10px; background: white; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+.topic-header {
+    padding: 12px 15px; background: #fff; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 700; color: #444; border-bottom: 1px solid transparent; transition: 0.2s; font-size: 0.95rem;
+}
+.topic-header:hover { background: #f0f7ff; color: #002554; }
+.topic-header.active { background: #e3f2fd; border-bottom: 1px solid #ddd; color: #002554; }
+.count-badge { background: #eee; color: #666; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; margin-left: 8px; }
+.arrow-icon { transition: transform 0.3s; font-size: 0.8rem; }
+.arrow-icon.rotate { transform: rotate(180deg); }
+
+.topic-content { display: flex; flex-direction: column; }
+.item-card {
+    display: flex; align-items: center; padding: 10px 15px; border-bottom: 1px solid #eee;
+    cursor: pointer; background: white; gap: 12px; transition: 0.2s;
+}
+.item-card:hover { background: #f9f9f9; }
+.item-card.selected { background: #fff8e1; border-left: 4px solid #ff9800; }
+.item-img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #eee; flex-shrink: 0; }
+.icon-box { width: 40px; height: 40px; background: #f0f4f8; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #002554; flex-shrink: 0; }
+.item-info { flex: 1; min-width: 0; }
+.item-title { font-weight: 700; font-size: 0.9rem; color: #002554; margin-bottom: 2px; }
+.item-desc { font-size: 0.8rem; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.check-icon { color: #ddd; font-size: 1.2rem; }
+.check-icon.checked { color: #28a745; display: block; }
+
+/* Library Sidebar */
+.lib-sidebar { width: 300px; flex-shrink: 0; display: flex; flex-direction: column; }
+.sticky-box {
+    background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.sel-row { margin-bottom: 15px; border-bottom: 1px dashed #eee; padding-bottom: 10px; }
+.sel-label { font-size: 0.8rem; color: #888; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+.sel-value { font-weight: 700; color: #002554; font-size: 0.95rem; }
+.btn-lib-start {
+    width: 100%; padding: 12px; background: #002554; color: white; font-weight: 700;
+    border: none; border-radius: 6px; cursor: pointer; margin-top: 10px; transition: 0.2s;
+}
+.btn-lib-start:hover { background: #003377; }
+
+/* --- 3. WRITING TEST PAGE --- */
+.test-page-layout { display: flex; flex-direction: column; height: 100vh; background: #f3f4f6; overflow: hidden; }
+
+/* Header Test */
+.test-header { 
+    height: 70px; background: white; border-bottom: 1px solid #ddd; 
+    display: flex; align-items: center; justify-content: space-between; padding: 0 30px; flex-shrink: 0; position: relative; 
+}
+.header-left { display: flex; align-items: center; }
+.test-logo { height: 48px; width: auto; }
+.header-center { 
+    position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; 
+}
+.timer-box { 
+    font-size: 1.5rem; font-weight: 800; color: #002554; background: #eef7ff; 
+    padding: 8px 25px; border-radius: 8px; border: 1px solid #cce5ff; display: flex; gap: 12px; align-items: center; 
+}
+.header-right { display: flex; gap: 15px; align-items: center; }
+
+/* Buttons Test */
+.btn-ai-header { 
+    padding: 10px 20px; background: #fff; color: #d97706; border: 1px solid #d97706; 
+    border-radius: 6px; font-weight: 700; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; 
+}
+.btn-ai-header:hover { background: #fffbeb; }
+.btn-ai-header:disabled { opacity: 0.5; cursor: not-allowed; border-color: #ccc; color: #ccc; }
+
+.submit-btn { 
+    padding: 10px 25px; background: #002554; color: white; border: none; border-radius: 6px; 
+    font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: 0.2s; 
+}
+.submit-btn:hover { background: #00193a; }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.start-btn { padding: 10px 30px; background: #28a745; color: white; border: none; border-Radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+
+/* Writing Workspace */
+.writing-wrapper { display: flex; flex-direction: column; height: 100%; flex: 1; overflow: hidden; }
+.writing-tabs-bar { display: flex; border-bottom: 1px solid #ccc; background: #e8e8e8; padding: 0 20px; gap: 5px; flex-shrink: 0; }
+.w-tab-btn { padding: 10px 25px; border: 1px solid #ccc; border-bottom: none; background: #fff; color: #666; font-weight: 600; cursor: pointer; border-radius: 6px 6px 0 0; margin-top: 5px; }
+.w-tab-btn.active { background: #002554; color: white; border-color: #002554; }
+
+.writing-workspace { display: flex; flex: 1; overflow: hidden; }
+.w-left-pane { width: 45%; background: white; border-right: 1px solid #ddd; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; }
+.w-header-part h2 { color: #002554; margin: 0 0 10px 0; font-size: 1.5rem; }
+.prompt-box { font-size: 1.05rem; line-height: 1.7; color: #333; }
+.task-img { max-width: 100%; height: auto; border: 1px solid #eee; margin-top: 20px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+.w-right-pane { flex: 1; background: #f9f9f9; padding: 30px; display: flex; flex-direction: column; overflow-y: auto; }
+.writing-textarea { flex: 1; width: 100%; padding: 25px; font-size: 1.1rem; line-height: 1.8; border: 1px solid #ccc; border-radius: 8px; resize: none; font-family: 'Inter', sans-serif; min-height: 300px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); }
+.writing-textarea:focus { outline: none; border-color: #002554; box-shadow: 0 0 0 3px rgba(0,37,84,0.1); }
+.meta-row { margin-top: 15px; text-align: right; color: #666; font-size: 0.95rem; }
+
+.grading-box { margin-top: 25px; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.grade-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; border-bottom: 1px dashed #eee; padding-bottom: 8px; }
+.grade-label { font-weight: bold; min-width: 60px; color: #002554; font-size: 1rem; }
+.grade-text { font-size: 0.95rem; color: #444; flex: 1; padding: 0 15px; font-style: italic; }
+.grade-score { font-weight: bold; background: #002554; color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.9rem; }
+.task-overall { margin-top: 15px; text-align: right; font-size: 1.2rem; font-weight: 800; color: #28a745; border-top: 2px solid #eee; padding-top: 10px; }
+
+/* Responsive Mobile */
+@media (max-width: 900px) {
+    .lib-body { flex-direction: column; overflow-y: auto; }
+    .lib-column { max-height: 400px; flex: none; }
+    .lib-sidebar { width: 100%; }
+    .hp-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .hp-nav { margin-left: 0; margin-top: 10px; width: 100%; justify-content: space-between; }
+    .hp-link { margin-left: 0; margin-right: 20px; }
+    .test-header { padding: 0 10px; }
+    .timer-box { font-size: 1.1rem; padding: 5px 10px; }
+    .btn-ai-header span { display: none; } 
+}
+
+/* Style cho dòng chữ chuyển đổi giữa Đăng nhập và Đổi pass */
+.link-switch-mode {
+  color: #002554;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.link-switch-mode:hover {
+  color: #d32f2f; /* Đổi màu đỏ khi di chuột vào */
+}
+
+/* =================================================================
+   MODAL XÁC NHẬN NỘP BÀI (CONFIRM MODAL)
+   (Thêm vào cuối file App.css)
+   ================================================================= */
+.confirm-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+.confirm-box {
+  background: white; padding: 30px; border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  width: 400px; text-align: center;
+  animation: popIn 0.3s ease-out;
+}
+
+.confirm-title {
+  font-size: 1.4rem; color: #002554; margin: 0 0 15px 0; font-weight: 800;
+}
+
+.confirm-desc {
+  color: #555; margin-bottom: 25px; line-height: 1.5; font-size: 1rem;
+}
+
+.confirm-actions { display: flex; gap: 15px; justify-content: center; }
+
+.btn-cancel {
+  padding: 10px 25px; border: 1px solid #ccc; background: white;
+  color: #555; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.btn-cancel:hover { background: #f1f1f1; }
+
+.btn-confirm {
+  padding: 10px 25px; border: none; background: #002554;
+  color: white; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.btn-confirm:hover {
+  background: #00193a; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,37,84,0.3);
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }

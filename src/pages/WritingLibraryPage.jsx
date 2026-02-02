@@ -1,0 +1,283 @@
+// src/pages/WritingLibraryPage.jsx
+import React, { useState, useMemo } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { task1Library, task2Library } from '../data/writing_library';
+import { ToastContainer, toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
+
+// --- COMPONENT CON: GROUP ACCORDION ---
+const TaskGroup = ({ groupName, items, type, selectedId, onSelect }) => {
+    // Mặc định đóng lại (false)
+    const [isOpen, setIsOpen] = useState(false); 
+
+    const toggleOpen = () => setIsOpen(!isOpen);
+
+    const folderIcon = type === 1 
+        ? <i className="fa-solid fa-chart-simple"></i> 
+        : <i className="fa-solid fa-folder"></i>;
+
+    return (
+        <div className="topic-group">
+            <div className={`topic-header ${isOpen ? 'active' : ''}`} onClick={toggleOpen}>
+                <div className="topic-title-wrapper">
+                    {folderIcon}
+                    <span>{groupName}</span>
+                    <span className="count-badge">{items.length}</span>
+                </div>
+                <i className={`fa-solid fa-chevron-down arrow-icon ${isOpen ? 'rotate' : ''}`}></i>
+            </div>
+
+            {isOpen && (
+                <div className="topic-content show">
+                    {items.map((item) => {
+                        const isSelected = selectedId === item.id;
+                        const desc = type === 1 ? item.title : item.question;
+                        const thumb = type === 1 ? (item.image || (item.images && item.images[0])) : null;
+
+                        return (
+                            <div 
+                                key={item.id} 
+                                className={`item-card ${isSelected ? 'selected' : ''}`}
+                                onClick={() => onSelect(item.id)}
+                            >
+                                <div className="item-img-wrapper">
+                                    {type === 1 ? (
+                                        <img 
+                                            src={thumb || "https://via.placeholder.com/60"} 
+                                            alt="T1" 
+                                            className="item-img"
+                                        />
+                                    ) : (
+                                        <div className="item-icon-placeholder">
+                                            <i className="fa-solid fa-pen-fancy"></i>
+                                        </div>
+                                    )}
+                                </div>
+                                
+                                <div className="item-info">
+                                    <div className="item-title">Test {item.originalIndex}</div>
+                                    <div className="item-desc">{desc}</div>
+                                </div>
+                                
+                                <i className={`fa-regular fa-circle-check check-icon ${isSelected ? 'checked' : ''}`}></i>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default function WritingLibraryPage() {
+  const navigate = useNavigate();
+  const [selectedT1, setSelectedT1] = useState(null);
+  const [selectedT2, setSelectedT2] = useState(null);
+  const [searchT1, setSearchT1] = useState("");
+  const [searchT2, setSearchT2] = useState("");
+
+  // --- 🔥 HÀM MỚI: LẤY TÊN HIỂN THỊ (TEST 1, TEST 2...) TỪ ID ---
+  const getTestLabel = (id, library) => {
+      if (!id) return "None";
+      // Tìm vị trí của ID trong danh sách gốc
+      const index = library.findIndex(item => item.id === id);
+      // Nếu tìm thấy thì trả về Test + số thứ tự (index + 1)
+      if (index !== -1) return `Test ${index + 1}`;
+      return id; // Fallback nếu không tìm thấy
+  };
+
+  // --- LOGIC TÌM KIẾM ---
+  const groupData = (data, type, searchTerm) => {
+    if (!data) return {};
+    const groups = {};
+    const term = searchTerm.toLowerCase().trim();
+    const isDigitSearch = /^\d+$/.test(term);
+
+    data.forEach((item, index) => {
+        const testNum = index + 1; 
+        const strNum = testNum.toString();
+
+        let groupName = "General";
+        if (type === 1) {
+            groupName = item.category || "Mixed Charts";
+        } else {
+            groupName = item.title || "General Issues"; 
+        }
+
+        let isMatch = false;
+        
+        if (!term) {
+            isMatch = true; 
+        } else if (isDigitSearch) {
+            if (strNum === term || strNum.startsWith(term)) {
+                isMatch = true;
+            }
+        } else {
+            const content = (type === 1 ? item.title : item.question) || "";
+            if (groupName.toLowerCase().includes(term) || content.toLowerCase().includes(term)) {
+                isMatch = true;
+            }
+        }
+
+        if (isMatch) {
+            if (!groups[groupName]) groups[groupName] = [];
+            item.originalIndex = testNum; 
+            groups[groupName].push(item);
+        }
+    });
+
+    return groups;
+  };
+
+  const groupedT1 = useMemo(() => groupData(task1Library, 1, searchT1), [searchT1]);
+  const groupedT2 = useMemo(() => groupData(task2Library, 2, searchT2), [searchT2]);
+
+  const handleSelectT1 = (id) => setSelectedT1(prev => prev === id ? null : id);
+  const handleSelectT2 = (id) => setSelectedT2(prev => prev === id ? null : id);
+
+  const handleStart = () => {
+    if (!selectedT1 && !selectedT2) {
+      toast.warning("⚠️ Vui lòng chọn ít nhất một bài thi để bắt đầu!", {
+        position: "top-center",
+        autoClose: 3000
+      });
+      return;
+    }
+    const params = new URLSearchParams();
+    if (selectedT1) params.append('t1', selectedT1);
+    if (selectedT2) params.append('t2', selectedT2);
+    
+    let mode = 'full';
+    if (selectedT1 && !selectedT2) mode = 'task1';
+    if (!selectedT1 && selectedT2) mode = 'task2';
+    
+    params.append('mode', mode);
+    navigate(`/writing-practice?${params.toString()}`);
+  };
+
+  return (
+    <div className="library-container">
+        <ToastContainer />
+
+        <div className="lib-header-wrapper">
+          <div className="hp-header">
+            <div className="hp-title">
+              <h1>IELTS SIMULATOR</h1>
+            </div>
+
+            <div className="hp-nav">
+              <Link to="/dashboard" className="hp-link">MOCK TEST</Link>
+              <Link to="/writing-library" className="hp-link active">WRITING</Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="lib-body">
+            {/* CỘT 1: TASK 1 */}
+            <div className="lib-column">
+                <div className="col-header">
+                    <h3 className="col-title"><i className="fa-solid fa-chart-pie"></i> Task 1 Library</h3>
+                    <input 
+                        type="text" 
+                        className="search-box" 
+                        placeholder="Search No. (1, 2) or Type (Map, Bar)..." 
+                        value={searchT1} 
+                        onChange={(e) => setSearchT1(e.target.value)} 
+                    />
+                </div>
+                <div className="col-content">
+                    {Object.keys(groupedT1).length === 0 ? (
+                        <div style={{textAlign:'center', padding:'20px', color:'#999'}}>No tasks found matching "{searchT1}"</div>
+                    ) : (
+                        Object.entries(groupedT1).map(([groupName, items]) => (
+                            <TaskGroup 
+                                key={groupName} 
+                                groupName={groupName} 
+                                items={items} 
+                                type={1} 
+                                selectedId={selectedT1} 
+                                onSelect={handleSelectT1} 
+                            />
+                        ))
+                    )}
+                </div>
+            </div>
+
+            {/* CỘT 2: TASK 2 */}
+            <div className="lib-column">
+                <div className="col-header">
+                    <h3 className="col-title"><i className="fa-solid fa-pen-nib"></i> Task 2 Library</h3>
+                    <input 
+                        type="text" 
+                        className="search-box" 
+                        placeholder="Search No. (1, 2) or Topic (Education)..." 
+                        value={searchT2} 
+                        onChange={(e) => setSearchT2(e.target.value)} 
+                    />
+                </div>
+                <div className="col-content">
+                    {Object.keys(groupedT2).length === 0 ? (
+                        <div style={{textAlign:'center', padding:'20px', color:'#999'}}>No tasks found matching "{searchT2}"</div>
+                    ) : (
+                        Object.entries(groupedT2).map(([groupName, items]) => (
+                            <TaskGroup 
+                                key={groupName} 
+                                groupName={groupName} 
+                                items={items} 
+                                type={2} 
+                                selectedId={selectedT2} 
+                                onSelect={handleSelectT2} 
+                            />
+                        ))
+                    )}
+                </div>
+            </div>
+
+            {/* SIDEBAR: YOUR SELECTION */}
+            <div className="lib-sidebar">
+                <div className="sticky-box">
+                    <h3 style={{marginTop:0, color:'#002554'}}>Your Selection</h3>
+                    
+                    <div className="sel-row">
+                        <div className="sel-label">Task 1</div>
+                        <div className="sel-value">
+                            {selectedT1 ? (
+                                <span style={{color:'green', display:'flex', alignItems:'center', gap:'5px'}}>
+                                    <i className="fa-solid fa-check"></i> 
+                                    {/* 🔥 Hiển thị Test X thay vì ID */}
+                                    {getTestLabel(selectedT1, task1Library)}
+                                </span>
+                            ) : (
+                                <span style={{color:'#ccc'}}>None</span>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="sel-row">
+                        <div className="sel-label">Task 2</div>
+                        <div className="sel-value">
+                            {selectedT2 ? (
+                                <span style={{color:'green', display:'flex', alignItems:'center', gap:'5px'}}>
+                                    <i className="fa-solid fa-check"></i> 
+                                    {/* 🔥 Hiển thị Test X thay vì ID */}
+                                    {getTestLabel(selectedT2, task2Library)}
+                                </span>
+                            ) : (
+                                <span style={{color:'#ccc'}}>None</span>
+                            )}
+                        </div>
+                    </div>
+
+                    <button className="btn-lib-start" onClick={handleStart}>
+                        START PRACTICE <i className="fa-solid fa-arrow-right"></i>
+                    </button>
+                    
+                    <p style={{fontSize:'0.8rem', color:'#777', marginTop:'15px', lineHeight:'1.4'}}>
+                        <i className="fa-solid fa-circle-info"></i> Select items from the lists on the left. You can choose one or both tasks.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+  );
+}
