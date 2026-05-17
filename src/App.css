@@ -284,23 +284,6 @@ a { text-decoration: none; }
     margin-right: 10px;
 }
 
-/* --- STYLE CHO SỐ THỨ TỰ CÂU HỎI (BADGE) --- */
-.q-badge-inline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #e3f2fd; /* Màu nền xanh nhạt */
-  color: #002554;            /* Chữ xanh đậm */
-  font-size: 12px;
-  font-weight: 700;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;        /* Bo góc vuông nhẹ */
-  margin: 0 5px 0 0;         /* Cách lề phải một chút */
-  vertical-align: middle;
-  border: 1px solid #90caf9;
-}
-
 /* --- TỐI ƯU Ô NHẬP LIỆU TRONG BẢNG --- */
 .gap-input {
   display: inline-block;     /* Bắt buộc để nằm cùng dòng */
@@ -1064,52 +1047,83 @@ a { text-decoration: none; }
 }
 
 /* =================================================================
-   🎨 GIAO DIỆN TEST MENU - STYLE DỰ ÁN CŨ (FULL RESPONSIVE)
+   🎨 GIAO DIỆN TEST MENU (RESPONSIVE CHUẨN)
    ================================================================= */
 
-/* 1. Grid Layout */
-.test-menu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  width: 100%;
+/* Container chính của trang Menu */
+.test-menu-container {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%; /* Đảm bảo không bị co lại */
 }
 
-/* Thẻ Link bao ngoài */
+/* Phần tiêu đề đề thi */
+.test-info-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.test-title {
+  color: #002554;
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.test-subtitle {
+  color: #666;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* 1. GRID LAYOUT (Mặc định cho Desktop) */
+.test-menu-grid {
+  display: grid;
+  /* Tự động chia cột: Tối thiểu 320px, nếu không đủ chỗ sẽ rớt dòng */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  width: 100%;
+}
+
 .test-menu-grid > a {
-  display: block; 
-  height: 100%;
+  text-decoration: none;
+  display: block;
+  height: 100%; /* Để các thẻ cao bằng nhau */
 }
 
-/* 2. Style cho thẻ Card (Desktop mặc định) */
+/* 2. CARD STYLE (Desktop) */
 .skill-card-hover {
   background: white;
-  border-radius: 20px; /* Bo tròn giống dự án cũ */
+  border-radius: 20px;
   padding: 40px 30px;
   text-align: center;
   border: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all 0.3s ease; /* Hiệu ứng mượt */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: pointer;
-  height: 100%;
+  height: 100%; /* Full chiều cao */
   box-shadow: 0 4px 6px rgba(0,0,0,0.02);
   color: #333;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box; /* Quan trọng để padding không làm vỡ khung */
 }
 
-/* 🔥 HIỆU ỨNG HOVER "THẦN THÁNH" TỪ DỰ ÁN CŨ 🔥 */
 .skill-card-hover:hover {
-  transform: translateY(-8px); /* Bay lên nhẹ */
+  transform: translateY(-8px);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   border-color: #002554;
 }
 
-/* 3. Icon tròn */
+/* Icon tròn */
 .skill-card-icon {
   width: 80px;
   height: 80px;
@@ -1129,15 +1143,14 @@ a { text-decoration: none; }
   transition: color 0.3s;
 }
 
-/* Khi hover vào thẻ Card thì Icon đổi màu */
 .skill-card-hover:hover .skill-card-icon {
-  background: #002554; /* Nền xanh */
+  background: #002554;
 }
 .skill-card-hover:hover .skill-card-icon i {
-  color: white; /* Icon trắng */
+  color: white;
 }
 
-/* 4. Phần Nội dung Text + Nút */
+/* Nội dung Text */
 .card-content-group {
   display: flex;
   flex-direction: column;
@@ -1157,9 +1170,10 @@ a { text-decoration: none; }
   color: #6b7280;
   margin-bottom: 25px;
   line-height: 1.5;
+  font-size: 0.95rem;
 }
 
-/* 5. Nút Bấm (Luôn hiện) */
+/* Nút Bấm */
 .skill-card-btn {
   margin-top: auto;
   background-color: #002554;
@@ -1173,75 +1187,133 @@ a { text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap; /* Không xuống dòng chữ trong nút */
 }
 
-/* Khi hover vào thẻ Card thì Nút đổi màu Vàng */
 .skill-card-hover:hover .skill-card-btn {
-  background-color: #d4b106; /* Màu vàng Gold */
-  color: #002554; /* Chữ xanh */
+  background-color: #d4b106;
+  color: #002554;
 }
+
+/* Class hỗ trợ ẩn hiện chữ trên các màn hình khác nhau */
+.desktop-text { display: inline; }
+
 
 /* =================================================================
-   📱 MOBILE & TABLET FIX (< 900px)
+   📱 MOBILE & TABLET FIXES (QUAN TRỌNG)
    ================================================================= */
-@media (max-width: 900px) {
 
-  /* --- HEADER FIX --- */
-  .main-navbar { padding: 0 15px !important; justify-content: space-between !important; }
-  .nav-center-logo { position: static !important; transform: none !important; margin: 0 !important; }
-  .nav-logo-img { height: 35px !important; }
-  .nav-right-text { position: static !important; right: auto !important; display: flex !important; align-items: center !important; gap: 8px !important; }
-  .nav-right-text span { font-size: 13px !important; display: flex !important; flex-direction: column; align-items: flex-end; }
-  .nav-right-text strong { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* 1. TABLET (Dưới 1024px) */
+@media (max-width: 1024px) {
+  .test-menu-container {
+    padding: 30px 20px;
+  }
+  .test-title { font-size: 2rem; }
+  
+  /* Vẫn giữ dạng lưới nhưng thẻ nhỏ lại chút */
+  .skill-card-hover {
+    padding: 30px 20px;
+  }
+}
+
+/* 2. MOBILE (Dưới 768px) - BIẾN HÌNH THÀNH DANH SÁCH NGANG */
+@media (max-width: 768px) {
+  
+  /* --- HEADER MOBILE FIX --- */
+  .main-navbar {
+    padding: 0 15px !important;
+  }
+  /* Ẩn chữ "Xin chào..." chỉ hiện nút logout icon tròn */
+  .nav-right-text span { display: none !important; }
+  .btn-logout {
+    padding: 0 !important;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    justify-content: center;
+  }
+  .btn-logout span { display: none; } /* Ẩn chữ Thoát */
+  .btn-logout i { margin: 0; font-size: 1rem; }
 
   /* --- TEST MENU FIX --- */
+  .test-menu-container {
+    padding: 20px 15px; /* Giảm padding container */
+  }
+  
+  .test-info-header { margin-bottom: 25px; }
+  .test-title { font-size: 1.6rem; }
+  .test-subtitle { font-size: 0.9rem; }
+
   .test-menu-grid {
     display: flex !important;
-    flex-direction: column !important;
-    gap: 20px !important; /* Khoảng cách giữa các thẻ */
-    padding: 0 15px !important;
-    padding-bottom: 50px !important;
-    box-sizing: border-box !important;
+    flex-direction: column !important; /* Xếp chồng dọc */
+    gap: 15px !important;
   }
 
-  /* Chỉnh lại thẻ Card nằm ngang trên điện thoại */
+  /* Biến thẻ Card thành hàng ngang (Row) */
   .skill-card-hover {
-    flex-direction: row !important; /* Xếp ngang: Icon trái | Text phải */
-    align-items: flex-start !important; /* Căn đỉnh trên */
+    flex-direction: row !important; /* Icon bên trái, text bên phải */
+    align-items: center !important; /* Căn giữa theo trục dọc */
     text-align: left !important;
-    padding: 20px !important;
+    padding: 15px 20px !important; /* Padding gọn hơn */
+    min-height: auto !important;
+    border-radius: 12px;
+  }
+  
+  .skill-card-hover:hover {
+    transform: none !important; /* Mobile không cần hiệu ứng bay lên */
   }
 
-  /* Icon nhỏ lại chút trên mobile */
+  /* Icon nhỏ lại và nằm bên trái */
   .skill-card-icon {
-    width: 60px !important; 
-    height: 60px !important;
-    margin-right: 20px !important;
+    width: 50px !important;
+    height: 50px !important;
     margin-bottom: 0 !important;
+    margin-right: 15px !important; /* Cách text 15px */
+    font-size: 1rem !important;
   }
-  .skill-card-icon i { font-size: 1.8rem !important; }
+  .skill-card-icon i { font-size: 1.5rem !important; }
 
-  /* Căn lề trái cho nhóm nội dung */
+  /* Content Group căn trái */
   .card-content-group {
-    align-items: flex-start !important; /* Căn trái text và nút */
+    align-items: flex-start !important;
+    justify-content: center;
   }
 
-  .skill-card-title { font-size: 1.3rem !important; margin-bottom: 5px !important; }
-  .skill-card-desc { font-size: 0.9rem !important; margin-bottom: 15px !important; }
+  .skill-card-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .skill-card-desc {
+    font-size: 0.8rem !important;
+    margin-bottom: 0 !important;
+    color: #888;
+    /* Ẩn mô tả dài nếu cần, hoặc để 1 dòng */
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
-  /* Nút bấm trên mobile: Nhỏ hơn xíu nhưng VẪN HIỆN */
+  /* Nút bấm: Đẩy sang phải cùng hoặc ẩn bớt chữ */
   .skill-card-btn {
-    padding: 8px 20px !important;
-    font-size: 0.9rem !important;
-    width: auto !important; /* Tự co giãn theo nội dung */
+    padding: 8px 15px !important;
+    font-size: 0.85rem !important;
+    margin-top: 0 !important; /* Không margin top vì đang flex-row */
+    position: absolute; /* Đặt tuyệt đối góc phải */
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
   }
-}
-
-/* =================================================================
-   🔥 FIX LỖI THÔNG BÁO BỊ CHE KHUẤT (Z-INDEX)
-   ================================================================= */
-.Toastify__toast-container {
-  z-index: 99999 !important; /* Đặt cao hơn Modal (20000) và Result Screen (30000) */
+  
+  /* Ẩn chữ "Listening/Reading/Writing" trong nút trên mobile cho gọn */
+  .desktop-text { display: none; }
+  
+  /* Đẩy nội dung text tránh bị nút đè lên */
+  .card-content-group {
+    padding-right: 80px; 
+  }
 }
 
 /* =================================================================
@@ -1695,4 +1767,418 @@ a { text-decoration: none; }
 @keyframes popIn {
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
+}
+
+
+.Toastify__toast-container {
+  z-index: 999999 !important;
+  top: 1em !important; /* Đảm bảo nó luôn cách mép trên 1 chút */
+  right: 1em !important; /* Đảm bảo nó luôn cách mép phải */
+}
+
+/* =================================================================
+   📱 MOBILE & TABLET FIXES (DÁN VÀO CUỐI APP.CSS)
+   ================================================================= */
+
+/* 1. TABLET (Dưới 1024px) */
+@media (max-width: 1024px) {
+  .hp-container, 
+  .test-menu-container {
+    padding: 30px 20px !important; /* Thu hẹp lề để nội dung rộng hơn */
+  }
+  
+  .test-title, 
+  .hp-title h1 { 
+    font-size: 2rem !important; 
+  }
+}
+
+/* 2. MOBILE (Dưới 768px) - QUAN TRỌNG NHẤT */
+@media (max-width: 768px) {
+  
+  /* --- FIX HEADER TRÊN MOBILE --- */
+  .main-navbar {
+    padding: 0 15px !important;
+    height: 60px !important;
+    justify-content: space-between !important;
+  }
+  
+  /* Đẩy logo sang trái */
+  .nav-center-logo {
+    position: static !important; /* Hủy căn giữa tuyệt đối */
+    transform: none !important;
+  }
+  .nav-logo-img { height: 35px !important; }
+  
+  /* User/Logout sang phải */
+  .nav-right-text {
+    position: static !important; /* Hủy căn phải tuyệt đối */
+    font-size: 0 !important; /* Ẩn text rác nếu có */
+  }
+  .nav-right-text span { display: none !important; } /* Ẩn dòng "Xin chào..." */
+  
+  /* Nút Logout thu gọn thành hình tròn */
+  .btn-logout {
+    padding: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    justify-content: center !important;
+  }
+  .btn-logout span { display: none !important; } /* Ẩn chữ 'Thoát' */
+  .btn-logout i { margin: 0 !important; font-size: 1rem !important; }
+
+  /* --- FIX HOMEPAGE (DANH SÁCH ĐỀ THI) --- */
+  .hp-container {
+    padding: 20px 15px !important;
+  }
+
+  .hp-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
+  }
+
+  .hp-nav {
+    width: 100% !important;
+    overflow-x: auto !important; /* Cho phép lướt ngang */
+    white-space: nowrap !important;
+    padding-bottom: 5px !important;
+  }
+
+  .hp-grid {
+    grid-template-columns: 1fr !important; /* 1 cột duy nhất */
+    gap: 20px !important;
+  }
+
+  /* --- FIX TEST MENU (LỰA CHỌN SKILL) --- */
+  .test-info-header { margin-bottom: 25px !important; }
+  .test-title { font-size: 1.6rem !important; }
+
+  /* Chuyển Grid thành cột dọc */
+  .test-menu-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+
+  /* Biến thẻ Card thành hàng ngang (Icon trái - Chữ phải) */
+  .skill-card-hover {
+    flex-direction: row !important;
+    align-items: center !important; /* Căn giữa dọc */
+    text-align: left !important;
+    padding: 15px 20px !important;
+    min-height: auto !important;
+    border-radius: 12px !important;
+    position: relative !important;
+  }
+  
+  /* Tắt hiệu ứng bay lên */
+  .skill-card-hover:hover { transform: none !important; }
+
+  /* Icon nhỏ lại */
+  .skill-card-icon {
+    width: 50px !important;
+    height: 50px !important;
+    margin-bottom: 0 !important;
+    margin-right: 15px !important;
+    font-size: 1.5rem !important;
+    flex-shrink: 0 !important;
+  }
+  .skill-card-icon i { font-size: 1.5rem !important; }
+
+  /* Nội dung text */
+  .card-content-group {
+    align-items: flex-start !important;
+    padding-right: 40px !important; /* Chừa chỗ cho nút mũi tên */
+    width: 100% !important;
+  }
+
+  .skill-card-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .skill-card-desc {
+    font-size: 0.8rem !important;
+    margin-bottom: 0 !important;
+    /* Cắt bớt dòng nếu dài quá */
+    display: -webkit-box !important;          /* 1. Bắt buộc */
+    -webkit-line-clamp: 1 !important;         /* 2. Số dòng muốn hiện (Cái bị gạch vàng) */
+    -webkit-box-orient: vertical !important;  /* 3. Chiều dọc */
+    overflow: hidden !important;              /* 4. Ẩn phần thừa */
+  }
+
+  /* Nút Start: Biến thành mũi tên nhỏ gọn góc phải */
+  .skill-card-btn {
+    position: absolute !important;
+    right: 15px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 30px !important;
+    height: 30px !important;
+    background: transparent !important;
+    color: #002554 !important;
+    justify-content: center !important;
+    box-shadow: none !important;
+  }
+  
+  /* Ẩn chữ 'Start Listening...' chỉ hiện icon mũi tên */
+  .skill-card-btn span, 
+  .desktop-text { 
+    display: none !important; 
+  }
+  .skill-card-btn i { font-size: 1.2rem !important; }
+}
+
+/* =================================================================
+   📱 GIAO DIỆN LÀM BÀI TRÊN TABLET & MOBILE (FullTestPage)
+   (Dán đoạn này vào cuối file App.css)
+   ================================================================= */
+
+@media (max-width: 1024px) {
+
+  /* 1. XOAY TRỤC: Chuyển từ ngang sang dọc */
+  .reading-container,
+  .writing-workspace {
+    flex-direction: column !important; /* Xếp chồng lên nhau */
+    height: auto !important; /* Chiều cao tự động theo nội dung */
+    flex: 1;
+  }
+
+  /* 2. PHẦN READING (ĐỌC HIỂU) */
+  /* Chia đôi màn hình: Trên đọc - Dưới trả lời */
+  .reading-left-pane,
+  .reading-right-pane {
+    width: 100% !important;       /* Rộng 100% */
+    height: 50vh !important;      /* Mỗi phần chiếm 50% chiều cao màn hình */
+    border-right: none !important; 
+    border-bottom: 4px solid #ccc; /* Kẻ ngang phân cách */
+    padding: 15px !important;
+  }
+  
+  /* Phần bài đọc (ở trên) */
+  .reading-left-pane {
+    resize: vertical; /* Cho phép kéo giãn nếu muốn */
+    overflow-y: auto; 
+  }
+
+  /* --- 3. PHẦN WRITING (VIẾT) --- */
+  /* Đề bài ở trên (nhỏ hơn) - Khung viết ở dưới (lớn hơn) */
+  .w-left-pane {
+    width: 100% !important;
+    height: 35vh !important; /* Đề bài chiếm khoảng 35% màn hình */
+    border-right: none !important;
+    border-bottom: 4px solid #ccc;
+    padding: 15px !important;
+    overflow-y: auto;
+  }
+
+  .w-right-pane {
+    width: 100% !important;
+    height: 55vh !important; /* Phần viết chiếm nhiều chỗ hơn */
+    padding: 15px !important;
+  }
+
+  /* 4. THANH HEADER (Thu gọn lại) */
+  .test-header {
+    height: 50px !important;
+    padding: 0 10px !important;
+  }
+  .test-logo { height: 28px !important; } /* Logo nhỏ lại */
+  .timer-box { font-size: 1rem !important; }
+  
+  /* Nút bấm nhỏ lại */
+  .btn-ai-header, .submit-btn {
+    padding: 5px 10px !important;
+    font-size: 0.8rem !important;
+  }
+  /* Ẩn chữ "AI Grade", chỉ hiện icon trên điện thoại bé xíu */
+  @media (max-width: 400px) {
+      .btn-ai-header span { display: none; }
+  }
+
+  /* 5. THANH CÂU HỎI (FOOTER) */
+  .test-footer {
+    height: 50px !important;
+    padding: 5px !important;
+  }
+  .q-nav-btn {
+    min-width: 35px !important;
+    height: 35px !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+/* =================================================================
+   📱 GIAO DIỆN MOBILE & TABLET CHO TRANG LÀM BÀI (FULL TEST)
+   (Dán đoạn này vào cuối file App.css - Không xóa code cũ)
+   ================================================================= */
+
+@media (max-width: 1024px) {
+
+  /* --- 1. SỬA BỐ CỤC: CHUYỂN TỪ TRÁI/PHẢI SANG TRÊN/DƯỚI --- */
+  .reading-container,
+  .writing-workspace {
+    flex-direction: column !important; /* Xếp chồng dọc */
+    height: auto !important;
+  }
+
+  /* --- 2. CẤU HÌNH PHẦN READING (ĐỌC HIỂU) --- */
+  .reading-left-pane,
+  .reading-right-pane {
+    width: 100% !important;
+    height: 50vh !important; /* Mỗi phần chiếm 50% màn hình */
+    border-right: none !important;
+    border-bottom: 4px solid #e0e0e0; /* Đường kẻ ngang phân cách */
+    padding: 15px !important;
+  }
+  /* Cho phép phần bài đọc cuộn riêng */
+  .reading-left-pane { overflow-y: auto; }
+
+  /* --- 3. CẤU HÌNH PHẦN WRITING (VIẾT) --- */
+  .w-left-pane {
+    width: 100% !important;
+    height: 40vh !important; /* Đề bài chiếm 40% */
+    border-right: none !important;
+    border-bottom: 4px solid #e0e0e0;
+    padding: 15px !important;
+    overflow-y: auto;
+  }
+  .w-right-pane {
+    width: 100% !important;
+    height: 50vh !important; /* Chỗ viết chiếm 50% (rộng hơn tí để bàn phím ảo ko che hết) */
+    padding: 15px !important;
+  }
+
+  /* --- 4. FIX LỖI HEADER BỊ ĐÈ NÚT (QUAN TRỌNG) --- */
+  .test-header {
+    display: flex !important;
+    justify-content: space-between !important; /* Đẩy 2 bên ra xa */
+    align-items: center !important;
+    padding: 0 10px !important;
+    height: 60px !important;
+  }
+
+  /* Ẩn Logo để lấy chỗ cho Đồng hồ */
+  .header-left { display: none !important; }
+
+  /* Đưa Đồng hồ sang trái (Thay vì nằm giữa) */
+  .header-center {
+    position: static !important;
+    transform: none !important;
+  }
+  .timer-box {
+    font-size: 1rem !important;
+    padding: 5px 10px !important;
+    background: #f0f8ff;
+    border: 1px solid #cce5ff;
+    white-space: nowrap;
+  }
+
+  /* Nhóm nút bên phải */
+  .header-right {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center;
+  }
+
+  /* Thu gọn nút AI Grade (Ẩn chữ, chỉ hiện Icon đũa thần) */
+  .btn-ai-header {
+    padding: 8px !important;
+    min-width: 36px !important;
+    justify-content: center !important;
+  }
+  .btn-ai-header span { display: none !important; } /* Ẩn chữ */
+  .btn-ai-header i { margin: 0 !important; font-size: 1.2rem !important; }
+
+  /* Thu gọn nút Nộp bài */
+  .submit-btn {
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* --- 5. THANH CÂU HỎI (FOOTER) --- */
+  .test-footer { height: 50px !important; padding: 5px !important; }
+  .q-nav-btn { min-width: 35px !important; height: 35px !important; font-size: 0.9rem !important; }
+}
+
+/* =================================================================
+   🏆 BẢNG CHI TIẾT KẾT QUẢ SAU KHI NỘP BÀI (FullTestPage)
+   ================================================================= */
+.detailed-result-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 30px auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 30px;
+  text-align: left;
+}
+
+.result-grid {
+  display: grid;
+  /* Tự động chia cột: Rộng tối thiểu 180px, tối đa auto */
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.result-item {
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s;
+}
+
+.result-item:hover {
+  transform: translateY(-2px);
+}
+
+.result-item.correct { 
+  background-color: #f0fff4; 
+  border-color: #c6f6d5; 
+}
+.result-item.wrong { 
+  background-color: #fff5f5; 
+  border-color: #fed7d7; 
+}
+
+.result-item-header { 
+  display: flex; 
+  justify-content: space-between; 
+  font-weight: 800; 
+  color: #555; 
+  font-size: 0.95rem;
+}
+
+.result-item-ans { 
+  font-size: 1.1rem; 
+  font-weight: 700; 
+  word-break: break-word;
+}
+
+.result-correct-ans { 
+  font-size: 0.9rem; 
+  color: #d32f2f; 
+  margin-top: auto; /* Đẩy xuống đáy thẻ */
+  border-top: 1px dashed #feb2b2; 
+  padding-top: 8px;
+}
+
+/* Fix lỗi màn hình Result bị cuộn không được khi quá dài */
+.result-screen.scrollable {
+  justify-content: flex-start !important; /* Đẩy nội dung lên trên để cuộn */
+  overflow-y: auto !important;
+  padding: 40px 20px;
+}
+
+@media (max-width: 600px) {
+  .detailed-result-container { padding: 15px; }
+  .result-grid { grid-template-columns: repeat(2, 1fr); /* Mobile chia 2 cột */ }
 }

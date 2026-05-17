@@ -7,7 +7,7 @@ export default function LandingPage({ onOpenLogin }) {
     <div className="container" style={{textAlign: 'center', paddingTop: '80px'}}>
       
       <h1 style={{fontSize: '3rem', color: '#002554', marginBottom: '20px'}}>
-        CHÀO MỪNG ĐẾN VỚI BEABLE VN
+        CHÀO MỪNG ĐẾN VỚI BE ABLE VN
       </h1>
       
       <p style={{fontSize: '1.2rem', color: '#555', maxWidth: '600px', margin: '0 auto 40px auto'}}>

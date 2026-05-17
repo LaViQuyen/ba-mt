@@ -1,10 +1,10 @@
 // src/pages/AdminPage.jsx
 import { useState } from 'react';
 import { db } from '../firebase';
-import { ref, set } from "firebase/database";
-import { toast } from 'react-toastify'; // <--- Import toast
+// 👇 Thêm 'get' và 'child' vào dòng import này
+import { ref, set, get, child } from "firebase/database";
+import { toast } from 'react-toastify'; 
 
-// Bỏ prop onLogout đi vì không dùng nữa
 export default function AdminPage() {
   const [studentId, setStudentId] = useState('');
   const [password, setPassword] = useState('');
@@ -13,31 +13,46 @@ export default function AdminPage() {
   const handleCreateUser = async (e) => {
     e.preventDefault();
 
+    // 1. Kiểm tra đầu vào cơ bản
     if (!studentId || !password || !fullName) {
-      toast.warning("⚠️ Vui lòng nhập đủ thông tin!"); // <--- Sửa
+      toast.warning("⚠️ Vui lòng nhập đủ thông tin!");
       return;
     }
     if (studentId.length !== 8) {
-      toast.warning("⚠️ Mã học viên phải đúng 8 số!"); // <--- Sửa
+      toast.warning("⚠️ Mã học viên phải đúng 8 số!");
       return;
     }
 
+    const dbRef = ref(db);
+
     try {
+      // 2. 🔥 KIỂM TRA XEM ID ĐÃ TỒN TẠI CHƯA 🔥
+      const snapshot = await get(child(dbRef, `users/${studentId}`));
+
+      if (snapshot.exists()) {
+        // Lấy thông tin người cũ để báo cho Admin biết
+        const existingUser = snapshot.val();
+        toast.error(`⛔ LỖI: ID ${studentId} đã được sử dụng bởi học viên: "${existingUser.fullName}"`);
+        return; // 🛑 DỪNG LẠI NGAY, KHÔNG ĐƯỢC GHI ĐÈ
+      }
+
+      // 3. Nếu ID chưa có, tiến hành tạo mới
       await set(ref(db, 'users/' + studentId), {
         password: password,
         fullName: fullName,
         createdAt: new Date().toISOString()
       });
       
-      // 👇 Thông báo thành công màu xanh
       toast.success(`✅ Đã tạo tài khoản: ${fullName} (ID: ${studentId})`);
       
+      // Reset form
       setStudentId('');
       setPassword('');
       setFullName('');
+
     } catch (error) {
       console.error(error);
-      toast.error("❌ Lỗi khi lưu dữ liệu: " + error.message); // <--- Sửa
+      toast.error("❌ Lỗi hệ thống: " + error.message);
     }
   };
 
@@ -54,6 +69,7 @@ export default function AdminPage() {
               className="login-input" 
               value={studentId}
               onChange={(e) => {
+                 // Chỉ cho nhập số và tối đa 8 ký tự
                  if (/^\d*$/.test(e.target.value) && e.target.value.length <= 8) {
                     setStudentId(e.target.value);
                  }
@@ -84,8 +100,6 @@ export default function AdminPage() {
 
           <button type="submit" className="btn-submit-login">LƯU VÀO DATABASE</button>
         </form>
-
-        {/* ĐÃ XÓA PHẦN NÚT QUAY VỀ Ở ĐÂY */}
       </div>
     </div>
   );

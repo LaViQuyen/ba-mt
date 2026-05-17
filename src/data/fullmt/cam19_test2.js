@@ -1,7 +1,7 @@
 // src/data/fullmt/cam19_test2.js
 
 export const cam19_test2 = {
-  id: "full_cam19_t2",
+  id: "mt6",
   category: "full",
   testName: "MOCK TEST 6",
   description: "Đề thi thử đầy đủ 3 kỹ năng chuẩn (Listening, Reading, Writing).",
@@ -13,13 +13,13 @@ export const cam19_test2 = {
     listening: {
       audioSrc: "/audio/mt6.mp3",
       timeLimit: 1694,
-      passage: "<h3 style='text-align:center; color:#002554;'>CAMBRIDGE 19 - LISTENING TEST 2</h3>",
+      passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 6 - LISTENING SECTION</h3>",
       questions: [
         // --- PART 1: Questions 1-10 (Form & Table Completion) ---
         {
           "type": "gap",
           "title": "Part 1: Questions 1-10",
-          "instruction": "Complete the form and table below. Write ONE WORD AND/OR A NUMBER for each answer.",
+          "instruction": "Complete the form and table below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Guitar Group</h3>
@@ -86,7 +86,7 @@ export const cam19_test2 = {
         {
           "type": "mcq_single",
           "title": "Part 2: Questions 11-16",
-          "instruction": "Choose the correct letter, A, B or C.",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "items": [
             {
               "qNum": 11,
@@ -129,7 +129,7 @@ export const cam19_test2 = {
         {
           "type": "mcq_multi",
           "title": "Questions 17 and 18",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO things does David say about the lifeboat volunteer training?",
           "options": [
             "A. The residential course developed his leadership skills.",
@@ -145,7 +145,7 @@ export const cam19_test2 = {
         {
           "type": "mcq_multi",
           "title": "Questions 19 and 20",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO things does David find most motivating about the work he does?",
           "options": [
             "A. working as part of a team",
@@ -163,7 +163,7 @@ export const cam19_test2 = {
         {
           "type": "mcq_single",
           "title": "Part 3: Questions 21-24",
-          "instruction": "Choose the correct letter, A, B or C.",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "items": [
             {
               "qNum": 21,
@@ -194,7 +194,7 @@ export const cam19_test2 = {
         {
           "type": "matching",
           "title": "Questions 25-28",
-          "instruction": "What reasons did the recycling manager give for rejecting footwear, according to the students? Choose the correct letter, A-F.",
+          "instruction": "What reasons did the recycling manager give for rejecting footwear, according to the students? Choose the correct letter, <strong>A-F</strong>.",
           "options": [
             "A. one shoe was missing",
             "B. the colour of one shoe had faded",
@@ -213,7 +213,7 @@ export const cam19_test2 = {
         {
           "type": "mcq_single",
           "title": "Questions 29-30",
-          "instruction": "Choose the correct letter, A, B or C.",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "items": [
             {
               "qNum": 29,
@@ -234,7 +234,7 @@ export const cam19_test2 = {
         {
           "type": "gap",
           "title": "Part 4: Questions 31-40",
-          "instruction": "Complete the notes below. Write ONE WORD ONLY for each answer.",
+          "instruction": "Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Tardigrades</h3>
@@ -371,7 +371,7 @@ export const cam19_test2 = {
         {
           "type": "gap",
           "title": "Questions 1-7",
-          "instruction": "Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Britain's Industrial Revolution</h3>
@@ -431,7 +431,7 @@ export const cam19_test2 = {
         {
           "type": "matching_info",
           "title": "Questions 14-18",
-          "instruction": "Reading Passage 2 has six paragraphs, A-F. Which paragraph contains the following information?",
+          "instruction": "Reading Passage 2 has six paragraphs, <strong>A-F</strong>. Which paragraph contains the following information?",
           "options": ["A", "B", "C", "D", "E", "F"],
           "items": [
             { "qNum": 14, "text": "reference to two chemical compounds which impact on performance", "answer": "D" },
@@ -444,7 +444,7 @@ export const cam19_test2 = {
         {
           "type": "gap",
           "title": "Questions 19-22",
-          "instruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="padding:10px;">
                 <p>19. Performance stress involves many demands on the athlete, for example, coping with the possible risk of <span class="q-badge-inline">19</span><input type="text" class="gap-input" data-qnum="19" id="input-19">.</p>
@@ -463,7 +463,7 @@ export const cam19_test2 = {
         {
           "type": "mcq_multi",
           "title": "Questions 23 and 24",
-          "instruction": "Choose TWO letters, A-E. Which TWO facts about Emma Raducanu's withdrawal from the Wimbledon tournament are mentioned in the text?",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>. Which TWO facts about Emma Raducanu's withdrawal from the Wimbledon tournament are mentioned in the text?",
           "options": [
             "A. the stage at which she dropped out of the tournament",
             "B. symptoms of her performance stress at the tournament",
@@ -478,7 +478,7 @@ export const cam19_test2 = {
         {
           "type": "mcq_multi",
           "title": "Questions 25 and 26",
-          "instruction": "Choose TWO letters, A-E. Which TWO facts about anxiety are mentioned in Paragraph E of the text?",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>. Which <strong>TWO</strong> facts about anxiety are mentioned in Paragraph E of the text?",
           "options": [
             "A. the factors which determine how severe it may be",
             "B. how long it takes for its effects to become apparent",
@@ -495,7 +495,7 @@ export const cam19_test2 = {
         {
           "type": "gap",
           "title": "Questions 27-32",
-          "instruction": "Complete the summary using the list of phrases, A-K, below.",
+          "instruction": "Complete the summary using the list of phrases, <strong>A-K</strong>, below.",
           "htmlContent": `
              <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                  <p><strong>Maryam Mirzakhani</strong></p>
@@ -536,7 +536,7 @@ export const cam19_test2 = {
         {
           "type": "mcq_single",
           "title": "Questions 38-40",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "items": [
             {
               "qNum": 38,

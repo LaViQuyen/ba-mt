@@ -1,7 +1,7 @@
 // src/data/fullmt/cam20_test2.js
 
 export const cam20_test2 = {
-  id: "full_cam20_t2",
+  id: "mt2",
   category: "full",
   testName: "MOCK TEST 2",
   description: "Đề thi thử đầy đủ 3 kỹ năng chuẩn (Listening, Reading, Writing).",
@@ -16,55 +16,51 @@ export const cam20_test2 = {
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 2 - LISTENING SECTION</h3>",
       questions: [
         // --- PART 1: Questions 1-10 ---
+        // --- PART 1: Questions 1-10 ---
         {
           "type": "gap",
           "title": "Part 1: Questions 1-10",
-          "instruction": "Complete the table below. Write ONE WORD AND/OR A NUMBER for each answer.",
+          "instruction": "Complete the table below.<br><br>Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.",
           "htmlContent": `
-            <div style="background:#f9f9f9; padding:15px; border:1px solid #ddd; overflow-x:auto;">
-                <p><strong>Support for Carers</strong></p>
-                <table style="width:100%; border-collapse: collapse; min-width: 600px;">
-                    <thead>
-                        <tr style="background:#002554; color:white;">
-                            <th style="padding:10px; border:1px solid #ccc;">Support Item</th>
-                            <th style="padding:10px; border:1px solid #ccc;">Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="padding:10px; border:1px solid #ccc;">Practical support for elderly care</td>
-                            <td style="padding:10px; border:1px solid #ccc;">
-                                This can give the carer:
-                                <ul>
-                                    <li>time for other responsibilities</li>
-                                    <li>a <span class="q-badge-inline">1</span><input type="text" class="gap-input" data-qnum="1" id="input-1"></li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px; border:1px solid #ccc;">Assessment of mother's needs</td>
-                            <td style="padding:10px; border:1px solid #ccc;">
-                                This may include discussion of:
-                                <ul>
-                                    <li>how much <span class="q-badge-inline">2</span><input type="text" class="gap-input" data-qnum="2" id="input-2"> the caring involves</li>
-                                    <li>types of tasks: help with dressing, helping her have a <span class="q-badge-inline">3</span><input type="text" class="gap-input" data-qnum="3" id="input-3">, shopping, meals, dealing with <span class="q-badge-inline">4</span><input type="text" class="gap-input" data-qnum="4" id="input-4"></li>
-                                    <li>difficult aspects: loss of <span class="q-badge-inline">5</span><input type="text" class="gap-input" data-qnum="5" id="input-5">, <span class="q-badge-inline">6</span><input type="text" class="gap-input" data-qnum="6" id="input-6">, preventing a <span class="q-badge-inline">7</span><input type="text" class="gap-input" data-qnum="7" id="input-7"></li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px; border:1px solid #ccc;">Types of support offered</td>
-                            <td style="padding:10px; border:1px solid #ccc;">
-                                <ul>
-                                    <li>transport costs, e.g. cost of a <span class="q-badge-inline">8</span><input type="text" class="gap-input" data-qnum="8" id="input-8"></li>
-                                    <li>car-related costs, e.g. fuel and <span class="q-badge-inline">9</span><input type="text" class="gap-input" data-qnum="9" id="input-9"></li>
-                                    <li>help with housework</li>
-                                    <li>help to reduce <span class="q-badge-inline">10</span><input type="text" class="gap-input" data-qnum="10" id="input-10"></li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div style="background:#f9f9f9; padding:25px; border:1px solid #ddd; font-family: 'Segoe UI', sans-serif;">
+                
+                <p style="margin-bottom: 15px;">Local councils can arrange practical support to help those caring for elderly people at home.</p>
+                
+                <p>This can give the carer:</p>
+                <ul style="list-style-type: disc; margin-left: 20px; line-height: 2; margin-bottom: 25px;">
+                    <li>time for other responsibilities</li>
+                    <li>a <span class="q-badge-inline">1</span><input class="gap-input" data-qnum="1"></li>
+                </ul>
+
+                <p><strong>Assessment of mother's needs</strong></p>
+                <p style="margin-top: 10px;">This may include discussion of:</p>
+                <ul style="list-style-type: disc; margin-left: 20px; line-height: 2; margin-bottom: 25px;">
+                    <li>how much <span class="q-badge-inline">2</span><input class="gap-input" data-qnum="2"> the caring involves</li>
+                    <li>what types of tasks are involved, e.g.
+                        <ul style="list-style-type: none; margin-left: 15px;">
+                            <li>- help with dressing</li>
+                            <li>- helping her have a <span class="q-badge-inline">3</span><input class="gap-input" data-qnum="3"></li>
+                            <li>- shopping</li>
+                            <li>- helping with meals</li>
+                            <li>- dealing with <span class="q-badge-inline">4</span><input class="gap-input" data-qnum="4"></li>
+                        </ul>
+                    </li>
+                    <li>any aspects of caring that are especially difficult, e.g.
+                        <ul style="list-style-type: none; margin-left: 15px;">
+                            <li>- loss of <span class="q-badge-inline">5</span><input class="gap-input" data-qnum="5"></li>
+                            <li>- <span class="q-badge-inline">6</span><input class="gap-input" data-qnum="6"> her</li>
+                            <li>- preventing a <span class="q-badge-inline">7</span><input class="gap-input" data-qnum="7"></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <p><strong>Types of support that may be offered to carers</strong></p>
+                <ul style="list-style-type: disc; margin-left: 20px; line-height: 2;">
+                    <li>transport costs, e.g. cost of a <span class="q-badge-inline">8</span><input class="gap-input" data-qnum="8"></li>
+                    <li>car-related costs, e.g. fuel and <span class="q-badge-inline">9</span><input class="gap-input" data-qnum="9"></li>
+                    <li>help with housework</li>
+                    <li>help to reduce <span class="q-badge-inline">10</span><input class="gap-input" data-qnum="10"></li>
+                </ul>
             </div>
           `,
           "items": [
@@ -80,7 +76,7 @@ export const cam20_test2 = {
         {
           "type": "matching",
           "title": "Part 2: Questions 11-16",
-          "instruction": "What is the role of the volunteers in each of the following activities?",
+          "instruction": "What is the role of the volunteers in each of the following activities?<br>Choose <strong>SIX</strong> answers from the box and write the correct letter, <strong>A-I</strong>, next to Questions 11-16.",
           "options": [
             "A. providing entertainment", "B. providing publicity about a council service",
             "C. contacting local businesses", "D. giving advice to visitors",
@@ -100,7 +96,9 @@ export const cam20_test2 = {
 
         // --- PART 2: Questions 17-20 (MCQ Single) ---
         {
-          "type": "mcq_single", "title": "Questions 17-20", "instruction": "Choose the correct letter, A, B or C.",
+          "type": "mcq_single",
+          "title": "Questions 17-20",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "stem": "17. Which event requires the largest number of volunteers?",
           "options": ["A. the music festival", "B. the science festival", "C. the book festival"],
           "items": [{ "qNum": 17, "answer": "B" }]
@@ -142,7 +140,9 @@ export const cam20_test2 = {
 
         // --- PART 3: Questions 26-30 (MCQ Single) ---
         {
-          "type": "mcq_single", "title": "Questions 26-30", "instruction": "Choose the correct letter, A, B or C.",
+          "type": "mcq_single",
+          "title": "Questions 26-30",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "stem": "26. Rosie says that in her own city the main problem is",
           "options": ["A. crime", "B. housing", "C. unemployment"],
           "items": [{ "qNum": 26, "answer": "C" }]
@@ -163,7 +163,7 @@ export const cam20_test2 = {
           "items": [{ "qNum": 29, "answer": "B" }]
         },
         {
-          "type": "mcq_single", "stem": "30. When discussing the Eco town of Greenhill Abbots, Colin is uncertain about",
+          "type": "mcq_single", "stem": "30. When discussing the ecotown of Greenhill Abbots, Colin is uncertain about",
           "options": ["A. what its objectives were", "B. why there was opposition to it", "C. how much of it has actually been built"],
           "items": [{ "qNum": 30, "answer": "C" }]
         },
@@ -172,34 +172,64 @@ export const cam20_test2 = {
         {
           "type": "gap",
           "title": "Part 4: Questions 31-40",
-          "instruction": "Complete the notes below. Write ONE WORD ONLY for each answer.",
+          "instruction": "Complete the notes below.<br><br>Write <strong>ONE WORD ONLY</strong> for each answer.",
           "htmlContent": `
-            <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
-                <h3 style="text-align:center; margin-top:0;">Developing Food Trends</h3>
-                <ul>
-                    <li>Interest in food fashions started with <span class="q-badge-inline">31</span><input type="text" class="gap-input" data-qnum="31" id="input-31"> of food shared on social media.</li>
-                    <li>Influencers act as ambassadors; sales of <span class="q-badge-inline">32</span><input type="text" class="gap-input" data-qnum="32" id="input-32"> brands have grown.</li>
-                    <li>Supermarkets track demand; famous <span class="q-badge-inline">33</span><input type="text" class="gap-input" data-qnum="33" id="input-33"> are influential.</li>
+            <div style="background:#f9f9f9; padding:25px; border:1px solid #ddd; font-family: 'Segoe UI', sans-serif;">
+                
+                <h4 style="text-align:center; margin-top:0; color: black; font-size: 1.1rem;">Developing food trends</h4>
+                <ul style="list-style-type: disc; margin-left: 20px; line-height: 2;">
+                    <li>The growth in interest in food fashions started with <span class="q-badge-inline">31</span><input class="gap-input" data-qnum="31"> of food being shared on social media.</li>
+                    <li>The UK food industry is constantly developing products which are new or different.</li>
+                    <li>Influencers on social media become 'ambassadors' for a brand.</li>
+                    <li>Sales of <span class="q-badge-inline">32</span><input class="gap-input" data-qnum="32"> food brands have grown this way.</li>
+                    <li>Supermarkets track demand for ingredients on social media.</li>
+                    <li>Famous <span class="q-badge-inline">33</span><input class="gap-input" data-qnum="33"> are influential.</li>
                 </ul>
-                <p><strong>Marketing campaigns:</strong></p>
-                <ul>
-                    <li><strong>The avocado:</strong> <span class="q-badge-inline">34</span><input type="text" class="gap-input" data-qnum="34" id="input-34"> visited South Africa; focus on <span class="q-badge-inline">35</span><input type="text" class="gap-input" data-qnum="35" id="input-35"> benefits.</li>
-                    <li><strong>Oat milk:</strong> Promotion through <span class="q-badge-inline">36</span><input type="text" class="gap-input" data-qnum="36" id="input-36"> shops; appealed to those concerned about the <span class="q-badge-inline">37</span><input type="text" class="gap-input" data-qnum="37" id="input-37">.</li>
-                    <li><strong>Norwegian skrei:</strong> Strengthened the <span class="q-badge-inline">38</span><input type="text" class="gap-input" data-qnum="38" id="input-38"> of Norwegian seafood.</li>
+
+                <h4 style="margin-top: 20px; margin-bottom: 10px; color: black; font-size: 1.1rem;">Marketing campaigns</h4>
+                <ul style="list-style-type: disc; margin-left: 20px; line-height: 2;">
+                    <li>The avocado:
+                        <ul style="list-style-type: none; margin-left: 15px;">
+                            <li>- <span class="q-badge-inline">34</span><input class="gap-input" data-qnum="34"> were invited to visit growers in South Africa.</li>
+                            <li>- Advertising focused on its <span class="q-badge-inline">35</span><input class="gap-input" data-qnum="35"> benefits.</li>
+                        </ul>
+                    </li>
+                    <li>Oat milk:
+                        <ul style="list-style-type: none; margin-left: 15px;">
+                            <li>- A Swedish brand's media campaign received publicity by upsetting competitors.</li>
+                            <li>- Promotion in the USA through <span class="q-badge-inline">36</span><input class="gap-input" data-qnum="36"> shops reduced the need for advertising.</li>
+                            <li>- It appealed to consumers who are concerned about the <span class="q-badge-inline">37</span><input class="gap-input" data-qnum="37">.</li>
+                        </ul>
+                    </li>
+                    <li>Norwegian skrei:
+                        <ul style="list-style-type: none; margin-left: 15px;">
+                            <li>- has helped strengthen the <span class="q-badge-inline">38</span><input class="gap-input" data-qnum="38"> of Norwegian seafood.</li>
+                        </ul>
+                    </li>
                 </ul>
-                <p><strong>Ethical concerns:</strong></p>
-                <ul>
-                    <li><strong>Quinoa:</strong> Success led to increase in its <span class="q-badge-inline">39</span><input type="text" class="gap-input" data-qnum="39" id="input-39">.</li>
-                    <li>Overuse of resources resulted in poor quality <span class="q-badge-inline">40</span><input type="text" class="gap-input" data-qnum="40" id="input-40">.</li>
+
+                <h4 style="margin-top: 20px; margin-bottom: 10px; color: black; font-size: 1.1rem;">Ethical concerns</h4>
+                <ul style="list-style-type: disc; margin-left: 20px; line-height: 2;">
+                    <li>Quinoa:
+                        <ul style="list-style-type: none; margin-left: 15px;">
+                            <li>- Its success led to an increase in its <span class="q-badge-inline">39</span><input class="gap-input" data-qnum="39">.</li>
+                            <li>- Overuse of resources resulted in poor quality <span class="q-badge-inline">40</span><input class="gap-input" data-qnum="40">.</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
           `,
           "items": [
-            { "qNum": 31, "answer": ["photos", "photographs", "pictures"] }, { "qNum": 32, "answer": "vegan" },
-            { "qNum": 33, "answer": ["chefs", "cooks"] }, { "qNum": 34, "answer": ["journalists", "reporters"] },
-            { "qNum": 35, "answer": "health" }, { "qNum": 36, "answer": "coffee" },
-            { "qNum": 37, "answer": "environment" }, { "qNum": 38, "answer": "reputation" },
-            { "qNum": 39, "answer": ["price", "cost"] }, { "qNum": 40, "answer": "soil" }
+            { "qNum": 31, "answer": ["photos", "photographs", "pictures"] }, 
+            { "qNum": 32, "answer": "vegan" },
+            { "qNum": 33, "answer": ["chefs", "cooks"] }, 
+            { "qNum": 34, "answer": ["journalists", "reporters"] },
+            { "qNum": 35, "answer": "health" }, 
+            { "qNum": 36, "answer": "coffee" },
+            { "qNum": 37, "answer": "environment" }, 
+            { "qNum": 38, "answer": "reputation" },
+            { "qNum": 39, "answer": ["price", "cost"] }, 
+            { "qNum": 40, "answer": "soil" }
           ]
         }
       ]
@@ -288,7 +318,7 @@ export const cam20_test2 = {
         {
           "type": "gap",
           "title": "Questions 1-6",
-          "instruction": "Complete the notes below. Choose ONE WORD AND/OR A NUMBER from the passage for each answer.",
+          "instruction": "Complete the notes below. Choose <strong>ONE WORD AND/OR A NUMBER</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Manatees</h3>
@@ -342,7 +372,7 @@ export const cam20_test2 = {
         {
           "type": "matching",
           "title": "Questions 14-16",
-          "instruction": "Reading Passage 2 has six paragraphs, A-F. Which paragraph contains the following information?",
+          "instruction": "Reading Passage 2 has six paragraphs, <strong>A-F</strong>. Which paragraph contains the following information?<br><br><strong>NB</strong> You may use any letter more than once.",
           "options": ["A", "B", "C", "D", "E", "F"],
           "items": [
             { "qNum": 14, "text": "mention of false assumptions about why people procrastinate", "answer": "B" },
@@ -353,7 +383,7 @@ export const cam20_test2 = {
         {
           "type": "gap",
           "title": "Questions 17-22",
-          "instruction": "Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">What makes us procrastinate?</h3>
@@ -390,7 +420,7 @@ export const cam20_test2 = {
         {
           "type": "mcq_multi",
           "title": "Questions 23 and 24",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO comparisons between employees who often procrastinate and those who do not are mentioned in the text?",
           "options": [
             "A. Their salaries are lower.",
@@ -400,14 +430,13 @@ export const cam20_test2 = {
             "E. They have poorer relationships with colleagues."
           ],
           "items": [
-            { "qNum": 23, "answer": ["A", "C"] },
-            { "qNum": 24, "answer": ["A", "C"] }
+            { "qNums": [23, 24], "answer": ["A", "C"] }
           ]
         },
         {
           "type": "mcq_multi",
           "title": "Questions 25 and 26",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO recommendations for getting out of a cycle of procrastination does the writer give?",
           "options": [
             "A. not judging ourselves harshly",
@@ -417,8 +446,7 @@ export const cam20_test2 = {
             "E. avoiding things that stop us concentrating on our tasks"
           ],
           "items": [
-            { "qNum": 25, "answer": ["A", "E"] },
-            { "qNum": 26, "answer": ["A", "E"] }
+            { "qNums": [25, 26], "answer": ["A", "E"] }
           ]
         },
 
@@ -439,29 +467,84 @@ export const cam20_test2 = {
         {
           "type": "gap",
           "title": "Questions 33-37",
-          "instruction": "Complete the summary using the list of phrases, A-H, below.",
+          "instruction": "Complete the summary using the list of phrases, <strong>A-H</strong>, below.",
           "htmlContent": `
-            <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
-                <h3 style="margin-top:0;">Calls by the umpire</h3>
+            <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd; line-height: 2;">
+                <h3 style="margin-top:0; color:#002554;">Calls by the umpire</h3>
                 <p>
                     Even after ABS was developed, MLB still wanted human umpires to shout out decisions as they had in their 
-                    <span class="q-badge-inline">33</span><input type="text" class="gap-input" data-qnum="33" id="input-33">. 
+                    <span class="q-badge-inline">33</span>
+                    <select class="gap-select" data-qnum="33">
+                        <option value="">33</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                    </select>. 
                     The umpire's job had, at one time, required a 
-                    <span class="q-badge-inline">34</span><input type="text" class="gap-input" data-qnum="34" id="input-34"> 
+                    <span class="q-badge-inline">34</span>
+                    <select class="gap-select" data-qnum="34">
+                        <option value="">34</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                    </select> 
                     about whether a ball was a strike.
                 </p>
                 <p>
                     A ball is considered a strike when the batter does not hit it and it crosses through a 
-                    <span class="q-badge-inline">35</span><input type="text" class="gap-input" data-qnum="35" id="input-35"> 
+                    <span class="q-badge-inline">35</span>
+                    <select class="gap-select" data-qnum="35">
+                        <option value="">35</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                    </select> 
                     extending approximately from the batter's knee to his chest.
                 </p>
                 <p>
-                    In the past, <span class="q-badge-inline">36</span><input type="text" class="gap-input" data-qnum="36" id="input-36"> 
+                    In the past, <span class="q-badge-inline">36</span>
+                    <select class="gap-select" data-qnum="36">
+                        <option value="">36</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                    </select> 
                     over strike calls were not uncommon, but today everyone accepts the complete ban on pushing or shoving the umpire. 
                     One difference, however, is that during the first game DeJesus used ABS, strike calls were met with 
-                    <span class="q-badge-inline">37</span><input type="text" class="gap-input" data-qnum="37" id="input-37">.
+                    <span class="q-badge-inline">37</span>
+                    <select class="gap-select" data-qnum="37">
+                        <option value="">37</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                    </select>.
                 </p>
-                <div style="margin-top: 15px; border-top: 1px dashed #999; padding-top: 10px;">
+                <div style="margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 15px; line-height: 1.8;">
                     <strong>Options:</strong><br>
                     A. pitch boundary &nbsp;&nbsp;&nbsp; B. numerous disputes &nbsp;&nbsp;&nbsp; C. team tactics<br>
                     D. subjective assessment &nbsp;&nbsp;&nbsp; E. widespread approval &nbsp;&nbsp;&nbsp; F. former roles<br>
@@ -480,7 +563,7 @@ export const cam20_test2 = {
         {
           "type": "mcq",
           "title": "Question 38",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "stem": "What does the writer suggest about ABS in the fifth paragraph?",
           "options": [
             "A. It is bound to make key decisions that are wrong.",
@@ -493,20 +576,20 @@ export const cam20_test2 = {
         {
           "type": "mcq",
           "title": "Question 39",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "stem": "Morgan Sword says that the introduction of ABS",
           "options": [
-            "A. was intended to keep up with developments in other sports.",
-            "B. was an attempt to ensure baseball retained a young audience.",
-            "C. was regarded as an experiment without a guaranteed outcome.",
-            "D. was a response to changing attitudes about the role of sport."
+            "A. was regarded as an experiment without a guaranteed outcome.",
+            "B. was intended to keep up with developments in other sports",
+            "C. was a response to changing attitudes about the role of sport.",
+            "D. was an attempt to ensure baseball retained a young audience."
           ],
           "items": [{ "qNum": 39, "answer": "D" }]
         },
         {
           "type": "mcq",
           "title": "Question 40",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "stem": "Why does the writer include the views of Noë and Russo?",
           "options": [
             "A. to show that attitudes to technology vary widely",

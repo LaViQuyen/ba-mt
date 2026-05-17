@@ -1,7 +1,7 @@
 // src/data/fullmt/cam19_test1.js
 
 export const cam19_test1 = {
-  id: "full_cam19_t1",
+  id: "mt5",
   category: "full",
   testName: "MOCK TEST 5",
   description: "Đề thi thử đầy đủ 3 kỹ năng chuẩn (Listening, Reading, Writing).",
@@ -13,13 +13,13 @@ export const cam19_test1 = {
     listening: {
       audioSrc: "/audio/mt5.mp3",
       timeLimit: 1725,
-      passage: "<h3 style='text-align:center; color:#002554;'>CAMBRIDGE 19 - LISTENING TEST 1</h3>",
+      passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 5 - LISTENING SECTION1</h3>",
       questions: [
         // --- PART 1: Questions 1-10 (Gap-fill) ---
         {
           "type": "gap",
           "title": "Part 1: Questions 1-10",
-          "instruction": "Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+          "instruction": "Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Hinchingbrooke Country Park</h3>
@@ -72,7 +72,7 @@ export const cam19_test1 = {
         {
           "type": "mcq_single",
           "title": "Part 2: Questions 11-15",
-          "instruction": "Choose the correct letter, A, B or C.",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "items": [
             {
               "qNum": 11,
@@ -111,7 +111,7 @@ export const cam19_test1 = {
         {
           "type": "labelling_grid",
           "title": "Questions 16-20",
-          "instruction": "Label the map below. Write the correct letter, A-H, next to Questions 16-20.",
+          "instruction": "Label the map below. Write the correct letter, <strong>A-H</strong>, next to Questions 16-20.",
           // ⚠️ Bạn cần cắt ảnh map từ trang 11 của PDF và upload lên host, sau đó thay link vào đây
           "image": "https://i.postimg.cc/zXZZ1W8y/Screenshot-2026-01-03-112502.png", 
           "options": ["A", "B", "C", "D", "E", "F", "G", "H"],
@@ -128,7 +128,7 @@ export const cam19_test1 = {
         {
           "type": "mcq_multi",
           "title": "Part 3: Questions 21 and 22",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO things did Colin find most satisfying about his bread reuse project?",
           "options": [
             "A. receiving support from local restaurants",
@@ -144,7 +144,7 @@ export const cam19_test1 = {
         {
           "type": "mcq_multi",
           "title": "Questions 23 and 24",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO ways do the students agree that touch-sensitive sensors for food labels could be developed in future?",
           "options": [
             "A. for use on medical products",
@@ -187,7 +187,7 @@ export const cam19_test1 = {
         {
           "type": "gap",
           "title": "Part 4: Questions 31-40",
-          "instruction": "Complete the notes below. Write ONE WORD ONLY for each answer.",
+          "instruction": "Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Céide Fields</h3>
@@ -328,7 +328,7 @@ export const cam19_test1 = {
         {
           "type": "gap",
           "title": "Questions 8-13",
-          "instruction": "Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <p><strong>The tennis racket and how it has changed</strong></p>
@@ -356,7 +356,7 @@ export const cam19_test1 = {
         {
           "type": "matching",
           "title": "Questions 14-19",
-          "instruction": "Reading Passage 2 has seven paragraphs, A-G. Which paragraph contains the following information?",
+          "instruction": "Reading Passage 2 has seven paragraphs, <strong>A-G</strong>. Which paragraph contains the following information?",
           "options": ["A", "B", "C", "D", "E", "F", "G"],
           "items": [
             { "qNum": 14, "text": "a reference to a denial of involvement in piracy", "answer": "E" },
@@ -370,7 +370,7 @@ export const cam19_test1 = {
         {
           "type": "mcq_multi",
           "title": "Questions 20 and 21",
-          "instruction": "Choose TWO letters, A-E. Which TWO of the following statements does the writer make about inhabitants of the Mediterranean region in the ancient world?",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>. Which <strong>TWO</strong> of the following statements does the writer make about inhabitants of the Mediterranean region in the ancient world?",
           "options": [
             "A. They often used stolen vessels to carry out pirate attacks.",
             "B. They managed to escape capture by the authorities because they knew the area so well.",
@@ -385,7 +385,7 @@ export const cam19_test1 = {
         {
           "type": "mcq_multi",
           "title": "Questions 22 and 23",
-          "instruction": "Choose TWO letters, A-E. Which TWO of the following statements does the writer make about piracy and ancient Greece?",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>. Which <strong>TWO</strong> of the following statements does the writer make about piracy and ancient Greece?",
           "options": [
             "A. The state estimated that very few people were involved in piracy.",
             "B. Attitudes towards piracy changed shortly after the Iliad and the Odyssey were written.",
@@ -400,7 +400,7 @@ export const cam19_test1 = {
         {
           "type": "gap",
           "title": "Questions 24-26",
-          "instruction": "Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <p><strong>Ancient Rome and piracy</strong></p>
@@ -420,7 +420,7 @@ export const cam19_test1 = {
         {
           "type": "mcq_single",
           "title": "Questions 27-30",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "items": [
             {
               "qNum": 27,
@@ -471,7 +471,7 @@ export const cam19_test1 = {
         {
           "type": "gap",
           "title": "Questions 31-36",
-          "instruction": "Complete the summary using the list of phrases, A-J, below.",
+          "instruction": "Complete the summary using the list of phrases, <strong>A-J</strong>, below.",
           "htmlContent": `
              <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                  <p><strong>What happens when people encounter misinformation?</strong></p>
@@ -527,9 +527,7 @@ export const cam19_test1 = {
       task2: {
         title: "Writing Task 2",
         instruction: "You should spend about 40 minutes on this task.",
-        prompt: `Some people think that competition at work, at school and in daily life is a good thing.
-        
-        Others believe that we should try to cooperate more, rather than competing against each other.
+        prompt: `Some people think that competition at work, at school and in daily life is a good thing.Others believe that we should try to cooperate more, rather than competing against each other.
         
         Discuss both these views and give your own opinion.
         

@@ -1,7 +1,7 @@
 // src/data/fullmt/cam20_test1.js
 
 export const cam20_test1 = {
-  id: "full_cam20_t1",
+  id: "mt1",
   category: "full",
   testName: "MOCK TEST 1",
   description: "Đề thi thử đầy đủ 3 kỹ năng chuẩn (Listening, Reading, Writing).",
@@ -13,13 +13,13 @@ export const cam20_test1 = {
     listening: {
       audioSrc: "/audio/mt1.mp3",
       timeLimit: 1916,
-      passage: "<h3 style='text-align:center; color:#002554;'>CAMBRIDGE 20 - LISTENING TEST 1</h3>",
+      passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 1 - LISTENING SECTION</h3>",
       questions: [
         // --- PART 1: Questions 1-10 (Gap-fill Table) ---
         {
           "type": "gap",
           "title": "Part 1: Questions 1-10",
-          "instruction": "Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+          "instruction": "Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:15px; border:1px solid #ddd; overflow-x:auto;">
                 <table style="width:100%; border-collapse: collapse; min-width: 600px;">
@@ -42,7 +42,7 @@ export const cam20_test1 = {
                             <td style="padding:10px; border:1px solid #ccc;"><strong>Paloma</strong></td>
                             <td style="padding:10px; border:1px solid #ccc;">In Bow Street next to the cinema</td>
                             <td style="padding:10px; border:1px solid #ccc;"><span class="q-badge-inline">3</span><input type="text" class="gap-input" data-qnum="3" id="q-3"> Food, good for sharing</td>
-                            <td style="padding:10px; border:1px solid #ccc;">Staff are very friendly<br>Need to pay £50 deposit<br>A limited selection of <span class="q-badge-inline">4</span><input type="text" class="gap-input" data-qnum="4" id="q-4"> Food on the menu</td>
+                            <td style="padding:10px; border:1px solid #ccc;">Staff are very friendly<br>Need to pay £50 deposit<br>A limited selection of <span class="q-badge-inline">4</span><input type="text" class="gap-input" data-qnum="4" id="q-4"> food on the menu</td>
                         </tr>
                         <tr>
                             <td style="padding:10px; border:1px solid #ccc;"><strong>The <span class="q-badge-inline">5</span><input type="text" class="gap-input" data-qnum="5" id="q-5"></strong></td>
@@ -72,7 +72,7 @@ export const cam20_test1 = {
         {
           "type": "mcq_single",
           "title": "Part 2: Questions 11-16",
-          "instruction": "Choose the correct letter, A, B or C.",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "items": [
             {
               "qNum": 11,
@@ -117,7 +117,7 @@ export const cam20_test1 = {
         {
           "type": "mcq_multi",
           "title": "Questions 17 and 18",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO things does Heather explain about kilns?",
           "options": [
             "A. what their function is",
@@ -133,7 +133,7 @@ export const cam20_test1 = {
         {
           "type": "mcq_multi",
           "title": "Questions 19 and 20",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO points does Heather make about a potter's tools?",
           "options": [
             "A. Some are hard to hold.",
@@ -151,7 +151,7 @@ export const cam20_test1 = {
         {
           "type": "mcq_multi",
           "title": "Part 3: Questions 21 and 22",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO things do the students both believe are responsible for the increase in loneliness?",
           "options": [
             "A. social media",
@@ -167,7 +167,7 @@ export const cam20_test1 = {
         {
           "type": "mcq_multi",
           "title": "Questions 23 and 24",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO health risks associated with loneliness do the students agree are based on solid evidence?",
           "options": [
             "A. a weakened immune system",
@@ -183,7 +183,7 @@ export const cam20_test1 = {
         {
           "type": "mcq_multi",
           "title": "Questions 25 and 26",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO opinions do both the students express about the evolutionary theory of loneliness?",
           "options": [
             "A. It has little practical relevance.",
@@ -201,7 +201,7 @@ export const cam20_test1 = {
         {
           "type": "mcq_single",
           "title": "Questions 27-30",
-          "instruction": "Choose the correct letter, A, B or C.",
+          "instruction": "Choose the correct letter, <strong>A, B or C.</strong><br><br><div style='text-align: center; font-weight: bold; font-size: 1.2rem; color: black; margin-bottom: 15px;'>Loneliness & mental health</div>",
           "items": [
             {
               "qNum": 27,
@@ -234,7 +234,7 @@ export const cam20_test1 = {
         {
           "type": "gap",
           "title": "Part 4: Questions 31-40",
-          "instruction": "Complete the notes below. Write ONE WORD ONLY for each answer.",
+          "instruction": "Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Reclaiming urban rivers</h3>
@@ -321,13 +321,17 @@ export const cam20_test1 = {
             <h2 style="color: #002554; border-bottom: 2px solid #ccc; padding-bottom: 10px;">READING PASSAGE 2</h2>
             <p style="font-style: italic; color: #666;">You should spend about 20 minutes on <strong>Questions 14-26</strong>, which are based on Reading Passage 2 below.</p>
             
-            <h3 style="text-align: center;">Mark Rowe investigates attempts to reintroduce elms to Britain</h3>
+            <h3 style="text-align: center;">to Britain</h3>
+
+            <p style="text-align: center;">Mark Rowe investigates attempts to reintroduce elms to Britain</p>
             
             <p><strong>A</strong> Around 25 million elms, accounting for 90% of all elm trees in the UK, died during the 1960s and '70s of Dutch elm disease. In the aftermath, the elm, once so dominant in the British landscape, was largely forgotten. However, there's now hope the elm may be reintroduced to the countryside of central and southern England. Any reintroduction will start from a very low base. 'The impact of the disease is difficult to picture if you hadn't seen what was there before,' says Matt Elliot of the Woodland Trust. 'You look at old photographs from the 1960s and it's only then that you realise the impact [elms had] ... They were significant, large trees ... then they were gone.'</p>
 
             <p><strong>B</strong> The disease is caused by a fungus that blocks the elms' vascular (water, nutrient and food transport) system, causing branches to wilt and die. A first epidemic, which occurred in the 1920s, gradually died down, but in the '70s a second epidemic was triggered by shipments of elm from Canada. The wood came in the form of logs destined for boat building and its intact bark was perfect for the elm bark beetles that spread the deadly fungus. This time, the beetles carried a much more virulent strain that destroyed the vast majority of British elms.</p>
 
-            <p><strong>C</strong> Today, elms still exist in the southern English countryside but mostly only in low hedgerows between fields. 'We have millions of small elms in hedgerows but they get targeted by the beetle as soon as they reach a certain size,' says Karen Russell, co-author of the report 'Where we are with elm'. Once the trunk of the elm reaches 10-15 centimetres or so in diameter, it becomes a perfect size for beetles to lay eggs and for the fungus to take hold. Yet mature specimens have been identified, in counties such as Cambridgeshire, that are hundreds of years old, and have mysteriously escaped the epidemic. The key, Russell says, is to identify and study those trees that have survived and work out why they stood tall when millions of others succumbed. Nevertheless, opportunities are limited as the number of these mature survivors is relatively small. 'What are the reasons for their survival?' asks Russell. 'Avoidance, tolerance, resistance? We don't know where the balance lies between the three. I don't see how it can be entirely down to luck.'</p>
+            <p><strong>C</strong> Today, elms still exist in the southern English countryside but mostly only in low hedgerows between fields. 'We have millions of small elms in hedgerows but they get targeted by the beetle as soon as they reach a certain size,' says Karen Russell, co-author of the report 'Where we are with elm'. Once the trunk of the elm reaches 10-15 centimetres or so in diameter, it becomes a perfect size for beetles to lay eggs and for the fungus to take hold. Yet mature specimens have been identified, in counties such as Cambridgeshire, that are hundreds of years old, and have mysteriously escaped the epidemic.</p>
+
+             <p>The key, Russell says, is to identify and study those trees that have survived and work out why they stood tall when millions of others succumbed. Nevertheless, opportunities are limited as the number of these mature survivors is relatively small. 'What are the reasons for their survival?' asks Russell. 'Avoidance, tolerance, resistance? We don't know where the balance lies between the three. I don't see how it can be entirely down to luck.'</p>
 
             <p><strong>D</strong> For centuries, elm ran a close second to oak as the hardwood tree of choice in Britain and was in many instances the most prominent tree in the landscape. Not only was elm common in European forests, it became a key component of birch, ash and hazel woodlands. The use of elm is thought to go back to the Bronze Age, when it was widely used for tools. Elm was also the preferred material for shields and early swords. In the 18th century, it was planted more widely and its wood was used for items such as storage crates and flooring. It was also suitable for items that experienced high levels of impact and was used to build the keel of the 19th-century sailing ship Cutty Sark as well as mining equipment.</p>
 
@@ -336,7 +340,10 @@ export const cam20_test1 = {
             <p><strong>F</strong> Any prospect of the elm returning relies heavily on trees being either resistant to, or tolerant of, the disease. This means a widespread reintroduction would involve existing or new hybrid strains derived from resistant, generally non-native elm species. A new generation of seedlings have been bred and tested to see if they can withstand the fungus by cutting a small slit on the bark and injecting a tiny amount of the pathogen. 'The effects are very quick,' says Russell. 'You return in four to six weeks and trees that are resistant show no symptoms, whereas those that are susceptible show leaf loss and may even have died completely.'</p>
 
             <p><strong>G</strong> All of this raises questions of social acceptance, acknowledges Russell. 'If we're putting elm back into the landscape, a small element of it is not native - are we bothered about that?' For her, the environmental case for reintroducing elm is strong. 'They will host wildlife, which is a good thing.' Others are more wary. 'On the face of it, it seems like a good idea,' says Elliot. The problem, he suggests, is that, 'You're replacing a native species with a horticultural analogue. You're effectively cloning.' There's also the risk of introducing new diseases. Rather than plant new elms, the Woodland Trust emphasises providing space to those elms that have survived independently. 'Sometimes the best thing you can do is just give nature time to recover over time, you might get resistance,' says Elliot.</p>
-        </div>
+
+            <p>* horticultural analogue: a cultivated plant species that is genetically similar to an existing species</p>
+
+          </div>
 
         <hr style="border: 2px dashed #999; margin: 40px 0;">
 
@@ -349,19 +356,23 @@ export const cam20_test1 = {
 
             <p>My colleague and I, both neuroscientists, wanted to investigate how the mind operates under stress, so we visited some local fire stations. Firefighters' workdays vary quite a bit. Some are pretty relaxed; they'll spend their time washing the truck, cleaning equipment, cooking meals and reading. Other days can be hectic, with numerous life-threatening incidents to attend to; they'll enter burning homes to rescue trapped residents, and assist with medical emergencies. These ups and downs presented the perfect setting for an experiment on how people's ability to use information changes when they feel under pressure.</p>
 
-            <p>We found that perceived threat acted as a trigger for a stress reaction that made the task of processing information easier for the firefighters - but only as long as it conveyed bad news. This is how we arrived at these results. We asked the firefighters to estimate their likelihood of experiencing 40 different adverse events in their life, such as being involved in an accident or becoming a victim of card fraud. We then gave them either good news (that their likelihood of experiencing these events was lower than they'd thought) or bad news (that it was higher) and asked them to provide new estimates.</p>
+            <p>We found that perceived threat acted as a trigger for a stress reaction that made the task of processing information easier for the firefighters - but only as long as it conveyed bad news.</p>
 
-            <p>People are normally quite optimistic they will ignore bad news and embrace the good. This is what happened when the firefighters were relaxed; but when they were under stress, a different pattern emerged. Under these conditions, they became hyper-vigilant to bad news, even when it had nothing to do with their job (such as learning that the likelihood of card fraud was higher than they'd thought), and altered their beliefs in response. In contrast, stress didn't change how they responded to good news (such as learning that the likelihood of card fraud was lower than they'd thought).</p>
+            <p>This is how we arrived at these results. We asked the firefighters to estimate their likelihood of experiencing 40 different adverse events in their life, such as being involved in an accident or becoming a victim of card fraud. We then gave them either good news (that their likelihood of experiencing these events was lower than they'd thought) or bad news (that it was higher) and asked them to provide new estimates.</p>
+
+            <p>People are normally quite optimistic - they will ignore bad news and embrace the good. This is what happened when the firefighters were relaxed; but when they were under stress, a different pattern emerged. Under these conditions, they became hyper-vigilant to bad news, even when it had nothing to do with their job (such as learning that the likelihood of card fraud was higher than they'd thought), and altered their beliefs in response. In contrast, stress didn't change how they responded to good news (such as learning that the likelihood of card fraud was lower than they'd thought).</p>
 
             <p>Back in our lab, we observed the same pattern in students who were told they had to give a surprise public speech, which would be judged by a panel, recorded and posted online. Sure enough, their cortisol levels spiked, their heart rates went up and they suddenly became better at processing unrelated, yet alarming, information about rates of disease and violence.</p>
 
-            <p>When we experience stressful events, a physiological change is triggered that causes us to take in warnings and focus on what might go wrong. Brain imaging reveals that this 'switch' is related to a sudden boost in a neural signal important for learning, specifically in response to unexpected warning signs, such as faces expressing fear. Such neural engineering could have helped prehistoric humans to survive. When our ancestors found themselves surrounded by hungry animals, they would have benefited from an increased ability to learn about hazards. In a safe environment, however, it would have been wasteful to be on high alert constantly. So, a neural switch that automatically increases or decreases our ability to process warnings in response to changes in our environment could have been useful. In fact, people with clinical depression and anxiety seem unable to switch away from a state in which they absorb all the negative messages around them.</p>
+            <p>When we experience stressful events, a physiological change is triggered that causes us to take in warnings and focus on what might go wrong. Brain imaging reveals that this 'switch' is related to a sudden boost in a neural signal important for learning, specifically in response to unexpected warning signs, such as faces expressing fear.</p>
+
+            <p>Such neural engineering could have helped prehistoric humans to survive. When our ancestors found themselves surrounded by hungry animals, they would have benefited from an increased ability to learn about hazards. In a safe environment, however, it would have been wasteful to be on high alert constantly. So, a neural switch that automatically increases or decreases our ability to process warnings in response to changes in our environment could have been useful. In fact, people with clinical depression and anxiety seem unable to switch away from a state in which they absorb all the negative messages around them.</p>
 
             <p>It is also important to realise that stress travels rapidly from one person to the next. If a co-worker is stressed, we are more likely to tense up and feel stressed ourselves. We don't even need to be in the same room with someone for their emotions to influence our behaviour. Studies show that if we observe positive feeds on social media, such as images of a pink sunset, we are more likely to post uplifting messages ourselves. If we observe negative posts, such as complaints about a long queue at the coffee shop, we will in turn create more negative posts.</p>
 
             <p>In some ways, many of us now live as if we are in danger, constantly ready to tackle demanding emails and text messages, and respond to news alerts and comments on social media. Repeatedly checking your phone, according to a survey conducted by the American Psychological Association, is related to stress. In other words, a pre-programmed physiological reaction, which evolution has equipped us with to help us avoid famished predators, is now being triggered by an online post. Social media posting, according to one study, raises your pulse, makes you sweat, and enlarges your pupils more than most daily activities.</p>
 
-            <p>The fact that stress increases the likelihood that we will focus more on alarming messages, together with the fact that it spreads extremely rapidly, can create collective fear that is not always justified. After a stressful public event, such as a natural disaster or major financial crash, there is often a wave of alarming information in traditional and social media, which individuals become very aware of. But that has the effect of exaggerating existing danger. And so, a reliable pattern emerges stress is triggered, spreading from one person to the next, which temporarily enhances the likelihood that people will take in negative reports, which increases stress further. As a result, trips are cancelled, even if the disaster took place across the globe; stocks are sold, even when holding on is the best thing to do.</p>
+            <p>The fact that stress increases the likelihood that we will focus more on alarming messages, together with the fact that it spreads extremely rapidly, can create collective fear that is not always justified. After a stressful public event, such as a natural disaster or major financial crash, there is often a wave of alarming information in traditional and social media, which individuals become very aware of. But that has the effect of exaggerating existing danger. And so, a reliable pattern emerges - stress is triggered, spreading from one person to the next, which temporarily enhances the likelihood that people will take in negative reports, which increases stress further. As a result, trips are cancelled, even if the disaster took place across the globe; stocks are sold, even when holding on is the best thing to do.</p>
 
             <p>The good news, however, is that positive emotions, such as hope, are contagious too, and are powerful in inducing people to act to find solutions. Being aware of the close relationship between people's emotional state and how they process information can help us frame our messages more effectively and become conscientious agents of change.</p>
         </div>
@@ -371,7 +382,7 @@ export const cam20_test1 = {
         {
           "type": "tfng",
           "title": "Questions 1-6",
-          "instruction": "Do the following statements agree with the information given in Reading Passage 1?",
+          "instruction": "Do the following statements agree with the information given in Reading Passage 1?<br><br><table style='width:100%; border:none; margin-bottom:15px; font-size: 0.95rem;'><tr><td style='width: 110px; font-weight: bold; padding: 5px 0;'>TRUE</td><td>if the statement agrees with the information</td></tr><tr><td style='font-weight: bold; padding: 5px 0;'>FALSE</td><td>if the statement contradicts the information</td></tr><tr><td style='font-weight: bold; padding: 5px 0;'>NOT GIVEN</td><td>if there is no information on this</td></tr></table>",
           "items": [
             { "qNum": 1, "text": "There are other parrots that share the kākāpō's inability to fly.", "answer": "FALSE" },
             { "qNum": 2, "text": "Adult kākāpō produce chicks every year.", "answer": "FALSE" },
@@ -384,7 +395,7 @@ export const cam20_test1 = {
         {
           "type": "gap",
           "title": "Questions 7-13",
-          "instruction": "Complete the notes below. Choose ONE WORD AND/OR A NUMBER from the passage for each answer.",
+          "instruction": "Complete the notes below. Choose <strong>ONE WORD AND/OR A NUMBER</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">A type of parrot: New Zealand's kākāpō</h3>
@@ -421,7 +432,7 @@ export const cam20_test1 = {
         {
           "type": "matching_info",
           "title": "Questions 14-18",
-          "instruction": "Reading Passage 2 has seven sections, A-G. Which section contains the following information?",
+          "instruction": "Reading Passage 2 has seven sections, <strong>A-G</strong>. Which section contains the following information? <strong>NB</strong> You may use any letter more than once.",
           "options": ["A", "B", "C", "D", "E", "F", "G"],
           "items": [
             { "qNum": 14, "text": "reference to the research problems that arise from there being only a few surviving large elms", "answer": "C" },
@@ -434,7 +445,7 @@ export const cam20_test1 = {
         {
           "type": "matching",
           "title": "Questions 19-23",
-          "instruction": "Match each statement with the correct person, A, B, or C.",
+          "instruction": "Match each statement with the correct person, <strong>A, B, or C</strong>.<br><strong>NB</strong> You may use any letter more than once",
           "options": ["A. Matt Elliot", "B. Karen Russell", "C. Peter Bourne"],
           "items": [
             { "qNum": 19, "text": "If a tree gets infected with Dutch elm disease, the damage rapidly becomes visible.", "answer": "B" },
@@ -447,7 +458,7 @@ export const cam20_test1 = {
         {
           "type": "gap",
           "title": "Questions 24-26",
-          "instruction": "Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Uses of a popular tree</h3>
@@ -465,7 +476,7 @@ export const cam20_test1 = {
         {
           "type": "mcq_single",
           "title": "Questions 27-30",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "items": [
             {
               "qNum": 27,
@@ -496,7 +507,7 @@ export const cam20_test1 = {
         {
           "type": "matching",
           "title": "Questions 31-35",
-          "instruction": "Complete each sentence with the correct ending, A-G, below.",
+          "instruction": "Complete each sentence with the correct ending, <strong>A-G</strong>, below.",
           "options": [
             "A. made them feel optimistic.",
             "B. took relatively little notice of bad news.",
@@ -517,7 +528,7 @@ export const cam20_test1 = {
         {
           "type": "ynng",
           "title": "Questions 36-40",
-          "instruction": "Do the following statements agree with the information given in Reading Passage 3?",
+          "instruction": "Do the following statements agree with the information given in Reading Passage 3?<br><br><table style='width:100%; border:none; margin-bottom:15px; font-size: 0.95rem;'><tr><td style='width: 110px; font-weight: bold; padding: 5px 0;'>YES</td><td>if the statement agrees with the information</td></tr><tr><td style='font-weight: bold; padding: 5px 0;'>NO</td><td>if the statement contradicts the information</td></tr><tr><td style='font-weight: bold; padding: 5px 0;'>NOT GIVEN</td><td>if there is no information on this</td></tr></table>",
           "items": [
             { "qNum": 36, "text": "The tone of the content we post on social media tends to reflect the nature of the posts in our feeds.", "answer": "YES" },
             { "qNum": 37, "text": "Phones have a greater impact on our stress levels than other electronic media devices.", "answer": "NOT GIVEN" },

@@ -1,7 +1,7 @@
 // src/data/fullmt/cam20_test3.js
 
 export const cam20_test3 = {
-  id: "full_cam20_t3",
+  id: "mt3",
   category: "full",
   testName: "MOCK TEST 3",
   description: "Đề thi thử đầy đủ 3 kỹ năng chuẩn (Listening, Reading, Writing).",
@@ -19,7 +19,7 @@ export const cam20_test3 = {
         {
           "type": "gap",
           "title": "Part 1: Questions 1-10",
-          "instruction": "Complete the table below. Write ONE WORD AND/OR A NUMBER for each answer.",
+          "instruction": "Complete the table below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:15px; border:1px solid #ddd; overflow-x:auto;">
                 <p><strong>Furniture Rental Companies</strong></p>
@@ -98,7 +98,7 @@ export const cam20_test3 = {
         {
           "type": "mcq_single", 
           "title": "Part 2: Questions 11-16", 
-          "instruction": "Choose the correct letter, A, B or C.",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "stem": "11. Who was responsible for starting the community project?",
           "options": ["A. the castle owners", "B. a national charity", "C. the local council"],
           "items": [{ "qNum": 11, "answer": "B" }]
@@ -138,8 +138,8 @@ export const cam20_test3 = {
         {
           "type": "labelling_grid",
           "title": "Questions 17-20",
-          "instruction": "Label the map below. Choose the correct letter, A-G, for each label.",
-          "image": "https://i.postimg.cc/Jzkdr4kM/BA-IELTS-CB-20-L3.jpg",
+          "instruction": "Label the map below. Choose the correct letter, <strong>A-G</strong>, for each label.",
+          "image": "https://i.postimg.cc/Pqg1Lvcb/Bidcaster-Archaeological-Dig-1024x919.jpg",
           "options": ["A", "B", "C", "D", "E", "F", "G"],
           "items": [
             { "qNum": 17, "text": "bridge foundations", "answer": "B" },
@@ -153,7 +153,7 @@ export const cam20_test3 = {
         {
           "type": "mcq_single", 
           "title": "Part 3: Questions 21-26", 
-          "instruction": "Choose the correct letter, A, B or C.",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "stem": "21. Finn was pleased to discover that their topic",
           "options": ["A. was not familiar to their module leader.", "B. had not been chosen by other students.", "C. did not prove to be difficult to research."],
           "items": [{ "qNum": 21, "answer": "B" }]
@@ -214,7 +214,7 @@ export const cam20_test3 = {
         {
           "type": "gap",
           "title": "Part 4: Questions 31-40",
-          "instruction": "Complete the notes below. Write ONE WORD ONLY for each answer.",
+          "instruction": "Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="text-align:center; margin-top:0;">Inclusive design</h3>
@@ -264,9 +264,10 @@ export const cam20_test3 = {
     },
 
     // ==========================================================================
-    // PHẦN READING (Lấy từ data_reading.js)
+    // PHẦN READING (Đã sửa lỗi Group câu hỏi 20-21 và 22-23)
     // ==========================================================================
     reading: {
+      timeLimit: 3600, // 60 phút
       passage: `
         <div style="margin-bottom: 50px;">
             <h2 style="color: #002554; border-bottom: 2px solid #ccc; padding-bottom: 10px;">READING PASSAGE 1</h2>
@@ -293,7 +294,7 @@ export const cam20_test3 = {
             
             <p>Sales increased in the early 1940s, when World War II gave a boost to the frozen food industry because tin was being used for munitions. Canned foods were rationed to save tin for the war effort, while frozen foods were abundant and cheap. Finally, by the 1950s, refrigerator technology had developed far enough to make these appliances affordable for the average family. By 1953, 33 million US families owned a refrigerator, and manufacturers were gradually increasing the size of the freezer compartments in them.</p>
             
-            <The>1950s families were also looking for convenience at mealtimes, so the moment was right for the arrival of the 'TV Dinner'. Swanson Foods was a large, nationally recognized producer of canned and frozen poultry. In 1954, the company adapted some of Birdseye's freezing techniques, and with the help of a clever name and a huge advertising budget, it launched the first 'TV Dinner'. This consisted of frozen turkey, potatoes and vegetables served in the same segmented aluminum tray that was used by airlines. The product was an instant success. Within a year, Swanson had sold 13 million TV dinners. American consumers couldn't resist the combination of a trusted brand name, a single-serving package and the convenience of a meal that could be ready after only 25 minutes in a hot oven. By 1959, Americans were spending $2.7 billion annually on frozen foods, and half a billion of that was spent on ready-prepared meals such as the TV Dinner.</p>
+            <p>The 1950s families were also looking for convenience at mealtimes, so the moment was right for the arrival of the 'TV Dinner'. Swanson Foods was a large, nationally recognized producer of canned and frozen poultry. In 1954, the company adapted some of Birdseye's freezing techniques, and with the help of a clever name and a huge advertising budget, it launched the first 'TV Dinner'. This consisted of frozen turkey, potatoes and vegetables served in the same segmented aluminum tray that was used by airlines. The product was an instant success. Within a year, Swanson had sold 13 million TV dinners. American consumers couldn't resist the combination of a trusted brand name, a single-serving package and the convenience of a meal that could be ready after only 25 minutes in a hot oven. By 1959, Americans were spending $2.7 billion annually on frozen foods, and half a billion of that was spent on ready-prepared meals such as the TV Dinner.</p>
             
             <p>Today, the US frozen food industry has a turnover of over $67 billion annually, with $26.6 billion of that sold to consumers for home consumption. The remaining $40 billion in frozen food sales come through restaurants, cafeterias, hospitals and schools, and that represents a third of the total food service sales.</p>
         </div>
@@ -366,7 +367,7 @@ export const cam20_test3 = {
         {
           "type": "gap",
           "title": "Questions 1-7",
-          "instruction": "Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "items": [
             { "qNum": 1, "answer": "potatoes" },
             { "qNum": 2, "answer": "butter" },
@@ -378,7 +379,7 @@ export const cam20_test3 = {
           ],
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd; border-radius: 8px;">
-                <h3 style="margin-top:0; color: var(--blue); text-align: center;">The history of frozen food</h3>
+                <h3 style="margin-top:0; color: #002554; text-align: center;">The history of frozen food</h3>
                 
                 <p><strong>2,000 years ago, South America</strong></p>
                 <ul style="list-style-type: disc; margin-left: 20px; line-height: 2;">
@@ -420,7 +421,7 @@ export const cam20_test3 = {
         {
           "type": "tfng",
           "title": "Questions 8-13",
-          "instruction": "Do the following statements agree with the information given in Reading Passage 1?",
+          "instruction": "Do the following statements agree with the information given in Reading Passage 1?<br><br><table style='width:100%; border:none; margin-bottom:15px; font-size: 0.95rem;'><tr><td style='width: 110px; font-weight: bold; padding: 5px 0;'>TRUE</td><td>if the statement agrees with the information</td></tr><tr><td style='font-weight: bold; padding: 5px 0;'>FALSE</td><td>if the statement contradicts the information</td></tr><tr><td style='font-weight: bold; padding: 5px 0;'>NOT GIVEN</td><td>if there is no information on this</td></tr></table>",
           "items": [
             { "qNum": 8, "text": "The ice transportation business made some Boston ship owners very wealthy in the early 1800s.", "answer": "NOT GIVEN" },
             { "qNum": 9, "text": "A disadvantage of the freezing process invented in Australia was that it affected the taste of food.", "answer": "TRUE" },
@@ -433,9 +434,9 @@ export const cam20_test3 = {
 
         // --- PASSAGE 2 QUESTIONS ---
         {
-          "type": "matching",
+          "type": "matching_info",
           "title": "Questions 14-19",
-          "instruction": "Reading Passage 2 has six sections, A-F. Choose the correct heading for each section from the list of headings below.",
+          "instruction": "Reading Passage 2 has six sections, <strong>A-F</strong>. Choose the correct heading for each section from the list of headings below.",
           "options": [
             "i. Tried and tested solutions",
             "ii. Cooperation beneath the waves",
@@ -454,10 +455,12 @@ export const cam20_test3 = {
             { "qNum": 19, "text": "Section F", "answer": "vi" }
           ]
         },
+        
+        // --- SỬA LỖI Ở ĐÂY: GỘP GROUP 20-21 THÀNH 1 ITEM ---
         {
           "type": "mcq_multi",
           "title": "Questions 20 and 21",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO of these causes of damage to coral reefs are mentioned by the writer of the text?",
           "options": [
             "A. a rising number of extreme storms",
@@ -467,14 +470,16 @@ export const cam20_test3 = {
             "E. alterations in the usual flow of water in the seas"
           ],
           "items": [
-            { "qNum": 20, "answer": ["C", "E"] },
-            { "qNum": 21, "answer": ["C", "E"] }
+            // Gộp 2 câu thành 1 item có mảng qNums
+            { "qNums": [20, 21], "answer": ["C", "E"] } 
           ]
         },
+        
+        // --- SỬA LỖI Ở ĐÂY: GỘP GROUP 22-23 THÀNH 1 ITEM ---
         {
           "type": "mcq_multi",
           "title": "Questions 22 and 23",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO of the following statements are true of the researchers at London Zoo?",
           "options": [
             "A. They are hoping to expand the numbers of different corals being bred in laboratories.",
@@ -484,14 +489,15 @@ export const cam20_test3 = {
             "E. They are investigating materials that might protect reefs from higher temperatures."
           ],
           "items": [
-            { "qNum": 22, "answer": ["B", "D"] },
-            { "qNum": 23, "answer": ["B", "D"] }
+             // Gộp 2 câu thành 1 item có mảng qNums
+            { "qNums": [22, 23], "answer": ["B", "D"] }
           ]
         },
+        
         {
           "type": "gap",
           "title": "Questions 24-26",
-          "instruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="padding:10px;">
                 <p>24. Corals have a number of <span class="q-badge-inline">24</span><input type="text" class="gap-input" data-qnum="24" id="input-24"> which they use to collect their food.</p>
@@ -510,7 +516,7 @@ export const cam20_test3 = {
         {
           "type": "matching",
           "title": "Questions 27-33",
-          "instruction": "Match each statement with the correct expert, A, B or C.",
+          "instruction": "Match each statement with the correct expert, <strong>A, B or C</strong>.<br><br><strong>NB</strong> You may use any letter more than once.",
           "options": [
             "A. Martin Rees",
             "B. Daniel Wolpert",
@@ -529,7 +535,7 @@ export const cam20_test3 = {
         {
           "type": "matching",
           "title": "Questions 34-36",
-          "instruction": "Complete each sentence with the correct ending, A-D, below.",
+          "instruction": "Complete each sentence with the correct ending, <strong>A-D</strong>, below.",
           "options": [
             "A. robots to explore outer space.",
             "B. advances made in machine intelligence so far.",
@@ -558,7 +564,7 @@ export const cam20_test3 = {
         {
           "type": "mcq",
           "title": "Question 38",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "stem": "What potential advance does Rees see as a cause for concern?",
           "options": [
             "A. robots outnumbering people",
@@ -571,7 +577,7 @@ export const cam20_test3 = {
         {
           "type": "mcq",
           "title": "Question 39",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "stem": "What does Wolpert emphasise in his response to the question about science fiction?",
           "options": [
             "A. how science fiction influences our attitudes to robots",
@@ -584,7 +590,7 @@ export const cam20_test3 = {
         {
           "type": "mcq",
           "title": "Question 40",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "stem": "What is Richardson doing in her comment about reality and fantasy?",
           "options": [
             "A. warning people not to confuse one with the other",

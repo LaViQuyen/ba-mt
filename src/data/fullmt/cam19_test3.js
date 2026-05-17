@@ -1,7 +1,7 @@
 // src/data/fullmt/cam19_test3.js
 
 export const cam19_test3 = {
-  id: "full_cam19_t3",
+  id: "mt7",
   category: "full",
   testName: "MOCK TEST 7",
   description: "Đề thi thử đầy đủ 3 kỹ năng chuẩn (Listening, Reading, Writing).",
@@ -13,13 +13,13 @@ export const cam19_test3 = {
     listening: {
       audioSrc: "/audio/mt7.mp3",
       timeLimit: 1591,
-      passage: "<h3 style='text-align:center; color:#002554;'>CAMBRIDGE 19 - LISTENING TEST 3</h3>",
+      passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 7 - LISTENING SECTION</h3>",
       questions: [
         // --- PART 1: Questions 1-6 ---
         {
           "type": "gap",
           "title": "Part 1: Questions 1-6",
-          "instruction": "Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+          "instruction": "Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd; margin-bottom: 20px;">
                 <h3 style="margin-top:0;">Local food shops</h3>
@@ -61,7 +61,7 @@ export const cam19_test3 = {
         {
           "type": "gap",
           "title": "Questions 7-10",
-          "instruction": "Complete the table below. Write ONE WORD ONLY for each answer.",
+          "instruction": "Complete the table below. Write <strong>ONE WORD ONLY</strong> for each answer.",
           "htmlContent": `
             <div style="background:#fff; padding:20px; border:1px solid #ddd;">
                 <h3 style="text-align: center; margin-top:0; color: #002554;">Shopping</h3>
@@ -105,7 +105,7 @@ export const cam19_test3 = {
         {
           "type": "matching",
           "title": "Part 2: Questions 11-16",
-          "instruction": "What information is given about each of the following festival workshops? Choose SIX answers from the box and write the correct letter, A-H, next to Questions 11-16.",
+          "instruction": "What information is given about each of the following festival workshops? Choose <strong>SIX</strong> answers from the box and write the correct letter, <strong>A-H</strong>, next to Questions 11-16.",
           "options": [
             "A. involves painting and drawing",
             "B. will be led by a prize-winning author",
@@ -130,7 +130,7 @@ export const cam19_test3 = {
         {
           "type": "mcq_multi",
           "title": "Questions 17-18",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO reasons does the speaker give for recommending Alive and Kicking?",
           "options": [
             "A. It will appeal to both boys and girls.",
@@ -146,7 +146,7 @@ export const cam19_test3 = {
         {
           "type": "mcq_multi",
           "title": "Questions 19-20",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO pieces of advice does the speaker give to parents about reading?",
           "options": [
             "A. Encourage children to write down new vocabulary.",
@@ -164,7 +164,7 @@ export const cam19_test3 = {
         {
           "type": "mcq_single",
           "title": "Part 3: Questions 21-25",
-          "instruction": "Choose the correct letter, A, B or C.",
+          "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "items": [
             {
               "qNum": 21,
@@ -223,7 +223,7 @@ export const cam19_test3 = {
         {
           "type": "gap",
           "title": "Questions 26-30",
-          "instruction": "Complete the flowchart below. Choose FIVE answers from the box and select the correct letter, A-H, next to Questions 26-30.",
+          "instruction": "Complete the flowchart below. Choose <strong>FIVE</strong> answers from the box and select the correct letter, <strong>A-H</strong>, next to Questions 26-30.",
           "htmlContent": `
             <div style="background:#fff; padding:20px; border:1px solid #ccc; max-width: 800px; margin: 0 auto;">
                 <div style="border: 2px solid #333; padding: 15px; margin-bottom: 30px; background: #fdfdfd;">
@@ -278,7 +278,7 @@ export const cam19_test3 = {
         {
           "type": "gap",
           "title": "Part 4: Questions 31-40",
-          "instruction": "Complete the notes below. Write ONE WORD ONLY for each answer.",
+          "instruction": "Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="text-align:center; margin-top:0;">Microplastics</h3>
@@ -434,7 +434,7 @@ export const cam19_test3 = {
         {
           "type": "gap",
           "title": "Questions 8-13",
-          "instruction": "Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Archaeological findings on Obi</h3>
@@ -472,7 +472,7 @@ export const cam19_test3 = {
         {
           "type": "matching_info",
           "title": "Questions 14-17",
-          "instruction": "Reading Passage 2 has eight paragraphs, A-H. Which paragraph contains the following information?",
+          "instruction": "Reading Passage 2 has eight paragraphs, <strong>A-H</strong>. Which paragraph contains the following information?",
           "options": ["A", "B", "C", "D", "E", "F", "G", "H"],
           "items": [
             { "qNum": 14, "text": "reference to the need to ensure that inhabitants of wetland regions continue to benefit from them", "answer": "G" },
@@ -484,9 +484,9 @@ export const cam19_test3 = {
         {
           "type": "gap",
           "title": "Questions 18-22",
-          "instruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
-            <div style="padding:10px;">
+            <div style="background:#f9f9f9; padding:20px; border-radius:8px;">
                 <p>18. Peatlands which have been drained begin to release <span class="q-badge-inline">18</span><input type="text" class="gap-input" data-qnum="18" id="input-18"> instead of storing it.</p>
                 <p>19. Once peatland areas have been cleared, <span class="q-badge-inline">19</span><input type="text" class="gap-input" data-qnum="19" id="input-19"> are more likely to occur.</p>
                 <p>20. Clearing peatland forests to make way for oil palm plantations destroys the <span class="q-badge-inline">20</span><input type="text" class="gap-input" data-qnum="20" id="input-20"> of the local environment.</p>
@@ -505,7 +505,7 @@ export const cam19_test3 = {
         {
           "type": "matching",
           "title": "Questions 23-26",
-          "instruction": "Match each statement with the correct expert, A-D.",
+          "instruction": "Match each statement with the correct expert, <strong>A-D</strong>.",
           "options": [
             "A. Matthew McCartney",
             "B. Pieter van Eijk",
@@ -524,7 +524,7 @@ export const cam19_test3 = {
         {
           "type": "mcq_single",
           "title": "Questions 27-30",
-          "instruction": "Choose the correct letter, A, B, C or D.",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "items": [
             {
               "qNum": 27,
@@ -575,7 +575,7 @@ export const cam19_test3 = {
         {
           "type": "matching",
           "title": "Questions 31-34",
-          "instruction": "Complete each sentence with the correct ending, A-F, below.",
+          "instruction": "Complete each sentence with the correct ending, <strong>A-F</strong>, below.",
           "options": [
             "A. but there are concerns about this.",
             "B. as systems do not need to conform to standard practices.",

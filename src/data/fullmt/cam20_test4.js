@@ -1,7 +1,7 @@
 // src/data/fullmt/cam20_test4.js
 
 export const cam20_test4 = {
-  id: "full_cam20_t4",
+  id: "mt4",
   category: "full",
   testName: "MOCK TEST 4",
   description: "Đề thi thử đầy đủ 3 kỹ năng chuẩn (Listening, Reading, Writing).",
@@ -19,7 +19,7 @@ export const cam20_test4 = {
         {
           "type": "gap",
           "title": "Part 1: Questions 1-10",
-          "instruction": "Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
+          "instruction": "Complete the notes below. <strong>Write ONE WORD AND/OR A NUMBER</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Advice on family visit</h3>
@@ -86,7 +86,7 @@ export const cam20_test4 = {
         {
           "type": "mcq_multi",
           "title": "Part 2: Questions 11 and 12",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO things does the speaker say about visiting the football stadium with children?",
           "options": [
             "A. Children can get their photo taken with a football player.",
@@ -102,7 +102,7 @@ export const cam20_test4 = {
         {
           "type": "mcq_multi",
           "title": "Questions 13 and 14",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
           "stem": "Which TWO features of the stadium tour are new this year?",
           "options": [
             "A. VIP tour",
@@ -146,7 +146,7 @@ export const cam20_test4 = {
           "type": "mcq_multi",
           "title": "Part 3: Questions 21 and 22",
           "instruction": "Choose TWO letters, A-E.",
-          "stem": "Which TWO benefits for children of learning to write did both students find surprising?",
+          "stem": "Which <strong>TWO</strong> benefits for children of learning to write did both students find surprising?",
           "options": [
             "A. improved fine motor skills",
             "B. improved memory",
@@ -161,7 +161,7 @@ export const cam20_test4 = {
         {
           "type": "mcq_multi",
           "title": "Questions 23 and 24",
-          "instruction": "Choose TWO letters, A-E.",
+          "instruction": "Choose <strong>TWO</strong> letters, A-E.",
           "stem": "For children with dyspraxia, which TWO problems with handwriting do the students think are easiest to correct?",
           "options": [
             "A. not spacing letters correctly",
@@ -248,7 +248,7 @@ export const cam20_test4 = {
         {
           "type": "gap",
           "title": "Part 4: Questions 31-40",
-          "instruction": "Complete the notes below. Write ONE WORD ONLY for each answer.",
+          "instruction": "Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="text-align:center; margin-top:0;">Research in the area around the Chembe Bird Sanctuary</h3>
@@ -386,7 +386,7 @@ export const cam20_test4 = {
         {
           "type": "gap",
           "title": "Questions 1-7",
-          "instruction": "Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">The life and work of Georgia O'Keeffe</h3>
@@ -441,7 +441,7 @@ export const cam20_test4 = {
         {
           "type": "gap",
           "title": "Questions 18-22",
-          "instruction": "Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the sentences below. Choose <strong>ONE WORD ONLY  </strong> from the passage for each answer.",
           "htmlContent": `
             <div style="padding:10px;">
                 <p>18. The stormwater-management programme in Miami Beach has involved the installation of efficient <span class="q-badge-inline">18</span><input type="text" class="gap-input" data-qnum="18" id="input-18">.</p>
@@ -462,7 +462,7 @@ export const cam20_test4 = {
         {
           "type": "matching",
           "title": "Questions 23-26",
-          "instruction": "Match each statement with the correct person, A-E.",
+          "instruction": "Match each statement with the correct person, <strong>A-E</strong>.",
           "options": [
             "A. Yanira Pineda",
             "B. Susanna Toi",
@@ -482,7 +482,7 @@ export const cam20_test4 = {
         {
           "type": "matching",
           "title": "Questions 27-31",
-          "instruction": "Reading Passage 3 has seven paragraphs, A-G. Which paragraph contains the following information?",
+          "instruction": "Reading Passage 3 has seven paragraphs, A-G. Which paragraph contains the following information?<br><br><strong>NB</strong> You may use any letter more than once.",
           "options": ["A", "B", "C", "D", "E", "F", "G"],
           "items": [
             { "qNum": 27, "text": "an example of how one predator has been protected by the introduction of livestock guard dogs", "answer": "D" },
@@ -495,7 +495,7 @@ export const cam20_test4 = {
         {
           "type": "matching",
           "title": "Questions 32-36",
-          "instruction": "Match each statement with the correct person, A-E.",
+          "instruction": "Match each statement with the correct person, <strong>A-E</strong>.",
           "options": [
             "A. Dan Macon",
             "B. Silvia Ribeiro",
@@ -514,7 +514,7 @@ export const cam20_test4 = {
         {
           "type": "gap",
           "title": "Questions 37-40",
-          "instruction": "Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.",
+          "instruction": "Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
                 <h3 style="margin-top:0;">Unintended ecological effects of using guard dogs</h3>

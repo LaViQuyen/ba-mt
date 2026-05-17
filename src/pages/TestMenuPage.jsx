@@ -9,19 +9,13 @@ export default function TestMenuPage() {
   if (!testData) return <div className="container">❌ Không tìm thấy đề thi!</div>;
 
   return (
-    <div className="container" style={{
-        minHeight: '80vh', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center',
-        padding: '20px'
-    }}>
+    <div className="test-menu-container">
         
-      <div style={{marginBottom: 30, textAlign: 'center'}}>
-        <h1 style={{color: '#002554', fontSize: '2.2rem', margin: '0 0 10px 0', fontWeight: 800}}>
+      <div className="test-info-header">
+        <h1 className="test-title">
           {testData.testName}
         </h1>
-        <p style={{color: '#666', margin: 0}}>Chọn kỹ năng bạn muốn thực hành</p>
+        <p className="test-subtitle">Chọn kỹ năng bạn muốn thực hành</p>
       </div>
 
       <div className="test-menu-grid">
@@ -32,16 +26,15 @@ export default function TestMenuPage() {
                 <div className="skill-card-icon">
                     <i className="fa-solid fa-headphones"></i>
                 </div>
-                {/* Gom Text và Nút vào chung 1 div để dễ căn chỉnh */}
                 <div className="card-content-group">
                     <div className="skill-card-title">Listening</div>
                     <div className="skill-card-desc">
                         4 Parts • 40 Questions<br/>
                         Includes audio playback.
                     </div>
-                    {/* Nút Start nằm ở đây */}
+                    {/* Nút Start - Trên mobile sẽ biến thành mũi tên nhỏ gọn */}
                     <div className="skill-card-btn">
-                        Start Listening <i className="fa-solid fa-arrow-right"></i>
+                        Start <span className="desktop-text">Listening</span> <i className="fa-solid fa-arrow-right"></i>
                     </div>
                 </div>
             </div>
@@ -60,7 +53,7 @@ export default function TestMenuPage() {
                         Features highlighting tools.
                     </div>
                     <div className="skill-card-btn">
-                        Start Reading <i className="fa-solid fa-arrow-right"></i>
+                        Start <span className="desktop-text">Reading</span> <i className="fa-solid fa-arrow-right"></i>
                     </div>
                 </div>
             </div>
@@ -79,7 +72,7 @@ export default function TestMenuPage() {
                         AI grading assistance.
                     </div>
                     <div className="skill-card-btn">
-                        Start Writing <i className="fa-solid fa-arrow-right"></i>
+                        Start <span className="desktop-text">Writing</span> <i className="fa-solid fa-arrow-right"></i>
                     </div>
                 </div>
             </div>

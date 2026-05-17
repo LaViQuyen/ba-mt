@@ -1,4 +1,9 @@
 {
+  "projects": {
+    "prod": "beablevn-ielts"
+  },
+  "targets": {},
+  "etags": {},
   "hosting": {
     "public": "dist",
     "ignore": [
