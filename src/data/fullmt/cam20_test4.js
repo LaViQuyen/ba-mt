@@ -11,7 +11,7 @@ export const cam20_test4 = {
     // PHẦN LISTENING
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt4.mp3", // ⚠️ Đổi tên file audio thật của bạn
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt4.mp3?alt=media&token=09bed7dd-3e55-46f2-a230-7dc90fbaf5f6", // ⚠️ Đổi tên file audio thật của bạn
       timeLimit: 1872, // 30 phút
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 4 - LISTENING SECTION</h3>",
       questions: [

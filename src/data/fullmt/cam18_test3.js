@@ -11,8 +11,8 @@ export const cam18_test3 = {
     // PHẦN LISTENING (Trang 55 - 60 PDF)
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/m11.mp3", // Bạn nhớ kiểm tra file âm thanh
-      timeLimit: 1800, // 30 phút
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt11.mp3?alt=media&token=2f8e178d-33d9-463a-8d35-c080ce1fe55f", // Bạn nhớ kiểm tra file âm thanh
+      timeLimit: 1710, // 30 phút
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 11 - LISTENING SECTION</h3>",
       questions: [
         // --- PART 1: Questions 1-6 (Notes) ---

@@ -11,7 +11,7 @@ export const cam18_test1 = {
     // PHẦN LISTENING (Trang 10 - 15 PDF)
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt9.mp3", // Bạn cần file mp3 tương ứng
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt9.mp3?alt=media&token=e0ef5415-0d02-4e79-b0be-9f7651f43fde", // Bạn cần file mp3 tương ứng
       timeLimit: 1695, // 30 phút
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 9 - LISTENING SECTION</h3>",
       questions: [

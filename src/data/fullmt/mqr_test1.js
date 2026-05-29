@@ -11,7 +11,7 @@ export const mqr_test1 = {
         // PHẦN LISTENING
         // ==========================================================================
         listening: {
-            audioSrc: "/audio/mqr1.mp3", // Vui lòng cung cấp file audio thích hợp
+            audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmqr1.mp3?alt=media&token=b0a1e2de-57d0-4f5b-b64d-33e5a2ab33eb", // Vui lòng cung cấp file audio thích hợp
             timeLimit: 1911,
             passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST MQR - LISTENING SECTION</h3>",
             questions: [

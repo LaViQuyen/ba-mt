@@ -1,13 +1,65 @@
 // src/pages/TestMenuPage.jsx
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { allTests } from '../data/index';
+
+// 👉 1. IMPORT FIREBASE
+import { ref, get, child } from "firebase/database";
+import { db } from '../firebase';
 
 export default function TestMenuPage() {
   const { testId } = useParams();
-  const testData = allTests.find(t => t.id === testId);
+  
+  // 👉 2. KHAI BÁO STATE
+  const [testData, setTestData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!testData) return <div className="container">❌ Không tìm thấy đề thi!</div>;
+  // 👉 3. GỌI DỮ LIỆU TỪ FIREBASE DỰA VÀO TEST ID
+  useEffect(() => {
+    const fetchTestInfo = async () => {
+      try {
+        const dbRef = ref(db);
+        // Chui thẳng vào thư mục mockTests và tìm đề có ID tương ứng
+        const snapshot = await get(child(dbRef, `mockTests/${testId}`));
+        
+        if (snapshot.exists()) {
+          setTestData(snapshot.val());
+        } else {
+          setTestData(null);
+        }
+      } catch (error) {
+        console.error("Lỗi tải thông tin đề thi:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchTestInfo();
+  }, [testId]);
+
+  // 👉 4. XỬ LÝ MÀN HÌNH CHỜ (LOADING)
+  if (loading) {
+    return (
+      <div style={{ width: '100%', textAlign: 'center', padding: '80px 20px', color: '#002554' }}>
+          <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2.5rem', marginBottom: '15px' }}></i>
+          <h3 style={{ margin: 0 }}>Đang tải thông tin đề thi...</h3>
+          <p style={{ color: '#666' }}>Vui lòng chờ trong giây lát</p>
+      </div>
+    );
+  }
+
+  // NẾU KHÔNG TÌM THẤY ĐỀ
+  if (!testData) {
+    return (
+      <div className="test-menu-container" style={{ textAlign: 'center', padding: '80px 20px' }}>
+        <i className="fa-regular fa-face-frown" style={{ fontSize: '4rem', color: '#ef4444', marginBottom: '20px' }}></i>
+        <h2 style={{ color: '#002554' }}>❌ Không tìm thấy đề thi!</h2>
+        <p style={{ color: '#666', marginBottom: '20px' }}>Đề thi này không tồn tại hoặc đã bị gỡ bỏ.</p>
+        <Link to="/dashboard" style={{ background: '#002554', color: 'white', padding: '10px 20px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold' }}>Quay lại Trang chủ</Link>
+      </div>
+    );
+  }
+
+  // 👉 HIỂN THỊ GIAO DIỆN CHỌN KỸ NĂNG NHƯ CŨ
   return (
     <div className="test-menu-container">
         

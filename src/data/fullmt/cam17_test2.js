@@ -11,7 +11,7 @@ export const cam17_test2 = {
     // PHẦN LISTENING (Trang 31 - 36 PDF) - Đáp án trang 121
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt14.mp3", // Bạn cần file mp3 này
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt14.mp3?alt=media&token=e3b2c1db-e367-4811-9caa-a0feef6006b0", // Bạn cần file mp3 này
       timeLimit: 1721, 
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 14 - LISTENING SECTION</h3>",
       questions: [

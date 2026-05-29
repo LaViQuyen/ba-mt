@@ -1,18 +1,15 @@
 // src/pages/WritingTestPage.jsx
-import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { task1Library, task2Library } from '../data/writing_library';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { generateContentWithRotation } from '../utils/geminiHelper';
 import emailjs from '@emailjs/browser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import parse from 'html-react-parser';
 
-// 👉 THÊM IMPORT FIREBASE
-import { ref, push, set } from "firebase/database";
+import { ref, push, set, get, child, update } from "firebase/database";
 import { db } from '../firebase';
 
-// --- CẤU HÌNH ---
 const EMAIL_SERVICE_ID = "service_gvlyalu";
 const EMAIL_TEMPLATE_ID = "template_h4voh6v";
 const EMAIL_PUBLIC_KEY = "Tq7e72DxJoSIlhIU4";
@@ -20,24 +17,29 @@ const EMAIL_PUBLIC_KEY = "Tq7e72DxJoSIlhIU4";
 export default function WritingTestPage() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    
+    // 👉 ĐỌC ID TỪ TRÊN THANH URL (Do Review Hub đẩy sang)
+    const { id: urlId } = useParams(); 
 
-    // 1. LẤY THAM SỐ
-    const t1Id = searchParams.get('t1');
-    const t2Id = searchParams.get('t2');
-    const mode = searchParams.get('mode');
+    // 1. LOGIC LẤY ID THÔNG MINH
+    const isUrlTask2 = urlId && urlId.startsWith('t2');
+    const t1Id = urlId ? (!isUrlTask2 ? urlId : null) : searchParams.get('t1');
+    const t2Id = urlId ? (isUrlTask2 ? urlId : null) : searchParams.get('t2');
+    const mode = urlId ? (isUrlTask2 ? 'task2' : 'task1') : searchParams.get('mode');
 
-    // 2. STATE
+    // 2. STATE DỮ LIỆU CƠ BẢN
     const [activeTask, setActiveTask] = useState(mode === 'task2' ? 'task2' : 'task1');
     const [task1Data, setTask1Data] = useState(null);
     const [task2Data, setTask2Data] = useState(null);
+    const [loadingData, setLoadingData] = useState(true);
+
+    // 👉 STATE CHO TÍNH NĂNG BÁO LỖI VÀ ĐIỀU HƯỚNG
+    const userRole = localStorage.getItem('currentUserRole') || 'normal';
+    const [showBugModal, setShowBugModal] = useState(false);
+    const [bugNote, setBugNote] = useState('');
+
     const testSaveKey = useMemo(() => `ielts_writing_save_${mode}_${t1Id || 'x'}_${t2Id || 'x'}`, [mode, t1Id, t2Id]);
     const timeSaveKey = useMemo(() => `ielts_writing_time_${mode}_${t1Id || 'x'}_${t2Id || 'x'}`, [mode, t1Id, t2Id]);
-
-    const [answers, setAnswers] = useState(() => {
-        const savedAnswers = localStorage.getItem(testSaveKey);
-        if (savedAnswers) { try { return JSON.parse(savedAnswers); } catch (e) { return { task1: "", task2: "" }; } }
-        return { task1: "", task2: "" }; 
-    });
 
     const initialTime = useMemo(() => {
         if (mode === 'task1') return 20 * 60;
@@ -45,11 +47,9 @@ export default function WritingTestPage() {
         return 60 * 60;
     }, [mode]);
 
-    const [timeLeft, setTimeLeft] = useState(() => {
-        const savedTime = localStorage.getItem(timeSaveKey);
-        if (savedTime && !isNaN(savedTime)) { return parseInt(savedTime, 10); }
-        return initialTime; 
-    });
+    const [answers, setAnswers] = useState({ task1: "", task2: "" });
+    const [timeLeft, setTimeLeft] = useState(initialTime);
+    const [isRestored, setIsRestored] = useState(false);
     
     const [isTestStarted, setIsTestStarted] = useState(true);
     const [studentId, setStudentId] = useState("");
@@ -61,78 +61,16 @@ export default function WritingTestPage() {
     const [aiResultTask1, setAiResultTask1] = useState(null);
     const [aiResultTask2, setAiResultTask2] = useState(null);
 
-    useEffect(() => { localStorage.setItem(testSaveKey, JSON.stringify(answers)); }, [answers, testSaveKey]);
-    useEffect(() => { localStorage.setItem(timeSaveKey, timeLeft.toString()); }, [timeLeft, timeSaveKey]);
+    // 👉 TẠO CÁC REF ĐỂ ĐỒNG BỘ DỮ LIỆU ĐÁM MÂY CHUẨN XÁC
+    const answersRef = useRef(answers);
+    useEffect(() => { answersRef.current = answers; }, [answers]);
 
-    useEffect(() => {
-        const storedId = localStorage.getItem("currentStudentId");
-        const storedName = localStorage.getItem("currentStudentName");
-        const displayName = storedName ? `${storedName} (ID: ${storedId})` : (storedId || "Guest");
-        setStudentId(displayName);
-        emailjs.init(EMAIL_PUBLIC_KEY);
+    const timeLeftRef = useRef(timeLeft);
+    useEffect(() => { timeLeftRef.current = timeLeft; }, [timeLeft]);
 
-        if (t1Id) setTask1Data(task1Library.find(t => t.id === t1Id));
-        if (t2Id) setTask2Data(task2Library.find(t => t.id === t2Id));
-    }, [t1Id, t2Id]);
-
-    useEffect(() => {
-        let timer = null;
-        if (isTestStarted && timeLeft > 0) {
-            timer = setInterval(() => {
-                setTimeLeft(prev => {
-                    if (prev <= 1) { clearInterval(timer); handleRealSubmit(); return 0; }
-                    return prev - 1;
-                });
-            }, 1000);
-        }
-        return () => clearInterval(timer);
-    }, [isTestStarted, timeLeft]);
-
-    // 👉 HÀM LƯU LỊCH SỬ LÊN FIREBASE
-    const saveToHistory = async (bandScore, t1Band, t2Band) => {
-        const studentId = localStorage.getItem("currentStudentId") || "Guest";
-        const studentName = localStorage.getItem("currentStudentName") || "Học viên";
-        
-        let customTestName = "Writing Practice";
-        const getT1Name = () => { const idx = task1Library.findIndex(t => t.id === t1Id); return idx !== -1 ? `Task 1 (Đề ${idx + 1})` : 'Task 1'; };
-        const getT2Name = () => { const idx = task2Library.findIndex(t => t.id === t2Id); return idx !== -1 ? `Task 2 (Đề ${idx + 1})` : 'Task 2'; };
-
-        if (mode === 'full') { customTestName = `${getT1Name()} & ${getT2Name()}`; } 
-        else if (mode === 'task1') { customTestName = getT1Name(); } 
-        else if (mode === 'task2') { customTestName = getT2Name(); }
-
-        const record = {
-            id: Date.now(),
-            type: 'writing',
-            date: new Date().toISOString(),
-            studentId,
-            studentName,
-            testId: mode === 'full' ? `${t1Id}_${t2Id}` : (t1Id || t2Id),
-            testName: customTestName, 
-            skill: mode === 'task1' ? 'TASK 1' : mode === 'task2' ? 'TASK 2' : 'FULL TEST',
-            band: `${bandScore}`,
-            t1Band: t1Band, 
-            t2Band: t2Band  
-        };
-
-        if (studentId === "Guest") {
-            const history = JSON.parse(localStorage.getItem("ielts_history") || "[]");
-            history.push(record);
-            localStorage.setItem("ielts_history", JSON.stringify(history));
-        } else {
-            try {
-                const historyRef = ref(db, `history/${studentId}`);
-                const newRecordRef = push(historyRef);
-                await set(newRecordRef, record);
-            } catch (error) {
-                console.error("Lỗi Firebase:", error);
-                toast.error("Cloud Error: Lưu tạm vào máy.");
-                const history = JSON.parse(localStorage.getItem("ielts_history") || "[]");
-                history.push(record);
-                localStorage.setItem("ielts_history", JSON.stringify(history));
-            }
-        }
-    };
+    // =========================================================
+    // 🛠️ KHU VỰC CÁC HÀM XỬ LÝ (ĐƯỢC ĐƯA LÊN TRÊN ĐỂ TRÁNH LỖI HOISTING)
+    // =========================================================
 
     const formatTime = (seconds) => {
         const h = Math.floor(seconds / 3600); const m = Math.floor((seconds % 3600) / 60); const s = seconds % 60;
@@ -141,9 +79,72 @@ export default function WritingTestPage() {
 
     const renderHTML = (text) => parse((text || "").replace(/\n/g, '<br/>'));
 
+    const handleReportBug = async () => {
+        if (!bugNote.trim()) { toast.warning("⚠️ Vui lòng nhập chi tiết lỗi!"); return; }
+        try {
+            const currentId = t1Id || t2Id;
+            if (!currentId) return;
+
+            const dbRef = ref(db);
+            const testSnap = await get(child(dbRef, `writingLibrary/${currentId}`));
+
+            if (testSnap.exists()) {
+                const data = testSnap.val();
+                const existingNotes = data.bugNotes || "";
+                const timestamp = new Date().toLocaleString('vi-VN');
+                const newNoteEntry = `[${timestamp}] - WRITING: ${bugNote.trim()}`;
+                const updatedNotes = existingNotes ? `${existingNotes}\n\n${newNoteEntry}` : newNoteEntry;
+
+                await update(ref(db, `writingLibrary/${currentId}`), {
+                    status: 'reported',
+                    bugNotes: updatedNotes
+                });
+
+                toast.success("🐞 Đã ghi nhận lỗi! Đề thi đã bị đưa vào trạm xử lý.");
+                setShowBugModal(false);
+                setBugNote('');
+                if (userRole === 'private') {
+                    navigate('/review-hub', { state: { tab: 'writing' } });
+                }
+            }
+        } catch (error) { toast.error("❌ Lỗi khi gửi báo cáo: " + error.message); }
+    };
+
+    const saveToHistory = async (bandScore, t1Band, t2Band) => {
+        const studentId = localStorage.getItem("currentStudentId") || "Guest";
+        const studentName = localStorage.getItem("currentStudentName") || "Học viên";
+        
+        let customTestName = "Writing Practice";
+        const getT1Name = () => task1Data ? `Task 1 (${t1Id})` : 'Task 1';
+        const getT2Name = () => task2Data ? `Task 2 (${t2Id})` : 'Task 2';
+
+        if (mode === 'full') { customTestName = `${getT1Name()} & ${getT2Name()}`; } 
+        else if (mode === 'task1') { customTestName = getT1Name(); } 
+        else if (mode === 'task2') { customTestName = getT2Name(); }
+
+        const record = {
+            id: Date.now(), type: 'writing', date: new Date().toISOString(), studentId, studentName,
+            testId: mode === 'full' ? `${t1Id}_${t2Id}` : (t1Id || t2Id), testName: customTestName, 
+            skill: mode === 'task1' ? 'TASK 1' : mode === 'task2' ? 'TASK 2' : 'FULL TEST',
+            band: `${bandScore}`, t1Band: t1Band, t2Band: t2Band  
+        };
+
+        if (studentId === "Guest") {
+            const history = JSON.parse(localStorage.getItem("ielts_history") || "[]");
+            history.push(record); localStorage.setItem("ielts_history", JSON.stringify(history));
+        } else {
+            try {
+                await set(push(ref(db, `history/${studentId}`)), record);
+            } catch (error) {
+                console.error("Lỗi Firebase:", error);
+                const history = JSON.parse(localStorage.getItem("ielts_history") || "[]");
+                history.push(record); localStorage.setItem("ielts_history", JSON.stringify(history));
+            }
+        }
+    };
+
     const gradeSingleTask = async (taskKey, essayContent, promptText) => {
         if (!essayContent || essayContent.length < 10) return null;
-
         const taskCriterion = taskKey === 'task1' ? "TA" : "TR";
         const cleanQuestion = (promptText || "No prompt").replace(/<[^>]*>?/gm, '');
 
@@ -161,35 +162,30 @@ export default function WritingTestPage() {
 
             if (taskKey === 'task1' && cr.TR) { cr.TA = cr.TR; delete cr.TR; }
             if (taskKey === 'task2' && cr.TA) { cr.TR = cr.TA; delete cr.TA; }
-
             return scoreData;
-
-        } catch (e) { toast.error(`Chi tiết lỗi ${taskKey}: ${e.message}`, { autoClose: 5000 }); return null; }
+        } catch (e) { toast.error(`Chi tiết lỗi ${taskKey}: ${e.message}`); return null; }
     };
 
     const handleAiGrade = async () => {
         const t1 = answers?.task1 || ""; const t2 = answers?.task2 || "";
         const hasT1 = task1Data && t1.length > 20; const hasT2 = task2Data && t2.length > 20;
 
-        if (!hasT1 && !hasT2) { toast.warning("⚠️ Bài làm quá ngắn để chấm điểm (cần > 20 ký tự)."); return; }
+        if (!hasT1 && !hasT2) { toast.warning("⚠️ Bài làm quá ngắn để chấm điểm."); return; }
         setIsGrading(true); toast.info("🤖 Đang gửi bài cho AI...");
 
         try {
             let isSuccess = false;
             if (hasT1) {
-                const promptT1 = task1Data?.title || task1Data?.prompt || task1Data?.question || "";
+                const promptT1 = task1Data?.title || task1Data?.prompt || "";
                 const res1 = await gradeSingleTask('task1', t1, promptT1);
                 if (res1) { setAiResultTask1(res1); isSuccess = true; }
             }
-
             if (hasT1 && hasT2) { await new Promise(resolve => setTimeout(resolve, 2500)); }
-
             if (hasT2) {
-                const promptT2 = task2Data?.question || task2Data?.prompt || task2Data?.title || "";
+                const promptT2 = task2Data?.question || task2Data?.prompt || "";
                 const res2 = await gradeSingleTask('task2', t2, promptT2);
                 if (res2) { setAiResultTask2(res2); isSuccess = true; }
             }
-
             if (isSuccess) { toast.success("✅ Đã hoàn tất chấm điểm!"); } else { toast.error("❌ Hệ thống chấm điểm thất bại."); }
         } catch (error) { toast.error("❌ Lỗi hệ thống: " + error.message); } finally { setIsGrading(false); }
     };
@@ -209,13 +205,12 @@ export default function WritingTestPage() {
 
     const handlePreSubmit = () => { setShowConfirmModal(true); };
 
-    // 👉 THÊM ASYNC VÀO ĐÂY
     const handleRealSubmit = async () => {
         setShowConfirmModal(false); setIsSubmitting(true);
 
         let overallText = "N/A";
         let t1Band = aiResultTask1 ? aiResultTask1.band : "N/A";
-        let t2Band = aiResultTask2 ? aiResultTask2.band : "N/A";
+        let t2Band = aiResultTask2 ? aiResultTask2.band : "N/A";        
 
         if (aiResultTask1 && aiResultTask2) {
             const b1 = parseFloat(aiResultTask1.band || 0); const b2 = parseFloat(aiResultTask2.band || 0);
@@ -223,7 +218,6 @@ export default function WritingTestPage() {
         } else if (aiResultTask1) overallText = aiResultTask1.band;
         else if (aiResultTask2) overallText = aiResultTask2.band;
 
-        // 👉 ĐỢI LƯU FIREBASE XONG THÌ MỚI ĐI TIẾP
         await saveToHistory(overallText, t1Band, t2Band);
         
         const m = Math.floor((initialTime - timeLeft) / 60); const s = (initialTime - timeLeft) % 60;
@@ -234,13 +228,149 @@ export default function WritingTestPage() {
         };
 
         emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, templateParams)
-            .then(() => {
+            .then(async () => {
                 localStorage.removeItem(testSaveKey); localStorage.removeItem(timeSaveKey);
+                const sId = localStorage.getItem("currentStudentId");
+                if (sId && sId !== "Guest") {
+                    try { await update(ref(db, `drafts/${sId}/writing`), { [`${t1Id || 'x'}_${t2Id || 'x'}`]: null }); } 
+                    catch (e) { console.error(e); }
+                }
+
                 toast.success("🎉 Nộp bài thành công!");
-                navigate('/writing-library'); 
-            })
-            .catch(() => { toast.error("❌ Gửi thất bại. Bài làm của bạn vẫn được lưu nháp."); setIsSubmitting(false); });
+                if (userRole === 'private') { navigate('/review-hub', { state: { tab: 'writing' } }); } 
+                else { navigate('/writing-library'); }
+            }).catch(() => { setIsSubmitting(false); });
     };
+
+    // =========================================================
+    // 📡 KHU VỰC HOOKS EFFECT (LẬP ĐƯỜNG TRUYỀN DỮ LIỆU)
+    // =========================================================
+
+    // 👉 3. KÉO DỮ LIỆU TỪ FIREBASE & KHÔI PHỤC BẢN NHÁP (CÓ BẢO VỆ TRY-CATCH)
+    useEffect(() => {
+        const fetchWritingTasksAndDrafts = async () => {
+            const currentStudentId = localStorage.getItem("currentStudentId") || "Guest";
+            try {
+                const dbRef = ref(db);
+                let t1 = null, t2 = null;
+
+                if (t1Id) { const snap1 = await get(child(dbRef, `writingLibrary/${t1Id}`)); if (snap1.exists()) t1 = snap1.val(); }
+                if (t2Id) { const snap2 = await get(child(dbRef, `writingLibrary/${t2Id}`)); if (snap2.exists()) t2 = snap2.val(); }
+                setTask1Data(t1); setTask2Data(t2);
+
+                // 🔥 LOGIC KHÔI PHỤC AN TOÀN CHỐNG CRASH
+                const localAns = localStorage.getItem(testSaveKey);
+                const localTime = localStorage.getItem(timeSaveKey);
+
+                if (localAns && localTime) {
+                    try {
+                        setAnswers(JSON.parse(localAns));
+                        setTimeLeft(parseInt(localTime, 10));
+                    } catch (e) {
+                        setAnswers({ task1: "", task2: "" });
+                        setTimeLeft(initialTime);
+                    }
+                    setIsRestored(true);
+                } else if (currentStudentId !== "Guest") {
+                    const draftSnap = await get(child(dbRef, `drafts/${currentStudentId}/writing/${t1Id || 'x'}_${t2Id || 'x'}`));
+                    if (draftSnap.exists()) {
+                        const draftData = draftSnap.val();
+                        setAnswers(draftData.answers || { task1: "", task2: "" });
+                        setTimeLeft(draftData.timeLeft || initialTime);
+                        localStorage.setItem(testSaveKey, JSON.stringify(draftData.answers || { task1: "", task2: "" }));
+                        localStorage.setItem(timeSaveKey, (draftData.timeLeft || initialTime).toString());
+                    } else {
+                        setTimeLeft(initialTime);
+                    }
+                    setIsRestored(true);
+                } else {
+                    setTimeLeft(initialTime);
+                    setIsRestored(false);
+                }
+            } catch (error) {
+                console.error("Lỗi tải đề Writing:", error);
+                toast.error("Không thể kết nối tải đề thi.");
+            } finally {
+                setLoadingData(false);
+            }
+        };
+
+        const storedId = localStorage.getItem("currentStudentId");
+        const storedName = localStorage.getItem("currentStudentName");
+        setStudentId(storedName ? `${storedName} (ID: ${storedId})` : (storedId || "Guest"));
+        emailjs.init(EMAIL_PUBLIC_KEY);
+
+        fetchWritingTasksAndDrafts();
+    }, [t1Id, t2Id, testSaveKey, timeSaveKey, initialTime]);
+
+    // 👉 ĐỒNG BỘ LOCAL LIÊN TỤC KHI GÕ
+    useEffect(() => {
+        if (!loadingData && isRestored) localStorage.setItem(testSaveKey, JSON.stringify(answers));
+    }, [answers, testSaveKey, loadingData, isRestored]);
+
+    useEffect(() => {
+        if (!loadingData && isRestored && timeLeft > 0) localStorage.setItem(timeSaveKey, timeLeft.toString());
+    }, [timeLeft, timeSaveKey, loadingData, isRestored]);
+
+    // 👉 AUTO-SAVE LÊN FIREBASE (RÚT NGẮN CÒN 5 GIÂY & KÍCH HOẠT LƯU NGAY PHÁT ĐẦU)
+    useEffect(() => {
+        const sId = localStorage.getItem("currentStudentId");
+        if (!sId || sId === "Guest" || loadingData || !isRestored || timeLeftRef.current <= 0) return;
+
+        const saveToCloud = async () => {
+            try {
+                await update(ref(db, `drafts/${sId}/writing/${t1Id || 'x'}_${t2Id || 'x'}`), {
+                    answers: answersRef.current, 
+                    timeLeft: timeLeftRef.current, 
+                    updatedAt: new Date().toISOString()
+                });
+                console.log("☁️ Backup Cloud Writing thành công.");
+            } catch (err) { console.error("Lỗi lưu nháp Cloud:", err); }
+        };
+
+        // 🔥 LỆNH THẦN THÁNH: Ghi nhận dữ liệu lên Firebase ngay lập tức khi vừa vào trang!
+        saveToCloud();
+
+        // Cứ mỗi 5 giây chạy ngầm một lần thay vì 20 giây quá lâu
+        const autoSaveInterval = setInterval(saveToCloud, 5000);
+
+        return () => clearInterval(autoSaveInterval);
+    }, [loadingData, isRestored, t1Id, t2Id]);
+
+    // 👉 4. TIMER ĐẾM NGƯỢC THỜI GIAN
+    useEffect(() => {
+        let timer = null;
+        if (isTestStarted && timeLeft > 0 && !loadingData) {
+            timer = setInterval(() => {
+                setTimeLeft(prev => {
+                    if (prev <= 1) { clearInterval(timer); handleRealSubmit(); return 0; }
+                    return prev - 1;
+                });
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [isTestStarted, timeLeft, loadingData]);
+
+    // 👉 5. HIỂN THỊ MÀN HÌNH LOADING
+    if (loadingData) {
+        return (
+            <div style={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#f4f7fc', color: '#002554', position: 'fixed', top: 0, left: 0, zIndex: 9999 }}>
+                <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '3.5rem', marginBottom: '20px' }}></i>
+                <h2 style={{ margin: 0 }}>Đang chuẩn bị đề Writing...</h2>
+                <p style={{ color: '#666', marginTop: '10px' }}>Vui lòng chờ trong giây lát</p>
+            </div>
+        );
+    }
+
+    if (!task1Data && !task2Data) {
+        return (
+            <div style={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#f4f7fc' }}>
+                <i className="fa-regular fa-face-frown" style={{ fontSize: '4rem', color: '#ef4444', marginBottom: '20px' }}></i>
+                <h2 style={{ color: '#002554' }}>❌ Lỗi tải đề thi!</h2>
+                <button onClick={() => navigate('/writing-library')} style={{ background: '#002554', color: 'white', padding: '10px 20px', borderRadius: '6px', border: 'none', cursor: 'pointer', marginTop: '15px' }}>Về thư viện Writing</button>
+            </div>
+        );
+    }
 
     return (
         <div className="test-page-layout">
@@ -250,8 +380,22 @@ export default function WritingTestPage() {
                 <div className="header-left"><img src="/images/logo.png" alt="Logo" className="test-logo" /></div>
                 <div className="header-center"><div className="timer-box"><i className="fa-regular fa-clock"></i> {formatTime(timeLeft)}</div></div>
                 <div className="header-right">
+                    {userRole === 'private' && (
+                        <button 
+                            onClick={() => setShowBugModal(true)}
+                            style={{
+                                background: '#ef4444', color: 'white', border: 'none',
+                                borderRadius: '6px', padding: '10px 15px', fontWeight: 'bold', fontSize: '0.9rem',
+                                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', transition: '0.2s'
+                            }}
+                            onMouseOver={(e) => e.currentTarget.style.background = '#dc2626'}
+                            onMouseOut={(e) => e.currentTarget.style.background = '#ef4444'}
+                        >
+                            <i className="fa-solid fa-bug"></i> BÁO LỖI
+                        </button>
+                    )}
                     <button className="btn-ai-header" onClick={handleAiGrade} disabled={isGrading || isSubmitting}><i className="fa-solid fa-wand-magic-sparkles"></i>{isGrading ? ' Grading...' : ' AI Grade'}</button>
-                    <button className="submit-btn" onClick={handlePreSubmit} disabled={isSubmitting}>SUBMIT WRITING</button>
+                    <button className="submit-btn" onClick={handlePreSubmit} disabled={isSubmitting}>SUBMIT WRITING</button>                   
                 </div>
             </div>
 
@@ -285,7 +429,7 @@ export default function WritingTestPage() {
                         </div>
 
                         <div className="w-right-pane">
-                            <textarea className="writing-textarea" placeholder={`Type your ${activeTask === 'task1' ? 'Task 1' : 'Task 2'} answer here...`} value={answers[activeTask]} onChange={(e) => setAnswers({ ...answers, [activeTask]: e.target.value })} />
+                            <textarea className="writing-textarea" placeholder={`Type your ${activeTask === 'task1' ? 'Task 1' : 'Task 2'} answer here...`} value={answers[activeTask] || ''} onChange={(e) => setAnswers({ ...answers, [activeTask]: e.target.value })} />
                             <div className="meta-row">Word Count: <strong>{(answers[activeTask] || "").split(/\s+/).filter(w => w.length > 0).length}</strong></div>
                             {(activeTask === 'task1' ? aiResultTask1 : aiResultTask2) && (
                                 <div className="grading-box">
@@ -317,8 +461,34 @@ export default function WritingTestPage() {
                 <div className="confirm-overlay" onClick={() => setShowConfirmModal(false)}>
                     <div className="confirm-box" onClick={(e) => e.stopPropagation()}>
                         <h3 className="confirm-title">Nộp bài thi?</h3>
-                        <p className="confirm-desc">Bạn có chắc chắn muốn nộp bài không?<br /><span style={{ fontSize: '0.9rem', color: '#d32f2f' }}>(Lưu ý: Nếu muốn có điểm chấm AI, hãy bấm nút "AI Grade" trước khi nộp)</span></p>
+                        <p className="confirm-desc">Bạn có chắc chắn muốn nộp bài không?<br /><span style={{ fontSize: '0.9rem', color: '#d32f2f' }}>(Lưu ý: If you want to get AI scores, press "AI Grade" before submitting)</span></p>
                         <div className="confirm-actions"><button className="btn-cancel" onClick={() => setShowConfirmModal(false)}>Hủy bỏ</button><button className="btn-confirm" onClick={handleRealSubmit}>Đồng ý Nộp</button></div>
+                    </div>
+                </div>
+            )}
+            {userRole === 'private' && showBugModal && (
+                <div className="modal-overlay" onClick={() => setShowBugModal(false)} style={{ zIndex: 9999 }}>
+                    <div className="modal-box" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '650px', padding: '30px' }}>
+                        <button className="close-modal" onClick={() => setShowBugModal(false)}>×</button>
+                        <h2 style={{ color: '#ef4444', marginTop: 0, borderBottom: '2px solid #fee2e2', paddingBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <i className="fa-solid fa-bug"></i> BÁO LỖI ĐỀ WRITING
+                        </h2>
+                        <p style={{ color: '#64748b', fontSize: '1rem', marginBottom: '20px' }}>
+                            Hệ thống sẽ cập nhật trạng thái đề thành <strong>Reported</strong>.
+                        </p>
+                        <textarea
+                            value={bugNote}
+                            onChange={(e) => setBugNote(e.target.value)}
+                            placeholder="Mô tả chi tiết lỗi bạn gặp ở đề này... (VD: Hình ảnh bị lỗi, sai chính tả...)"
+                            style={{ width: '100%', height: '150px', padding: '15px', borderRadius: '8px', border: '1px solid #cbd5e1', resize: 'vertical', marginBottom: '20px', fontFamily: 'inherit', fontSize: '1rem' }}
+                            autoFocus
+                        />
+                        <button
+                            onClick={handleReportBug}
+                            style={{ width: '100%', background: '#ef4444', color: 'white', border: 'none', padding: '15px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '1.1rem' }}
+                        >
+                            <i className="fa-solid fa-paper-plane"></i> GỬI BÁO CÁO LỖI
+                        </button>
                     </div>
                 </div>
             )}

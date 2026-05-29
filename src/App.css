@@ -367,6 +367,17 @@ a { text-decoration: none; }
   position: relative;
   animation: slideIn 0.3s ease-out;
 }
+/* Hộp "Bài thi đang làm" */
+.modal-box-test {
+  background: white;
+  padding: 30px;
+  width: 650px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-align: center;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
 
 @keyframes slideIn {
   from { transform: translateY(-20px); opacity: 0; }
@@ -1796,11 +1807,35 @@ a { text-decoration: none; }
 /* 2. MOBILE (Dưới 768px) - QUAN TRỌNG NHẤT */
 @media (max-width: 768px) {
   
-  /* --- FIX HEADER TRÊN MOBILE --- */
+ /* --- FIX HEADER TRÊN MOBILE (BẢN CẬP NHẬT CHUẨN) --- */
   .main-navbar {
     padding: 0 15px !important;
     height: 60px !important;
+    display: flex !important;
     justify-content: space-between !important;
+    align-items: center !important;
+    position: relative !important;
+  }
+  
+  /* Đẩy logo sang trái */
+  .nav-center-logo {
+    position: static !important; /* Hủy căn giữa tuyệt đối */
+    transform: none !important;
+  }
+  .nav-logo-img { height: 35px !important; }
+  
+  /* Khung chứa nút tài khoản góc phải: Giữ nguyên relative để menu bám theo chuẩn xác */
+  .nav-right-text {
+    position: relative !important; 
+    right: auto !important;
+    font-size: 1rem !important; /* Khôi phục font-size để icon hình người hiển thị rõ nét */
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  /* Ẩn dòng chữ "Xin chào..." trên điện thoại cho gọn, chỉ chừa lại nút bấm tròn tròn */
+  .nav-right-text span { 
+    display: none !important; 
   }
   
   /* Đẩy logo sang trái */
@@ -2182,3 +2217,4 @@ a { text-decoration: none; }
   .detailed-result-container { padding: 15px; }
   .result-grid { grid-template-columns: repeat(2, 1fr); /* Mobile chia 2 cột */ }
 }
+

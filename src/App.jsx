@@ -9,14 +9,13 @@ import TestMenuPage from './pages/TestMenuPage';
 import WritingLibraryPage from './pages/WritingLibraryPage';
 import WritingTestPage from './pages/WritingTestPage';
 import TestHistoryPage from './pages/TestHistoryPage'; 
-
+import ReviewHubPage from './pages/ReviewHubPage';
+import { ref, get, child, update, remove } from "firebase/database";
 import { db } from './firebase'; 
-import { ref, get, child, update } from "firebase/database";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
-// 👉 SỬA LỖI BẤM 2 LẦN: Đưa ProtectedRoute ra NGOÀI hàm App()
 const ProtectedRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) return <Navigate to="/" replace />;
   return children;
@@ -27,20 +26,25 @@ function App() {
   const location = useLocation();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
-  const [isAdmin, setIsAdmin] = useState(false); 
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // 👉 STATE CHO CHỨC NĂNG "TIẾP TỤC LÀM BÀI"
+  const [showInProgressModal, setShowInProgressModal] = useState(false);
+  const [inProgressTests, setInProgressTests] = useState([]);
+  const [loadingDrafts, setLoadingDrafts] = useState(false);
   
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [modalView, setModalView] = useState('login'); 
 
-  // State và Ref cho Dropdown Menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const [credentials, setCredentials] = useState({ studentId: '', password: '' });
   const [passForm, setPassForm] = useState({ studentId: '', oldPass: '', newPass: '', confirmPass: '' });
+  
   const [studentName, setStudentName] = useState(''); 
+  const [userRole, setUserRole] = useState(localStorage.getItem('currentUserRole') || 'normal');
 
-  // LẮNG NGHE SỰ KIỆN CLICK RA NGOÀI
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -53,7 +57,6 @@ function App() {
     };
   }, []);
 
-  // CẤU HÌNH BẢO MẬT
   useEffect(() => {
     const handleContextMenu = (e) => e.preventDefault();
     const handleKeyDown = (e) => {
@@ -77,6 +80,77 @@ function App() {
     }
   };
 
+  // 🔥 LOGIC TẢI VÀ QUẢN LÝ BÀI LÀM DANG DỞ
+  const fetchInProgressTests = async () => {
+      const studentId = localStorage.getItem("currentStudentId");
+      if (!studentId || studentId === 'Guest') return;
+      
+      setLoadingDrafts(true);
+      try {
+          const dbRef = ref(db);
+          const draftSnap = await get(child(dbRef, `drafts/${studentId}`));
+          if (draftSnap.exists()) {
+              const data = draftSnap.val();
+              const list = [];
+              
+              // Kéo bản nháp Writing
+              if (data.writing) {
+                  Object.entries(data.writing).forEach(([key, info]) => {
+                      list.push({ id: key, type: 'writing', time: info.timeLeft, date: info.updatedAt, data: info });
+                  });
+              }
+              // Kéo bản nháp Mock (Chúng ta sẽ nâng cấp Mock ở bước sau)
+              if (data.mock) {
+                  Object.entries(data.mock).forEach(([key, info]) => {
+                      list.push({ id: key, type: 'mock', time: info.timeLeft, date: info.updatedAt, data: info });
+                  });
+              }
+              setInProgressTests(list.sort((a, b) => new Date(b.date) - new Date(a.date)));
+          } else {
+              setInProgressTests([]);
+          }
+      } catch (error) { console.error("Lỗi kéo dữ liệu:", error); } 
+      finally { setLoadingDrafts(false); }
+  };
+
+  const handleDeleteDraft = async (type, id) => {
+      if (!window.confirm("Bạn có chắc muốn xóa bản nháp này? Dữ liệu bài làm sẽ mất vĩnh viễn.")) return;
+      const studentId = localStorage.getItem("currentStudentId");
+      try {
+          await remove(ref(db, `drafts/${studentId}/${type}/${id}`));
+          toast.success("🗑️ Đã xóa bản nháp thành công!");
+          fetchInProgressTests(); 
+      } catch (e) { toast.error("❌ Lỗi xóa bản nháp: " + e.message); }
+  };
+
+  const handleContinueDraft = (item) => {
+      setShowInProgressModal(false);
+      if (item.type === 'writing') {
+          // Bóc tách ID thông minh bằng Regex
+          const t1Match = item.id.match(/t1_\d+/);
+          const t2Match = item.id.match(/t2_\d+/);
+          const t1 = t1Match ? t1Match[0] : 'x';
+          const t2 = t2Match ? t2Match[0] : 'x';
+          
+          const params = new URLSearchParams();
+          if (t1 !== 'x') params.append('t1', t1);
+          if (t2 !== 'x') params.append('t2', t2);
+          
+          let mode = 'full';
+          if (t1 !== 'x' && t2 === 'x') mode = 'task1';
+          if (t1 === 'x' && t2 !== 'x') mode = 'task2';
+          params.append('mode', mode);
+          
+          navigate(`/writing-practice?${params.toString()}`);
+      } else {
+          // Mock Test: ID lưu dạng "cam21_test1_listening"
+          const lastUnderscore = item.id.lastIndexOf('_');
+          const testId = item.id.substring(0, lastUnderscore);
+          const skill = item.id.substring(lastUnderscore + 1);
+          navigate(`/do-test/${testId}/${skill}`);
+      }
+  };
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const { studentId, password } = credentials;
@@ -95,9 +169,16 @@ function App() {
       if (snapshot.exists()) {
         const userData = snapshot.val();
         if (userData.password === password) {
-           setIsLoggedIn(true); setIsAdmin(false); setStudentName(userData.fullName);
+           setIsLoggedIn(true); setIsAdmin(false); 
+           
+           const currentRole = userData.role || 'normal';
+           setStudentName(userData.fullName);
+           setUserRole(currentRole);
+
            localStorage.setItem("currentStudentName", userData.fullName);
            localStorage.setItem("currentStudentId", studentId);
+           localStorage.setItem("currentUserRole", currentRole);
+
            setShowLoginModal(false);
            toast.success(`🦄 Xin chào ${userData.fullName}! Chúc bạn thi tốt.`); 
            navigate('/dashboard'); 
@@ -148,9 +229,12 @@ function App() {
 
   const handleLogout = () => {
     setIsMenuOpen(false); 
-    setIsLoggedIn(false); setIsAdmin(false); setStudentName('');
+    setIsLoggedIn(false); setIsAdmin(false); 
+    setStudentName(''); setUserRole('normal'); 
+
     localStorage.removeItem("currentStudentId");
     localStorage.removeItem("currentStudentName");
+    localStorage.removeItem("currentUserRole"); 
     navigate('/'); 
   };
 
@@ -170,29 +254,50 @@ function App() {
             
             <div className="nav-right-text">
                 {isLoggedIn ? (
-                  <div style={{ position: 'relative', zIndex: 9999 }} ref={dropdownRef}>
-                    <div 
-                      onClick={() => setIsMenuOpen(!isMenuOpen)} 
-                      style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', background: '#f1f5f9', padding: '6px 15px 6px 6px', borderRadius: '30px', border: '1px solid #e2e8f0', fontWeight: 'bold', color: '#002554', userSelect: 'none' }}
-                    >
-                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#002554', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                         <i className="fa-solid fa-user"></i>
-                      </div>
-                      <span style={{ fontSize: '0.9rem' }}>Xin chào, <strong>{studentName}</strong></span> 
-                      <i className="fa-solid fa-chevron-down" style={{ fontSize: '0.8rem', transform: isMenuOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}></i>
-                    </div>
-
-                    {isMenuOpen && (
-                      <div style={{ position: 'absolute', top: '125%', right: 0, background: '#fff', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', borderRadius: '10px', overflow: 'hidden', minWidth: '220px', border: '1px solid #eee', textAlign: 'left' }}>
-                        <div style={{ padding: '12px 15px', borderBottom: '1px solid #f1f5f9', color: '#64748b', fontSize: '0.85rem' }}>Tài khoản cá nhân</div>
-                        <Link to="/history" onClick={() => setIsMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 15px', color: '#334155', textDecoration: 'none', fontSize: '0.95rem' }} onMouseOver={e => e.target.style.background = '#f8fafc'} onMouseOut={e => e.target.style.background = '#fff'}>
-                            <i className="fa-solid fa-clock-rotate-left" style={{ color: '#002554' }}></i> Xem lịch sử bài làm
-                        </Link>
-                        <div onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 15px', color: '#dc2626', cursor: 'pointer', fontSize: '0.95rem', borderTop: '1px solid #f1f5f9' }} onMouseOver={e => e.target.style.background = '#fef2f2'} onMouseOut={e => e.target.style.background = '#fff'}>
-                            <i className="fa-solid fa-arrow-right-from-bracket"></i> Thoát hệ thống
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    
+                    <div style={{ position: 'relative', zIndex: 9999 }} ref={dropdownRef}>
+                      <div 
+                        onClick={() => setIsMenuOpen(!isMenuOpen)} 
+                        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', background: '#f1f5f9', padding: '6px 15px 6px 6px', borderRadius: '30px', border: '1px solid #e2e8f0', fontWeight: 'bold', color: '#002554', userSelect: 'none' }}
+                      >
+                        <div style={{ width: '32px', height: '32px', flexShrink: 0, borderRadius: '50%', background: '#002554', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <i className="fa-solid fa-user" style={{ fontSize: '14px' }}></i>
                         </div>
+                        <span style={{ fontSize: '0.9rem' }}>Xin chào, <strong>{studentName}</strong></span> 
+                        <i className="fa-solid fa-chevron-down" style={{ fontSize: '14px', transform: isMenuOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}></i>
                       </div>
-                    )}
+
+                      {isMenuOpen && (
+                        <div style={{ position: 'absolute', top: '125%', right: 0, background: '#fff', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', borderRadius: '10px', overflow: 'hidden', minWidth: '220px', border: '1px solid #eee', textAlign: 'left' }}>
+                          <div style={{ padding: '12px 15px', borderBottom: '1px solid #f1f5f9', color: '#64748b', fontSize: '0.85rem' }}>Tài khoản cá nhân</div>
+                          
+                          <div 
+                              onClick={() => { setIsMenuOpen(false); setShowInProgressModal(true); fetchInProgressTests(); }} 
+                              style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 15px', color: '#0369a1', cursor: 'pointer', fontSize: '0.95rem', fontWeight: 'bold' }} 
+                              onMouseOver={e => e.target.style.background = '#e0f2fe'} 
+                              onMouseOut={e => e.target.style.background = '#fff'}
+                          >
+                              <i className="fa-solid fa-clock-rotate-left"></i> Tiếp tục làm bài
+                          </div>
+
+                          {/* 👉 NÚT DUYỆT ĐỀ ĐÃ ĐƯỢC CHUYỂN VÀO ĐÂY */}
+                          {userRole === 'private' && (
+                              <Link to="/review-hub" onClick={() => setIsMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 15px', color: '#d97706', textDecoration: 'none', fontSize: '0.95rem', fontWeight: 'bold' }} onMouseOver={e => e.target.style.background = '#fef3c7'} onMouseOut={e => e.target.style.background = '#fff'}>
+                                  <i className="fa-solid fa-clipboard-check"></i> Duyệt đề Pending
+                              </Link>
+                          )}
+          
+                          <Link to="/history" onClick={() => setIsMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 15px', color: '#334155', textDecoration: 'none', fontSize: '0.95rem', borderTop: userRole === 'private' ? '1px solid #f1f5f9' : 'none' }} onMouseOver={e => e.target.style.background = '#f8fafc'} onMouseOut={e => e.target.style.background = '#fff'}>
+                              <i className="fa-solid fa-clock-rotate-left" style={{ color: '#002554' }}></i> Xem lịch sử bài làm
+                          </Link>
+                          
+                          <div onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 15px', color: '#dc2626', cursor: 'pointer', fontSize: '0.95rem', borderTop: '1px solid #f1f5f9' }} onMouseOver={e => e.target.style.background = '#fef2f2'} onMouseOut={e => e.target.style.background = '#fff'}>
+                              <i className="fa-solid fa-arrow-right-from-bracket"></i> Thoát hệ thống
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ) : null }
             </div>
@@ -263,21 +368,82 @@ function App() {
         <Routes>
           <Route path="/" element={ !isLoggedIn ? <LandingPage onOpenLogin={openModal} /> : (isAdmin ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />) } />         
           <Route path="/admin" element={<AdminPage />} />
-          
-          {/* CẬP NHẬT CÁCH SỬ DỤNG PROTECTED ROUTE Ở ĐÂY */}
           <Route path="/dashboard" element={<ProtectedRoute isLoggedIn={isLoggedIn}><HomePage /></ProtectedRoute>} />
           <Route path="/test-menu/:testId" element={<ProtectedRoute isLoggedIn={isLoggedIn}><TestMenuPage /></ProtectedRoute>} />
           <Route path="/do-test/:testId/:skill" element={<ProtectedRoute isLoggedIn={isLoggedIn}><FullTestPage /></ProtectedRoute>} />
           <Route path="/writing-library" element={<ProtectedRoute isLoggedIn={isLoggedIn}><WritingLibraryPage /></ProtectedRoute>} />
           <Route path="/writing-practice" element={<ProtectedRoute isLoggedIn={isLoggedIn}><WritingTestPage /></ProtectedRoute>} />
+          <Route path="/writing-practice/:id" element={<ProtectedRoute isLoggedIn={isLoggedIn}><WritingTestPage /></ProtectedRoute>} />
           <Route path="/history" element={<ProtectedRoute isLoggedIn={isLoggedIn}><TestHistoryPage /></ProtectedRoute>} />
+          
+          <Route path="/review-hub" element={<ProtectedRoute isLoggedIn={isLoggedIn}><ReviewHubPage /></ProtectedRoute>} />
         </Routes>
       </div>
 
       {!isTestingPage && (
-        <footer className="main-footer">
-          ©2026 by Be Able VN
+        <footer className="main-footer" style={{ height: 'auto', padding: '12px 20px', flexDirection: 'column', textAlign: 'center', gap: '5px' }}>
+          <div>©2026 Be Able VN. All rights reserved.</div>
+          <div style={{ fontSize: '0.75rem', opacity: 0.8 }}>
+            No part of this document may be reproduced or transmitted in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior written permission of Be Able VN.
+          </div>
         </footer>
+      )}
+      {/* ========================================== */}
+      {/* 🚀 MODAL: DANH SÁCH BÀI LÀM DANG DỞ       */}
+      {/* ========================================== */}
+      {showInProgressModal && (
+        <div className="modal-overlay" onClick={() => setShowInProgressModal(false)} style={{ zIndex: 99999 }}>
+           <div className="modal-box-test" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '650px', padding: '30px' }}>
+              <button className="close-modal" onClick={() => setShowInProgressModal(false)}>×</button>
+              
+              <h2 style={{color:'#002554', marginTop:0, display: 'flex', alignItems: 'center', gap: '10px', borderBottom: '2px solid #f1f5f9', paddingBottom: '15px'}}>
+                  <i className="fa-solid fa-clock-rotate-left" style={{ color: '#0369a1' }}></i> BÀI THI ĐANG LÀM
+              </h2>
+              <p style={{color:'#64748b', fontSize:'0.95rem', marginBottom: '20px'}}>
+                  Hệ thống tự động sao lưu tiến độ của bạn. Chọn bài thi bên dưới để tiếp tục.
+              </p>
+
+              {loadingDrafts ? (
+                  <div style={{ textAlign: 'center', padding: '40px', color: '#0369a1' }}>
+                      <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2rem' }}></i>
+                      <p>Đang tìm dữ liệu của bạn...</p>
+                  </div>
+              ) : inProgressTests.length === 0 ? (
+                  <div style={{ textAlign: 'center', padding: '40px', background: '#f8fafc', borderRadius: '8px', border: '1px dashed #cbd5e1' }}>
+                      <i className="fa-regular fa-face-smile-beam" style={{ fontSize: '3rem', color: '#94a3b8', marginBottom: '15px' }}></i>
+                      <h3 style={{ color: '#475569', margin: '0 0 10px 0' }}>Chưa có bản nháp nào!</h3>
+                      <p style={{ color: '#64748b', margin: 0 }}>Bạn đã hoàn thành xuất sắc mọi bài thi.</p>
+                  </div>
+              ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', maxHeight: '400px', overflowY: 'auto', paddingRight: '5px' }}>
+                      {inProgressTests.map((item, idx) => (
+                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc', padding: '15px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                              
+                              <div>
+                                  <div style={{ fontWeight: 'bold', color: '#0f172a', fontSize: '1.05rem', marginBottom: '5px' }}>
+                                      {item.type === 'writing' ? '📝 Writing Practice' : '🎧 Mock Test'}
+                                      <span style={{ color: '#0369a1', marginLeft: '5px' }}>({item.id.replace(/_x/g, '').replace(/x_/g, '')})</span>
+                                  </div>
+                                  <div style={{ fontSize: '0.85rem', color: '#64748b', display: 'flex', gap: '15px' }}>
+                                      <span><i className="fa-regular fa-clock"></i> Còn: {Math.floor(item.time / 60)} phút</span>
+                                      <span><i className="fa-regular fa-calendar-days"></i> {new Date(item.date).toLocaleString('vi-VN')}</span>
+                                  </div>
+                              </div>
+
+                              <div style={{ display: 'flex', gap: '10px' }}>
+                                  <button onClick={() => handleContinueDraft(item)} style={{ background: '#0ea5e9', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', transition: '0.2s' }} onMouseOver={e => e.target.style.background = '#0284c7'} onMouseOut={e => e.target.style.background = '#0ea5e9'}>
+                                      TIẾP TỤC
+                                  </button>
+                                  <button onClick={() => handleDeleteDraft(item.type, item.id)} style={{ background: '#fef2f2', color: '#dc2626', border: '1px solid #fca5a5', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer', transition: '0.2s' }} onMouseOver={e => e.target.style.background = '#fee2e2'} onMouseOut={e => e.target.style.background = '#fef2f2'}>
+                                      <i className="fa-solid fa-trash-can"></i>
+                                  </button>
+                              </div>
+                          </div>
+                      ))}
+                  </div>
+              )}
+           </div>
+        </div>
       )}
     </div>
   );

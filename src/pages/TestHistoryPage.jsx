@@ -148,7 +148,8 @@ export default function TestHistoryPage() {
     };
 
     return (
-        <div style={{ padding: '40px 20px', maxWidth: '750px', margin: '0 auto' }}>
+        /* 👉 KHUNG CHỨA THÔNG MINH: Rộng tối đa 1000px trên PC, tự co giãn 100% trên Điện thoại */
+            <div style={{ width: '100%', maxWidth: '1000px', margin: '0 auto', boxSizing: 'border-box', padding: '20px 10px' }}>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '30px' }}>
                 <button 

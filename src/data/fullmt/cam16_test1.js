@@ -11,7 +11,7 @@ export const cam16_test1 = {
     // PHẦN LISTENING (Trang 10 - 15 PDF) - Đáp án trang 121
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt17.mp3",
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt17.mp3?alt=media&token=17a7bfbd-7c99-4254-b3f5-514eaf01fec2",
       timeLimit: 1606,
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 17 - LISTENING SECTION</h3>",
       questions: [

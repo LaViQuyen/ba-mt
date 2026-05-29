@@ -11,7 +11,7 @@ export const cam18_test2 = {
     // PHẦN LISTENING (Đã nâng cấp giao diện Input và Map Labeling)
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/cam18_test2.mp3", // Bạn nhớ kiểm tra file âm thanh
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt10.mp3?alt=media&token=75d0dae0-7f56-464b-9af4-1b42d0f44d18", // Bạn nhớ kiểm tra file âm thanh
       timeLimit: 1721, // 30 phút
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 10 - LISTENING SECTION</h3>",
       questions: [

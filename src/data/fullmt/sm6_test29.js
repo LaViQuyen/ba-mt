@@ -11,7 +11,7 @@ export const sm6_test29 = {
     // PHẦN LISTENINGmt
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt32.mp3", // Thay bằng đường dẫn file audio thực tế
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt32.mp3?alt=media&token=f0d82264-67bd-4658-b62a-dab44b14105d", // Thay bằng đường dẫn file audio thực tế
       timeLimit: 1621, // 30 phút
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 29 - LISTENING SECTION</h3>",
       questions: [

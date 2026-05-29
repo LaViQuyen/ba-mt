@@ -11,7 +11,7 @@ export const cam18_test4 = {
     // PHẦN LISTENING (Trang 78 - 83 PDF) - Đáp án trang 125
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt12.mp3", // Bạn cần đảm bảo có file này trong thư mục public
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt12.mp3?alt=media&token=687b547a-d4d1-4ee8-b9fd-483ef9c6f4f7", // Bạn cần đảm bảo có file này trong thư mục public
       timeLimit: 1756,
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 12 - LISTENING SECTION</h3>",
       questions: [

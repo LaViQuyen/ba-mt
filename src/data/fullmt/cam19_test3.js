@@ -11,7 +11,7 @@ export const cam19_test3 = {
     // PHẦN LISTENING (Đã sửa lỗi hiển thị Part 1 và Part 3)
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt7.mp3",
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt7.mp3?alt=media&token=1a318246-ea46-4b2d-a40d-1cd57e302dac",
       timeLimit: 1591,
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 7 - LISTENING SECTION</h3>",
       questions: [

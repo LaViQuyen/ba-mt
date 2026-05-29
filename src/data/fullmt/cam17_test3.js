@@ -11,7 +11,7 @@ export const cam17_test3 = {
     // PHẦN LISTENING (Trang 53 - 58 PDF) - Đáp án trang 123
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt15.mp3",
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt15.mp3?alt=media&token=fde8cfbc-b411-4b80-8d2d-48309ca222b6",
       timeLimit: 1760,
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 15 - LISTENING SECTION</h3>",
       questions: [
@@ -59,15 +59,15 @@ export const cam17_test3 = {
             </div>
           `,
           items: [
-            { qNum: 1, answer: "families" },
+            { qNum: 1, answer: "family" },
             { qNum: 2, answer: "fit" },
             { qNum: 3, answer: "hotels" },
             { qNum: 4, answer: "Carrowniskey" },
             { qNum: 5, answer: "week" },
             { qNum: 6, answer: "bay" },
             { qNum: 7, answer: "September" },
-            { qNum: 8, answer: "19" },
-            { qNum: 9, answer: "30" },
+            { qNum: 8, answer: ["19", " nineteen"] },
+            { qNum: 9, answer: ["30", " thirty"] },
             { qNum: 10, answer: "boots" }
           ]
         },

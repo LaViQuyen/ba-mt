@@ -11,7 +11,7 @@ export const cam19_test4 = {
     // PHẦN LISTENING (Trang 77 - 82)
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt8.mp3", // Bạn nhớ kiểm tra file âm thanh
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt8.mp3?alt=media&token=69911867-e6a8-4f3f-b15b-60035c72de96", // Bạn nhớ kiểm tra file âm thanh
       timeLimit: 1733, // 30 phút
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 8 - LISTENING SECTION</h3>",
       questions: [

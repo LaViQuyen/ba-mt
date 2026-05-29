@@ -11,7 +11,7 @@ export const cam19_test2 = {
     // PHẦN LISTENING (Trang 33 - 39)
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt6.mp3",
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt6.mp3?alt=media&token=dc5a93ae-cf8a-4adb-b86e-26e4c7a53165",
       timeLimit: 1694,
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 6 - LISTENING SECTION</h3>",
       questions: [

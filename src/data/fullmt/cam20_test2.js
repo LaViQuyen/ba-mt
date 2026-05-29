@@ -11,7 +11,7 @@ export const cam20_test2 = {
     // PHẦN LISTENING (Lấy từ data_listening.js)
     // ==========================================================================
     listening: {
-      audioSrc: "/audio/mt2.mp3", // ⚠️ Hãy thay đổi đường dẫn file MP3 thật của bạn ở đây
+      audioSrc: "https://firebasestorage.googleapis.com/v0/b/beablevn-ielts.firebasestorage.app/o/audio%2Fmt2.mp3?alt=media&token=757e15d5-2a66-41d4-a188-f1f53712478b", // ⚠️ Hãy thay đổi đường dẫn file MP3 thật của bạn ở đây
       timeLimit: 1781,
       passage: "<h3 style='text-align:center; color:#002554;'>MOCK TEST 2 - LISTENING SECTION</h3>",
       questions: [
