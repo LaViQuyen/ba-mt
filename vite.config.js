@@ -10,8 +10,8 @@ export default defineConfig({
       // 👇 Thêm images/ vào đây 👇
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'images/logo-192.png', 'images/logo-512.png'],
       manifest: {
-        name: 'BeAbleVN IELTS Preparation', 
-        short_name: 'IELTS Prep', 
+        name: 'BAVN EXAM', 
+        short_name: 'BAVN EXAM', 
         description: 'Nền tảng luyện thi và chấm điểm IELTS AI',
         theme_color: '#002554', 
         background_color: '#ffffff',

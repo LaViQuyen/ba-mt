@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "beablevn-exam",
     "public": "dist",
     "ignore": [
       "firebase.json",
@@ -16,7 +17,7 @@
       {
         "source": "/index.html",
         "headers": [
-          {
+          { 
             "key": "Cache-Control",
             "value": "no-cache, no-store, must-revalidate"
           }
