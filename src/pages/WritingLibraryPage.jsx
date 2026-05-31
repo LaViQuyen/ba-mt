@@ -184,7 +184,7 @@ export default function WritingLibraryPage() {
           
           <div className="hp-header">
               <div className="hp-title">
-                <h1>IELTS SIMULATOR</h1>
+                <h1>IELTS PRACTICE TEST SYSTEM</h1>
               </div>
               <div className="hp-nav">
                 <Link to="/dashboard" className="hp-link">MOCK TEST</Link>
