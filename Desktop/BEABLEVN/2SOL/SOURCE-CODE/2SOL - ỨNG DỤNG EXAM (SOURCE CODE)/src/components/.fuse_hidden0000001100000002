@@ -1,0 +1,191 @@
+// src/components/AntiCheatGuard.jsx
+// ============================================================
+// PHAT HIEN GIAN LAN: ROI TAB / CHUYEN UNG DUNG KHAC
+// ------------------------------------------------------------
+// Nguyen ly:
+// - Chuyen sang TAB khac   -> trinh duyet ban su kien 'visibilitychange'
+// - Alt-Tab sang APP khac  -> cua so mat focus, ban su kien 'blur'
+// - Hai su kien co the ban cung luc cho 1 hanh dong -> dung "cua so 2 giay"
+//   de khong dem trung (1 lan roi = 1 vi pham, khong phai 2)
+//
+// Luat xu ly (3-strike):
+// - Lan 1, 2: overlay canh bao do, hoc vien phai bam xac nhan moi lam tiep
+// - Lan 3:    TU DONG NOP BAI (goi onForceSubmit tu trang cha)
+// - Moi vi pham: ghi log Firebase violations/{studentId}
+// - Lan 1 va lan 3: gui email canh bao ve helpdesk qua EmailJS
+//
+// LUU Y KY THUAT (fix loi gui email x4):
+// App dang bat React.StrictMode -> ham updater cua setState bi goi 2 LAN
+// de phat hien side effect. Vi vay TUYET DOI KHONG dat side effect
+// (gui email, ghi log, nop bai) ben trong setState updater.
+// Giai phap: dem vi pham bang violationsRef (ref khong bi goi lai),
+// setState chi dung de cap nhat UI, moi side effect co chot chong trung.
+// ============================================================
+import { useState, useEffect, useRef } from 'react';
+import { ref, push, set } from 'firebase/database';
+import { db } from '../firebase';
+import emailjs from '@emailjs/browser';
+import { resetCheatLog, addCheatViolation } from '../utils/cheatLog';
+
+const MAX_VIOLATIONS = 3; // So lan vi pham toi da truoc khi tu nop bai
+
+// --- CAU HINH EMAILJS (cung service voi email gui ket qua) ---
+const EMAIL_SERVICE_ID = "service_gvlyalu";
+const EMAIL_PUBLIC_KEY = "Tq7e72DxJoSIlhIU4";
+// Tai su dung template ket qua L/R - cac field duoc map lai de bao cheating
+const EMAIL_TEMPLATE_CHEATING = "template_dbls4x9";
+
+export default function AntiCheatGuard({ active = true, testId = '', onForceSubmit }) {
+    const [violations, setViolations] = useState(0); // CHI de hien thi UI
+    const [showWarning, setShowWarning] = useState(false);
+
+    const violationsRef = useRef(0);       // Nguon su that ve so lan vi pham
+    const lastViolationTime = useRef(0);   // Chong dem trung blur + visibilitychange
+    const forcedRef = useRef(false);       // Chi ep nop bai 1 lan duy nhat
+    const emailSentRef = useRef({});       // Chot chong gui email trung theo tung lan
+
+    // Giu ban moi nhat cua props - tranh stale closure trong listener
+    const activeRef = useRef(active);
+    const submitRef = useRef(onForceSubmit);
+    useEffect(() => {
+        activeRef.current = active;
+        submitRef.current = onForceSubmit;
+    });
+
+    // Ghi log vi pham len Firebase de admin/giao vien truy xuat
+    const logViolation = async (count) => {
+        const studentId = localStorage.getItem('currentStudentId') || 'Guest';
+        const studentName = localStorage.getItem('currentStudentName') || 'Hoc vien';
+        try {
+            await set(push(ref(db, `violations/${studentId}`)), {
+                studentId,
+                studentName,
+                testId,
+                type: 'LEFT_TEST_SCREEN',
+                count,
+                forced: count >= MAX_VIOLATIONS,
+                date: new Date().toISOString()
+            });
+        } catch (e) { console.error('Loi ghi log vi pham:', e); }
+    };
+
+    // Gui email canh bao cheating ve helpdesk
+    // Chi gui o lan 1 (canh bao som) va lan 3 (bi ep nop)
+    const sendCheatingEmail = (count) => {
+        if (count !== 1 && count < MAX_VIOLATIONS) return;
+        // Chot chong trung: moi "lan vi pham" chi duoc gui dung 1 email
+        if (emailSentRef.current[count]) return;
+        emailSentRef.current[count] = true;
+
+        const studentId = localStorage.getItem('currentStudentId') || 'Guest';
+        const studentName = localStorage.getItem('currentStudentName') || 'Hoc vien';
+        const forced = count >= MAX_VIOLATIONS;
+        const now = new Date().toLocaleString('vi-VN');
+
+        const templateParams = {
+            test_name: forced ? '🚨 CHEATING - ĐÃ ÉP NỘP BÀI' : '⚠️ CẢNH BÁO CHEATING',
+            student_name: `${studentName} (ID: ${studentId})`,
+            score: count,
+            total: MAX_VIOLATIONS,
+            time_taken: '—',
+            submission_time: now,
+            detailed_answers: `
+                <div style="border:2px solid #d32f2f; border-radius:8px; padding:16px; background:#fef2f2; font-family:Arial,sans-serif;">
+                    <h3 style="color:#d32f2f; margin-top:0;">🚨 BÁO CÁO VI PHẠM QUY CHẾ THI</h3>
+                    <table style="width:100%; border-collapse:collapse;">
+                        <tr><td style="padding:6px; font-weight:bold; width:180px;">Học viên:</td><td style="padding:6px;">${studentName} (ID: ${studentId})</td></tr>
+                        <tr><td style="padding:6px; font-weight:bold;">Bài thi:</td><td style="padding:6px;">${testId}</td></tr>
+                        <tr><td style="padding:6px; font-weight:bold;">Hành vi:</td><td style="padding:6px;">Rời màn hình bài thi (chuyển tab / mở ứng dụng khác)</td></tr>
+                        <tr><td style="padding:6px; font-weight:bold;">Vi phạm lần:</td><td style="padding:6px;">${count}/${MAX_VIOLATIONS}</td></tr>
+                        <tr><td style="padding:6px; font-weight:bold;">Thời điểm:</td><td style="padding:6px;">${now}</td></tr>
+                        <tr><td style="padding:6px; font-weight:bold;">Xử lý:</td><td style="padding:6px; color:#d32f2f; font-weight:bold;">${forced ? 'HỆ THỐNG ĐÃ TỰ ĐỘNG NỘP BÀI — kết quả gửi ở email riêng' : 'Đã cảnh báo học viên, bài thi tiếp tục'}</td></tr>
+                    </table>
+                    <p style="color:#666; font-size:13px; margin-bottom:0;">Toàn bộ lịch sử vi phạm lưu tại Firebase: violations/${studentId}</p>
+                </div>`
+        };
+
+        emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_CHEATING, templateParams, { publicKey: EMAIL_PUBLIC_KEY })
+            .then(() => console.log('Da gui email canh bao cheating'))
+            .catch((err) => console.error('Gui email cheating that bai:', err));
+    };
+
+    useEffect(() => {
+        resetCheatLog(); // Bat dau bai moi -> xoa so vi pham phien truoc
+
+        const handleViolation = () => {
+            // Bo qua neu: guard tat (da nop bai/dang loading) hoac da ep nop roi
+            if (!activeRef.current || forcedRef.current) return;
+
+            // Cua so 2 giay: blur + visibilitychange cung 1 hanh dong chi dem 1 lan
+            const now = Date.now();
+            if (now - lastViolationTime.current < 2000) return;
+            lastViolationTime.current = now;
+
+            // Dem bang ref - khong bi StrictMode goi lai nhu setState updater
+            violationsRef.current += 1;
+            const next = violationsRef.current;
+            setViolations(next); // chi cap nhat so hien thi tren overlay
+
+            logViolation(next);       // Ghi log Firebase
+            sendCheatingEmail(next);  // Gui email helpdesk (co chot chong trung)
+
+            if (next >= MAX_VIOLATIONS) {
+                // Qua 3 lan -> ep nop bai ngay (chi 1 lan nho forcedRef)
+                forcedRef.current = true;
+                setShowWarning(false);
+                if (submitRef.current) submitRef.current();
+            } else {
+                setShowWarning(true);
+            }
+        };
+
+        // Chuyen tab / thu nho trinh duyet
+        const onVisibility = () => { if (document.hidden) handleViolation(); };
+        // Alt-Tab sang ung dung khac
+        const onBlur = () => handleViolation();
+
+        document.addEventListener('visibilitychange', onVisibility);
+        window.addEventListener('blur', onBlur);
+        return () => {
+            document.removeEventListener('visibilitychange', onVisibility);
+            window.removeEventListener('blur', onBlur);
+        };
+    }, []);
+
+    if (!showWarning) return null;
+
+    // Overlay canh bao - hoc vien phai bam xac nhan moi tiep tuc duoc
+    return (
+        <div style={{
+            position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+            zIndex: 2147483646, /* ngay duoi FullscreenGuard */
+            background: 'rgba(127, 29, 29, 0.97)', /* do dam - tin hieu nghiem trong */
+            display: 'flex', flexDirection: 'column', alignItems: 'center',
+            justifyContent: 'center', textAlign: 'center', padding: '20px',
+            color: 'white', fontFamily: "'Be Vietnam Pro', 'Segoe UI', sans-serif"
+        }}>
+            <i className="fa-solid fa-triangle-exclamation" style={{ fontSize: '4rem', marginBottom: '25px', color: '#fca5a5' }}></i>
+            <h1 style={{ margin: '0 0 12px 0', fontSize: '1.8rem' }}>
+                CẢNH BÁO VI PHẠM — Lần {violations}/{MAX_VIOLATIONS}
+            </h1>
+            <p style={{ margin: '0 0 10px 0', fontSize: '1.05rem', maxWidth: '550px', lineHeight: 1.7 }}>
+                Hệ thống phát hiện em vừa <strong>rời khỏi màn hình bài thi</strong> (chuyển tab hoặc mở ứng dụng khác).
+                Vi phạm đã được <strong>ghi nhận và báo về giáo viên</strong>.
+            </p>
+            <p style={{ margin: '0 0 30px 0', fontSize: '1.1rem', fontWeight: 700, color: '#fecaca' }}>
+                Vi phạm lần thứ {MAX_VIOLATIONS}, bài thi sẽ TỰ ĐỘNG NỘP với kết quả hiện tại.
+            </p>
+            <button
+                onClick={() => setShowWarning(false)}
+                style={{
+                    background: 'white', color: '#7f1d1d', border: 'none',
+                    padding: '16px 40px', borderRadius: '50px', fontSize: '1.1rem',
+                    fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
+                }}
+            >
+                TÔI HIỂU — QUAY LẠI BÀI THI
+            </button>
+        </div>
+    );
+}
