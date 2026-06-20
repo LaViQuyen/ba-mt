@@ -224,10 +224,21 @@ export default function WritingTestPage() {
         else if (aiResultTask2) overallText = aiResultTask2.band;
 
         await saveToHistory(overallText, t1Band, t2Band);
-        
+
+        // 👉 Mã đề writing chuyên biệt: học viên tự chọn đề, có thể làm Task 1, Task 2 hoặc cả 2.
+        // Mã đề phản ánh đúng (các) task đã chọn kèm ID đề tương ứng.
+        let writingTestCode;
+        if (mode === 'full' || (t1Id && t2Id)) {
+            writingTestCode = `Writing Task 1 (${t1Id}) và Task 2 (${t2Id})`;
+        } else if (mode === 'task2' || t2Id) {
+            writingTestCode = `Writing Task 2 (${t2Id})`;
+        } else {
+            writingTestCode = `Writing Task 1 (${t1Id})`;
+        }
+
         const m = Math.floor((initialTime - timeLeft) / 60); const s = (initialTime - timeLeft) % 60;
         const templateParams = {
-            student_name: studentId, overall_score: overallText, time_taken: `${m}m ${s}s`, submission_time: new Date().toLocaleString('vi-VN'),
+            student_name: studentId, test_code: writingTestCode, overall_score: overallText, time_taken: `${m}m ${s}s`, submission_time: new Date().toLocaleString('vi-VN'),
             task1_content: answers.task1 || "(No submission)", task1_feedback: buildCheatReportHTML() + generateWritingFeedbackHTML(aiResultTask1, 'task1'),
             task2_content: answers.task2 || "(No submission)", task2_feedback: generateWritingFeedbackHTML(aiResultTask2, 'task2')
         };

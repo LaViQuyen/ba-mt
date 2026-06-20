@@ -461,9 +461,14 @@ export default function FullTestPage() {
         const now = new Date().toLocaleString('vi-VN');
         let templateParams = {}; let templateId = "";
 
+        // 👉 Mã đề mock test = testId trên URL (vd: cam14_test1); fallback theo testName
+        // Viết hoa ký tự đầu cho đẹp (vd: mt3 -> Mt3)
+        const rawMockCode = testId || testData?.testName || "N/A";
+        const mockTestCode = rawMockCode.charAt(0).toUpperCase() + rawMockCode.slice(1);
+
         if (type === 'lr') {
             templateId = EMAIL_TEMPLATE_LR;
-            templateParams = { test_name: skill.toUpperCase() + cheatTitleSuffix(), student_name: displayName, score: score, total: total, time_taken: timeTaken, submission_time: now, detailed_answers: buildCheatReportHTML() + detailedLog };
+            templateParams = { test_name: skill.toUpperCase() + cheatTitleSuffix(), test_code: mockTestCode, student_name: displayName, score: score, total: total, time_taken: timeTaken, submission_time: now, detailed_answers: buildCheatReportHTML() + detailedLog };
         } else {
             templateId = EMAIL_TEMPLATE_WRITING;
             let overallText = "Chấm sau";
@@ -472,8 +477,9 @@ export default function FullTestPage() {
                 overallText = ((band1 + band2 * 2) / 3).toFixed(1);
             } else if (aiResultTask1 || aiResultTask2) { overallText = (aiResultTask1?.band || aiResultTask2?.band) + " (Partial)"; }
 
+            // 👉 Mã đề writing trong full mock = mã đề mock
             templateParams = {
-                student_name: displayName, overall_score: overallText, time_taken: timeTaken, submission_time: now,
+                student_name: displayName, test_code: mockTestCode, overall_score: overallText, time_taken: timeTaken, submission_time: now,
                 task1_content: currentAnswers['writing_task1'] || "(No submission)", task1_feedback: buildCheatReportHTML() + generateWritingFeedbackHTML(aiResultTask1, 'task1'),
                 task2_content: currentAnswers['writing_task2'] || "(No submission)", task2_feedback: generateWritingFeedbackHTML(aiResultTask2, 'task2')
             };
