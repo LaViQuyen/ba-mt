@@ -26,6 +26,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ref, push, set } from 'firebase/database';
 import { db } from '../firebase';
 import { resetCheatLog, addCheatViolation } from '../utils/cheatLog';
+import { isIOSDevice } from '../utils/device';
 
 const MAX_VIOLATIONS = 3; // So lan vi pham toi da truoc khi tu nop bai
 
@@ -101,10 +102,14 @@ export default function AntiCheatGuard({ active = true, testId = '', onForceSubm
         const onBlur = () => handleViolation();
 
         document.addEventListener('visibilitychange', onVisibility);
-        window.addEventListener('blur', onBlur);
+        // iOS (iPad/iPhone): 'blur' bắn oan do bàn phím ảo / thanh Safari / lúc vào fullscreen
+        // → KHÔNG nghe blur, chỉ dựa visibilitychange (rời app/đổi tab/khoá máy mới tính).
+        // Desktop (Windows/macOS): giữ cả blur để bắt Alt-Tab/Cmd-Tab không làm ẩn trang.
+        const iOS = isIOSDevice();
+        if (!iOS) window.addEventListener('blur', onBlur);
         return () => {
             document.removeEventListener('visibilitychange', onVisibility);
-            window.removeEventListener('blur', onBlur);
+            if (!iOS) window.removeEventListener('blur', onBlur);
         };
     }, []);
 

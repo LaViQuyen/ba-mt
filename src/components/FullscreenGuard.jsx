@@ -15,8 +15,8 @@ import { useState, useEffect } from 'react';
 
 // Hàm kiểm tra trạng thái fullscreen (gộp cả 2 kiểu)
 function checkIsFullscreen() {
-    // Kiểu 1: Fullscreen API đang bật
-    if (document.fullscreenElement) return true;
+    // Kiểu 1: Fullscreen API đang bật (thêm webkit cho Safari/iPad)
+    if (document.fullscreenElement || document.webkitFullscreenElement) return true;
     // Kiểu 2: F11 — cửa sổ cao bằng màn hình (cho phép sai số 1px do zoom)
     return window.innerHeight >= window.screen.height - 1;
 }
@@ -28,9 +28,11 @@ export default function FullscreenGuard() {
         const update = () => setIsFullscreen(checkIsFullscreen());
         // Lắng nghe cả 2 sự kiện: đổi fullscreen API + đổi kích thước cửa sổ (F11)
         document.addEventListener('fullscreenchange', update);
+        document.addEventListener('webkitfullscreenchange', update); // Safari/iPad
         window.addEventListener('resize', update);
         return () => {
             document.removeEventListener('fullscreenchange', update);
+            document.removeEventListener('webkitfullscreenchange', update);
             window.removeEventListener('resize', update);
         };
     }, []);
@@ -43,6 +45,12 @@ export default function FullscreenGuard() {
                 // Trình duyệt từ chối (hiếm gặp) → nhắc học viên tự bấm F11
                 alert('Trình duyệt không cho phép tự động bật. Vui lòng bấm phím F11.');
             });
+        } else if (el.webkitRequestFullscreen) {
+            // Safari / iPad đời cũ dùng tiền tố webkit
+            el.webkitRequestFullscreen();
+        } else {
+            // Thiết bị không hỗ trợ Fullscreen API (vd iPhone) → nhắc rõ cho học viên
+            alert('Thiết bị của em không hỗ trợ chế độ toàn màn hình. Vui lòng dùng iPad hoặc máy tính để làm bài thi.');
         }
     };
 
