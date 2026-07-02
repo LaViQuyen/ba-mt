@@ -1694,6 +1694,12 @@ a { text-decoration: none; }
 .w-left-pane { width: 45%; background: white; border-right: 1px solid #ddd; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; }
 .w-header-part h2 { color: #2B6830; margin: 0 0 10px 0; font-size: 1.5rem; }
 .prompt-box { font-size: 1.05rem; line-height: 1.7; color: #2C2C2C; }
+/* Đảm bảo HTML từ ReactQuill (thẻ <p>) hiển thị đúng xuống hàng trong prompt-box */
+.prompt-box p { margin: 0 0 1em 0; }
+.prompt-box p:last-child { margin-bottom: 0; }
+/* Fix inline style của ReactQuill khi copy-paste: xóa nền trắng và giữ màu chữ đọc được */
+.prompt-box span { background-color: transparent !important; color: inherit; }
+.prompt-box { overflow-wrap: break-word; word-break: break-word; }
 .task-img { max-width: 100%; height: auto; border: 1px solid #eee; margin-top: 20px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
 .w-right-pane { flex: 1; background: #f9f9f9; padding: 30px; display: flex; flex-direction: column; overflow-y: auto; }

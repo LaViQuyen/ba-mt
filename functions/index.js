@@ -81,6 +81,41 @@ admin.initializeApp({
     databaseURL: "https://beablevn-ielts-default-rtdb.firebaseio.com"
 });
 
+// ============================================================
+// LIET KE TAI KHOAN CHO TRANG ADMIN (an toan - khong lo mat khau)
+// ------------------------------------------------------------
+// Rules chi cho doc users/{id} DICH DANH, KHONG cho doc ca thu muc "users".
+// Function nay chay bang Admin SDK (bo qua Rules), doc toan bo "users" roi
+// tra ve danh sach DA LOC BO MAT KHAU. Co cong chan bang mat khau admin
+// (so o server - vốn da public trong App.jsx). Deploy: firebase deploy --only functions
+// ============================================================
+const ADMIN_PANEL_PASSWORD = "BAVNbavn$67896789#"; // trung mat khau dang nhap Admin
+
+exports.listUsers = onCall(
+    {
+        memory: "256MiB",
+        maxInstances: 5
+    },
+    async (request) => {
+        const pass = request.data?.adminPass;
+        if (!pass || pass !== ADMIN_PANEL_PASSWORD) {
+            throw new HttpsError("permission-denied", "Khong co quyen xem danh sach tai khoan.");
+        }
+        const db = admin.database();
+        const snap = await db.ref("users").once("value");
+        if (!snap.exists()) return { users: [] };
+        const data = snap.val();
+        const users = Object.entries(data).map(([id, u]) => ({
+            id,
+            fullName: u?.fullName || "",
+            role: u?.role || "normal",
+            isLocked: u?.isLocked || false,
+            createdAt: u?.createdAt || null
+        }));
+        return { users };
+    }
+);
+
 const RETENTION_DAYS = 7; // Giu ban nhap toi da 7 ngay
 
 exports.cleanupOldDrafts = onSchedule(

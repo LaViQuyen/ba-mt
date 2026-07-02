@@ -27,7 +27,9 @@ const TaskGroup = ({ groupName, items, type, selectedId, onSelect }) => {
                 <div className="topic-content show">
                     {items.map((item) => {
                         const isSelected = selectedId === item.id;
-                        const desc = type === 1 ? item.title : item.question;
+                        // Strip HTML tags từ nội dung ReactQuill để hiển thị text thuần trong card preview
+                        const stripHtml = (html) => (html || "").replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim();
+                        const desc = type === 1 ? item.title : stripHtml(item.question);
                         const thumb = type === 1 ? (item.image || (item.images && item.images[0])) : null;
                         return (
                             <div key={item.id} className={`item-card ${isSelected ? 'selected' : ''}`} onClick={() => onSelect(item.id)}>
@@ -179,7 +181,7 @@ export default function WritingLibraryPage() {
 
   return (
     <div className="library-container">
-        <ToastContainer />
+        <ToastContainer position="top-right" autoClose={3000} theme="colored" />
         <div className="lib-header-wrapper">
           
           <div className="hp-header">

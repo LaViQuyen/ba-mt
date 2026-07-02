@@ -90,6 +90,11 @@ export default function FullTestPage() {
     const [tooltip, setTooltip] = useState({ visible: false, content: '', x: 0, y: 0 });
     const savedRange = useRef(null);
     const currentNoteId = useRef(null);
+    // Ref đồng bộ notes để tránh stale closure trong drag handlers
+    const notesRef = useRef({});
+    useEffect(() => { notesRef.current = notes; }, [notes]);
+    // Ref lưu trạng thái drag (không cần re-render nên dùng ref thay state)
+    const dragDataRef = useRef({ isDragging: false, noteId: null, offsetX: 0, offsetY: 0 });
     const [dragData, setDragData] = useState({ isDragging: false, noteId: null, offsetX: 0, offsetY: 0 });
 
     useEffect(() => { emailjs.init(EMAIL_PUBLIC_KEY); }, []);
@@ -189,7 +194,33 @@ export default function FullTestPage() {
         html += `</div></   div>`;
         return html;
     };
-    const handleNoteDragStart = (e, id) => {};
+    const handleNoteDragStart = (e, id) => {
+        e.preventDefault();
+        const note = notesRef.current[id];
+        if (!note) return;
+        // Tính offset giữa vị trí chuột và góc trên-trái của popup
+        const offsetX = e.clientX - (note.x || 0);
+        const offsetY = e.clientY - (note.y || 0);
+        dragDataRef.current = { isDragging: true, noteId: id, offsetX, offsetY };
+
+        const handleMouseMove = (mv) => {
+            if (!dragDataRef.current.isDragging) return;
+            const { noteId, offsetX: ox, offsetY: oy } = dragDataRef.current;
+            setNotes(prev => ({
+                ...prev,
+                [noteId]: { ...prev[noteId], x: mv.clientX - ox, y: mv.clientY - oy }
+            }));
+        };
+
+        const handleMouseUp = () => {
+            dragDataRef.current.isDragging = false;
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+    };
     const handleStartListeningClick = () => {
         setShowListeningStart(false); setIsAudioPlaying(true);
         if (audioRef.current) audioRef.current.play().catch(err => console.error(err));
@@ -535,7 +566,7 @@ export default function FullTestPage() {
         await saveToHistory('mock_test', score, total);
 
         sendEmailReport(score, total, 'lr', logHtml);
-        toast.success("🎉 Nộp bài thành công!");
+        toast.success("🎉 Nộp bài thành công!", { autoClose: 6000 });
     };
 
     const handleSubmitWriting = async () => {
@@ -557,7 +588,7 @@ export default function FullTestPage() {
         await saveToHistory('mock_test', `${overallBand}`, 0, { t1Band, t2Band });
 
         sendEmailReport(0, 0, 'writing');
-        toast.success("📝 Bài Writing đã nộp.");
+        toast.success("📝 Bài Writing đã nộp.", { autoClose: 6000 });
     };
 
     const handleRealSubmitFromModal = () => {
@@ -899,7 +930,7 @@ export default function FullTestPage() {
         <div className="test-page-layout">
             <FullscreenGuard />
             <AntiCheatGuard active={!isSubmitted && !showResult && !loadingData} testId={testId} onForceSubmit={handleSubmitAuto} />
-            <ToastContainer position="top-right" autoClose={3000} theme="colored" style={{ zIndex: 999999 }} />
+            <ToastContainer position="bottom-right" autoClose={3000} theme="colored" style={{ zIndex: 999999 }} />
 
             {contextMenu.visible && (
                 <div className="ctx-menu" style={{ top: contextMenu.y, left: contextMenu.x, display: 'block' }}>

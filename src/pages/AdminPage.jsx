@@ -1,8 +1,9 @@
 // src/pages/AdminPage.jsx
 import { useState, useEffect } from 'react';
-import { db } from '../firebase';
+import { db, functions } from '../firebase';
 import { allTests } from "../data/index";
 import { ref, set, get, child, update, remove } from "firebase/database";
+import { httpsCallable } from "firebase/functions";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -31,6 +32,14 @@ export default function AdminPage() {
     const [wCategory, setWCategory] = useState('');
     const [wContent, setWContent] = useState('');
     const [wImage, setWImage] = useState('');
+
+    const [writingList, setWritingList] = useState([]);
+    const [loadingWritingList, setLoadingWritingList] = useState(false);
+    const [confirmDeleteWritingId, setConfirmDeleteWritingId] = useState(null);
+
+    const [wManageTab, setWManageTab] = useState('task1');
+    const [wSearchTask1, setWSearchTask1] = useState('');
+    const [wSearchTask2, setWSearchTask2] = useState('');
 
     const [mockCode, setMockCode] = useState('');
 
@@ -68,21 +77,23 @@ export default function AdminPage() {
         }
     };
 
+    // Mật khẩu Admin (đã có sẵn public trong App.jsx) — xác thực với Cloud Function listUsers.
+    // Rules chỉ cho đọc users/{id} đích danh, không cho đọc cả thư mục users; nên dùng
+    // Cloud Function (Admin SDK) trả danh sách ĐÃ LỌC BỎ MẬT KHẨU — an toàn, không hạ cấp rules.
+    const ADMIN_PANEL_PASS = "BAVNbavn$67896789#";
+
     const fetchUsers = async () => {
         try {
             setLoadingUsers(true);
-            const dbRef = ref(db);
-            const snapshot = await get(child(dbRef, 'users'));
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                const arr = Object.entries(data).map(([id, val]) => ({ id, ...val }));
-                arr.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-                setUsersList(arr);
-            } else {
-                setUsersList([]);
-            }
+            const callListUsers = httpsCallable(functions, "listUsers");
+            const result = await callListUsers({ adminPass: ADMIN_PANEL_PASS });
+            const arr = (result.data?.users || []);
+            arr.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+            setUsersList(arr);
         } catch (error) {
             console.error("Lỗi tải danh sách tài khoản:", error);
+            toast.error("❌ Không tải được danh sách. Kiểm tra đã chạy: firebase deploy --only functions chưa.");
+            setUsersList([]);
         } finally {
             setLoadingUsers(false);
         }
@@ -117,10 +128,49 @@ export default function AdminPage() {
         }
     };
 
+    const fetchAllWriting = async () => {
+        try {
+            setLoadingWritingList(true);
+            const dbRef = ref(db);
+            const snap = await get(child(dbRef, 'writingLibrary'));
+            if (snap.exists()) {
+                const data = Object.values(snap.val()).sort((a, b) => a.id.localeCompare(b.id));
+                setWritingList(data);
+            } else {
+                setWritingList([]);
+            }
+        } catch (error) {
+            toast.error("❌ Không tải được danh sách Writing: " + error.message);
+        } finally {
+            setLoadingWritingList(false);
+        }
+    };
+
+    const handleDeleteWritingEssay = async (id) => {
+        if (confirmDeleteWritingId !== id) {
+            setConfirmDeleteWritingId(id);
+            toast.warning(`⚠️ Bấm "Xóa" lần nữa để xác nhận xóa vĩnh viễn đề "${id}"!`, { autoClose: 5000 });
+            setTimeout(() => setConfirmDeleteWritingId(prev => prev === id ? null : prev), 5000);
+            return;
+        }
+        try {
+            await remove(ref(db, `writingLibrary/${id}`));
+            toast.success(`🗑️ Đã xóa vĩnh viễn đề: ${id}`);
+            setConfirmDeleteWritingId(null);
+            fetchAllWriting();
+        } catch (error) {
+            toast.error("❌ Lỗi xóa: " + error.message);
+        }
+    };
+
     useEffect(() => {
-        // Đã tắt tính năng tự động tải danh sách user khi vào tab 'userList'
-        if (activeTab === 'bugList') {
+        // Tự động tải dữ liệu theo tab đang mở
+        if (activeTab === 'userList') {
+            fetchUsers();
+        } else if (activeTab === 'bugList') {
             fetchReportedBugs();
+        } else if (activeTab === 'writingManage') {
+            fetchAllWriting();
         }
     }, [activeTab]);
 
@@ -181,10 +231,12 @@ export default function AdminPage() {
         } catch (error) { toast.error("❌ Lỗi cập nhật: " + error.message); }
     };
 
-    // 👉 LOGIC LỌC DANH SÁCH TÌM KIẾM
+    // 👉 LOGIC LỌC DANH SÁCH TÌM KIẾM (client-side, tức thì) — theo ID (một phần) HOẶC tên.
+    const _term = searchTerm.trim().toLowerCase();
     const filteredUsers = usersList.filter(user =>
-        user.id.includes(searchTerm) ||
-        (user.fullName && user.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
+        !_term ||
+        (user.id && String(user.id).toLowerCase().includes(_term)) ||
+        (user.fullName && user.fullName.toLowerCase().includes(_term))
     );
 
     const handleDeleteUser = async (userId, name) => {
@@ -284,35 +336,6 @@ export default function AdminPage() {
         </button>
     );
 
-    const handleSearchUser = async (e) => {
-        e.preventDefault(); // Chặn load lại trang khi ấn Enter
-        if (!searchTerm || searchTerm.length !== 8) {
-            toast.warning("⚠️ Vui lòng nhập chính xác 8 số ID học viên!");
-            return;
-        }
-
-        setLoadingUsers(true);
-        try {
-            const dbRef = ref(db);
-            // 👉 Gọi ĐÍCH DANH vào đúng ID cần tìm, tuyệt đối an toàn!
-            const snapshot = await get(child(dbRef, `users/${searchTerm}`));
-
-            if (snapshot.exists()) {
-                const userData = snapshot.val();
-                setUsersList([{ id: searchTerm, ...userData }]); // Đưa 1 user tìm được vào danh sách
-                toast.success("✅ Đã tìm thấy dữ liệu học viên!");
-            } else {
-                setUsersList([]); // Xóa rỗng danh sách nếu không có
-                toast.error("❌ Không tìm thấy học viên nào với ID này.");
-            }
-        } catch (error) {
-            console.error(error);
-            toast.error("❌ Lỗi tìm kiếm: " + error.message);
-        } finally {
-            setLoadingUsers(false);
-        }
-    };
-
     return (
         <div style={{ display: 'flex', height: 'calc(100vh - 65px)', background: '#f8fafc', overflow: 'hidden' }}>
             <ToastContainer position="top-right" autoClose={3000} theme="colored" />
@@ -321,6 +344,9 @@ export default function AdminPage() {
           .main-footer { display: none !important; }
           .quill { background: white; border-radius: 4px; }
           .ql-container { font-size: 1rem; font-family: inherit; }
+          /* Fix: dropdown picker của Quill bị clip bởi overflow:hidden container */
+          .ql-snow .ql-picker-options { z-index: 200 !important; }
+          .ql-snow .ql-picker.ql-expanded .ql-picker-label { z-index: 201 !important; }
       `}</style>
 
             {/* --- SIDEBAR TRÁI --- */}
@@ -344,6 +370,7 @@ export default function AdminPage() {
                 </div>
                 <MenuButton id="mock" icon="fa-solid fa-headphones" label="Đăng Đề Mock Test" />
                 <MenuButton id="writing" icon="fa-solid fa-pen-nib" label="Đăng Đề Writing" />
+                <MenuButton id="writingManage" icon="fa-solid fa-list-check" label="Quản Lý Writing Library" />
 
                 <div style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 'bold', margin: '25px 0 5px 10px', textTransform: 'uppercase' }}>
                     🛠️ HỆ THỐNG BẢO TRÌ
@@ -372,12 +399,6 @@ export default function AdminPage() {
                                             placeholder="Tìm ID hoặc Tên học viên..."
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    e.preventDefault(); // Chặn hành vi mặc định của trình duyệt
-                                                    handleSearchUser(e); // Gọi hàm tìm kiếm
-                                                }
-                                            }}
                                             style={{ width: '100%', padding: '10px 15px 10px 40px', borderRadius: '20px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '0.95rem' }}
 
                                         />
@@ -385,7 +406,7 @@ export default function AdminPage() {
 
 
                                     <span style={{ fontSize: '1rem', background: '#e2e8f0', color: '#475569', padding: '8px 15px', borderRadius: '20px', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
-                                        Tổng: {usersList.length}
+                                        {searchTerm.trim() ? `Hiển thị: ${filteredUsers.length} / ${usersList.length}` : `Tổng: ${usersList.length}`}
                                     </span>
                                 </div>
                             </div>
@@ -620,7 +641,199 @@ export default function AdminPage() {
                     </div>
                 )}
 
-                {/* 👉 TAB 5: BỆNH VIỆN - TRẠM XỬ LÝ LỖI ĐỀ */}
+                {/* 👉 TAB 5: QUẢN LÝ WRITING LIBRARY - XÓA ĐỀ */}
+                {activeTab === 'writingManage' && (() => {
+                    const t1List = writingList.filter(i => i.type === 'TASK 1');
+                    const t2List = writingList.filter(i => i.type === 'TASK 2');
+                    const currentList = wManageTab === 'task1' ? t1List : t2List;
+                    const searchVal = wManageTab === 'task1' ? wSearchTask1 : wSearchTask2;
+                    const setSearch = wManageTab === 'task1' ? setWSearchTask1 : setWSearchTask2;
+                    const filtered = searchVal.trim()
+                        ? currentList.filter(i => {
+                            const t = searchVal.toLowerCase();
+                            return i.id.toLowerCase().includes(t) ||
+                                (i.category || i.title || '').toLowerCase().includes(t);
+                        })
+                        : currentList;
+
+                    const tabDefs = [
+                        { id: 'task1', label: 'Task 1', icon: 'fa-solid fa-chart-pie', color: '#0369a1', bg: '#e0f2fe', count: t1List.length },
+                        { id: 'task2', label: 'Task 2', icon: 'fa-solid fa-pen-fancy', color: '#15803d', bg: '#f0fdf4', count: t2List.length },
+                    ];
+
+                    return (
+                        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+                            <div className="card" style={{ padding: '24px 30px', minHeight: '400px', borderTop: '5px solid #7c3aed' }}>
+
+                                {/* ── Header ── */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '22px' }}>
+                                    <div>
+                                        <h2 style={{ color: '#7c3aed', margin: 0, fontSize: '1.25rem' }}>
+                                            <i className="fa-solid fa-list-check"></i> Quản Lý Writing Library
+                                        </h2>
+                                        <p style={{ margin: '4px 0 0 0', color: '#94a3b8', fontSize: '0.85rem' }}>
+                                            Tổng: {writingList.length} đề ({t1List.length} Task 1 · {t2List.length} Task 2)
+                                        </p>
+                                    </div>
+                                    <button onClick={fetchAllWriting} style={{ background: '#7c3aed', color: 'white', border: 'none', padding: '9px 18px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '7px' }}>
+                                        <i className="fa-solid fa-arrows-rotate"></i> Tải lại
+                                    </button>
+                                </div>
+
+                                {/* ── Sub-tabs TASK 1 / TASK 2 ── */}
+                                <div style={{ display: 'flex', borderBottom: '2px solid #e2e8f0', marginBottom: '20px', gap: '4px' }}>
+                                    {tabDefs.map(tab => {
+                                        const isActive = wManageTab === tab.id;
+                                        return (
+                                            <button key={tab.id}
+                                                onClick={() => { setWManageTab(tab.id); setConfirmDeleteWritingId(null); }}
+                                                style={{
+                                                    padding: '10px 22px', border: 'none', background: 'transparent',
+                                                    cursor: 'pointer', fontSize: '0.95rem', fontWeight: isActive ? '700' : '500',
+                                                    color: isActive ? tab.color : '#94a3b8', transition: '0.15s',
+                                                    borderBottom: isActive ? `3px solid ${tab.color}` : '3px solid transparent',
+                                                    marginBottom: '-2px', display: 'flex', alignItems: 'center', gap: '8px',
+                                                }}>
+                                                <i className={tab.icon}></i>
+                                                {tab.label}
+                                                <span style={{
+                                                    background: isActive ? tab.bg : '#f1f5f9',
+                                                    color: isActive ? tab.color : '#94a3b8',
+                                                    padding: '2px 9px', borderRadius: '20px', fontSize: '0.78rem', fontWeight: '600'
+                                                }}>
+                                                    {tab.count}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                {loadingWritingList ? (
+                                    <div style={{ textAlign: 'center', padding: '60px', color: '#7c3aed' }}>
+                                        <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2rem' }}></i>
+                                        <p style={{ marginTop: '12px' }}>Đang tải danh sách...</p>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {/* ── Thanh tìm kiếm + stats ── */}
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '16px', flexWrap: 'wrap' }}>
+                                            <div style={{ position: 'relative', flex: '1', maxWidth: '340px' }}>
+                                                <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', pointerEvents: 'none' }}></i>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Tìm theo ID hoặc chủ đề..."
+                                                    value={searchVal}
+                                                    onChange={e => setSearch(e.target.value)}
+                                                    style={{ width: '100%', padding: '9px 12px 9px 36px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '0.9rem', outline: 'none', transition: '0.15s', boxSizing: 'border-box' }}
+                                                    onFocus={e => e.target.style.borderColor = '#7c3aed'}
+                                                    onBlur={e => e.target.style.borderColor = '#cbd5e1'}
+                                                />
+                                            </div>
+                                            <div style={{ fontSize: '0.85rem', color: '#64748b', display: 'flex', gap: '12px', alignItems: 'center', flexShrink: 0 }}>
+                                                <span>
+                                                    {searchVal.trim() ? `${filtered.length} / ${currentList.length}` : currentList.length} đề
+                                                </span>
+                                                <span style={{ width: '1px', height: '14px', background: '#e2e8f0' }}></span>
+                                                <span style={{ color: '#15803d', fontWeight: '600' }}>
+                                                    <i className="fa-solid fa-circle-check"></i> {currentList.filter(i => i.status === 'published').length} published
+                                                </span>
+                                                <span style={{ color: '#a16207', fontWeight: '600' }}>
+                                                    <i className="fa-regular fa-clock"></i> {currentList.filter(i => i.status === 'pending').length} pending
+                                                </span>
+                                                {currentList.filter(i => i.status === 'reported').length > 0 && (
+                                                    <span style={{ color: '#dc2626', fontWeight: '600' }}>
+                                                        <i className="fa-solid fa-bug"></i> {currentList.filter(i => i.status === 'reported').length} reported
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* ── Gợi ý thao tác ── */}
+                                        <p style={{ margin: '0 0 14px 0', color: '#94a3b8', fontSize: '0.82rem' }}>
+                                            <i className="fa-solid fa-circle-info"></i> Nhấn <strong style={{ color: '#64748b' }}>Xóa</strong> lần 1 → xác nhận toast → nhấn lần 2 trong 5 giây để xóa vĩnh viễn.
+                                        </p>
+
+                                        {/* ── Table hoặc empty state ── */}
+                                        {filtered.length === 0 ? (
+                                            <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
+                                                <i className="fa-solid fa-inbox" style={{ fontSize: '2.8rem', marginBottom: '12px', display: 'block' }}></i>
+                                                <p style={{ margin: 0, fontSize: '1rem' }}>
+                                                    {searchVal.trim() ? 'Không tìm thấy đề phù hợp.' : `Chưa có đề ${wManageTab === 'task1' ? 'Task 1' : 'Task 2'} nào.`}
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div style={{ overflowX: 'auto', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                                                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+                                                    <thead>
+                                                        <tr style={{ background: '#f8fafc' }}>
+                                                            <th style={{ padding: '11px 16px', color: '#475569', fontWeight: '600', textAlign: 'left', borderBottom: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>ID</th>
+                                                            <th style={{ padding: '11px 16px', color: '#475569', fontWeight: '600', textAlign: 'left', borderBottom: '1px solid #e2e8f0' }}>Chủ đề</th>
+                                                            <th style={{ padding: '11px 16px', color: '#475569', fontWeight: '600', textAlign: 'left', borderBottom: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>Trạng thái</th>
+                                                            <th style={{ padding: '11px 16px', color: '#475569', fontWeight: '600', textAlign: 'left', borderBottom: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>Ngày tạo</th>
+                                                            <th style={{ padding: '11px 16px', color: '#475569', fontWeight: '600', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Hành động</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {filtered.map((item, idx) => {
+                                                            const isPendingDelete = confirmDeleteWritingId === item.id;
+                                                            const statusMap = {
+                                                                published: { bg: '#dcfce7', color: '#15803d', label: '✅ Published' },
+                                                                pending:   { bg: '#fef9c3', color: '#a16207', label: '⏳ Pending' },
+                                                                reported:  { bg: '#fee2e2', color: '#dc2626', label: '🚨 Reported' },
+                                                            };
+                                                            const st = statusMap[item.status] || { bg: '#f1f5f9', color: '#64748b', label: item.status };
+                                                            const topicLabel = item.category || item.title || '—';
+                                                            const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString('vi-VN') : '—';
+                                                            return (
+                                                                <tr key={item.id} style={{
+                                                                    background: isPendingDelete ? '#fff5f5' : (idx % 2 === 0 ? 'white' : '#fafafa'),
+                                                                    transition: 'background 0.15s',
+                                                                    borderBottom: idx < filtered.length - 1 ? '1px solid #f1f5f9' : 'none',
+                                                                }}
+                                                                    onMouseOver={e => { if (!isPendingDelete) e.currentTarget.style.background = '#f0f4ff'; }}
+                                                                    onMouseOut={e => { if (!isPendingDelete) e.currentTarget.style.background = idx % 2 === 0 ? 'white' : '#fafafa'; }}>
+                                                                    <td style={{ padding: '11px 16px', fontWeight: '700', color: '#0f172a', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                                                                        {item.id}
+                                                                    </td>
+                                                                    <td style={{ padding: '11px 16px', color: '#334155', maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={topicLabel}>
+                                                                        {topicLabel}
+                                                                    </td>
+                                                                    <td style={{ padding: '11px 16px', whiteSpace: 'nowrap' }}>
+                                                                        <span style={{ background: st.bg, color: st.color, padding: '4px 11px', borderRadius: '20px', fontSize: '0.78rem', fontWeight: '600' }}>
+                                                                            {st.label}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td style={{ padding: '11px 16px', color: '#64748b', whiteSpace: 'nowrap', fontSize: '0.85rem' }}>{dateStr}</td>
+                                                                    <td style={{ padding: '11px 16px', textAlign: 'center' }}>
+                                                                        <button
+                                                                            onClick={() => handleDeleteWritingEssay(item.id)}
+                                                                            style={{
+                                                                                background: isPendingDelete ? '#dc2626' : 'white',
+                                                                                color: isPendingDelete ? 'white' : '#dc2626',
+                                                                                border: `1.5px solid ${isPendingDelete ? '#dc2626' : '#fca5a5'}`,
+                                                                                padding: '6px 14px', borderRadius: '6px', cursor: 'pointer',
+                                                                                fontSize: '0.82rem', fontWeight: isPendingDelete ? '700' : '500',
+                                                                                transition: '0.15s', whiteSpace: 'nowrap',
+                                                                            }}>
+                                                                            <i className="fa-solid fa-trash-can"></i>
+                                                                            {' '}{isPendingDelete ? 'XÁC NHẬN' : 'Xóa'}
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            );
+                                                        })}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    );
+                })()}
+
+                {/* 👉 TAB 6: BỆNH VIỆN - TRẠM XỬ LÝ LỖI ĐỀ */}
                 {activeTab === 'bugList' && (
                     <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
                         <div className="card" style={{ padding: '20px 30px', minHeight: '400px', borderTop: '5px solid #ef4444' }}>
@@ -654,7 +867,6 @@ export default function AdminPage() {
                                                 </div>
 
                                                 <div style={{ display: 'flex', gap: '10px' }}>
-                                                    {/* NÚT THẦN THÁNH ĐÃ QUAY TRỞ LẠI */}
                                                     <button onClick={() => handleResolveBug(test.id, test._collection)} style={{ background: '#10b981', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => e.target.style.background = '#059669'} onMouseOut={e => e.target.style.background = '#10b981'}>
                                                         <i className="fa-solid fa-circle-check"></i> ĐÃ SỬA XONG
                                                     </button>
@@ -665,7 +877,6 @@ export default function AdminPage() {
                                                 </div>
                                             </div>
 
-                                            {/* NHẬT KÝ LỖI CHI TIẾT */}
                                             <div style={{ background: '#fef2f2', borderLeft: '4px solid #ef4444', padding: '15px', borderRadius: '4px', color: '#991b1b', fontSize: '0.95rem', fontFamily: 'monospace', whiteSpace: 'pre-line', lineHeight: '1.6' }}>
                                                 {test.bugNotes || "Không có nội dung mô tả lỗi cụ thể."}
                                             </div>

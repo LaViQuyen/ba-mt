@@ -41,8 +41,11 @@ export default function WritingTestPage() {
     const [showBugModal, setShowBugModal] = useState(false);
     const [bugNote, setBugNote] = useState('');
 
-    const testSaveKey = useMemo(() => `ielts_writing_save_${mode}_${t1Id || 'x'}_${t2Id || 'x'}`, [mode, t1Id, t2Id]);
-    const timeSaveKey = useMemo(() => `ielts_writing_time_${mode}_${t1Id || 'x'}_${t2Id || 'x'}`, [mode, t1Id, t2Id]);
+    // Gắn ID học viên vào khoá lưu nháp để nháp KHÔNG bị dùng chung giữa các tài khoản
+    // đăng nhập trên cùng một trình duyệt (trước đây khoá không có ID -> lộ bài người trước).
+    const _draftOwner = localStorage.getItem("currentStudentId") || "Guest";
+    const testSaveKey = useMemo(() => `ielts_writing_save_${_draftOwner}_${mode}_${t1Id || 'x'}_${t2Id || 'x'}`, [_draftOwner, mode, t1Id, t2Id]);
+    const timeSaveKey = useMemo(() => `ielts_writing_time_${_draftOwner}_${mode}_${t1Id || 'x'}_${t2Id || 'x'}`, [_draftOwner, mode, t1Id, t2Id]);
 
     const initialTime = useMemo(() => {
         if (mode === 'task1') return 20 * 60;
@@ -243,25 +246,30 @@ export default function WritingTestPage() {
             task2_content: answers.task2 || "(No submission)", task2_feedback: generateWritingFeedbackHTML(aiResultTask2, 'task2')
         };
 
-        emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, templateParams)
-            .then(async () => {
-                localStorage.removeItem(testSaveKey); localStorage.removeItem(timeSaveKey);
-                const sId = localStorage.getItem("currentStudentId");
-                if (sId && sId !== "Guest") {
-                    try { await update(ref(db, `drafts/${sId}/writing`), { [`${t1Id || 'x'}_${t2Id || 'x'}`]: null }); } 
-                    catch (e) { console.error(e); }
-                }
+        // 👉 Gửi email kết quả — KHÔNG để việc gửi mail chặn việc nộp bài.
+        // Nếu email lỗi/timeout, học viên VẪN phải được nộp xong: xoá nháp + về thư viện,
+        // tránh kẹt màn hình và tránh lộ bài cho người dùng kế tiếp trên cùng máy.
+        try {
+            await emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, templateParams);
+        } catch (err) {
+            console.error("Gửi email kết quả Writing thất bại:", err);
+            toast.warning("Bài đã nộp nhưng hệ thống gửi email đang bận!");
+        }
 
-                toast.success("🎉 Nộp bài thành công!");
-                // 👉 KIỂM TRA XEM CÓ ĐÚNG LÀ ĐI TỪ REVIEW HUB SANG KHÔNG
-                if (userRole === 'private' && location.state?.fromReviewHub) { 
-                    navigate('/review-hub', { state: { tab: 'writing' }, replace: true }); 
-                } 
-                else { 
-                    // Tất cả các trường hợp còn lại (bao gồm tài khoản private làm đề từ Writing Library) đều về Writing Library
-                    navigate('/writing-library', { replace: true }); 
-                }
-            }).catch(() => { setIsSubmitting(false); });
+        // 👉 DỌN NHÁP + ĐIỀU HƯỚNG — LUÔN chạy dù email thành công hay thất bại
+        localStorage.removeItem(testSaveKey); localStorage.removeItem(timeSaveKey);
+        const sId = localStorage.getItem("currentStudentId");
+        if (sId && sId !== "Guest") {
+            try { await update(ref(db, `drafts/${sId}/writing`), { [`${t1Id || 'x'}_${t2Id || 'x'}`]: null }); }
+            catch (e) { console.error(e); }
+        }
+
+        toast.success("🎉 Nộp bài thành công!", { autoClose: 6000 });
+        if (userRole === 'private' && location.state?.fromReviewHub) {
+            navigate('/review-hub', { state: { tab: 'writing' }, replace: true });
+        } else {
+            navigate('/writing-library', { replace: true });
+        }
     };
 
     // =========================================================
@@ -403,7 +411,7 @@ export default function WritingTestPage() {
         <div className="test-page-layout">
             <FullscreenGuard />
             <AntiCheatGuard active={!isSubmitting && !loadingData} testId={urlId || "writing"} onForceSubmit={handleRealSubmit} />
-            <ToastContainer position="top-right" autoClose={3000} theme="colored" style={{ zIndex: 999999 }} />
+            <ToastContainer position="bottom-right" autoClose={3000} theme="colored" style={{ zIndex: 999999 }} />
 
             <div className="test-header">
                 <div className="header-left"><img src="/images/logo.png" alt="Logo" className="test-logo" /></div>
@@ -444,13 +452,14 @@ export default function WritingTestPage() {
                             <div className="prompt-box">
                                 {activeTask === 'task1' && task1Data ? (
                                     <>
-                                        <div style={{ marginBottom: '20px' }}>{renderHTML((task1Data.title || task1Data.prompt || "").replace(/\n/g, '<br/>'))}</div>
+                                        {/* dangerouslySetInnerHTML để render đúng HTML từ ReactQuill, tránh lỗi parse() với inline style phức tạp */}
+                                        <div style={{ marginBottom: '20px' }} dangerouslySetInnerHTML={{ __html: (task1Data.title || task1Data.prompt || "").replace(/\n/g, '<br/>') }} />
                                         {task1Data.images && task1Data.images.length > 0 && (task1Data.images.map((img, i) => (<img key={i} src={img} className="task-img" style={{ marginBottom: '15px' }} alt={`Task 1 Part ${i + 1}`} />)))}
                                         {task1Data.image && !task1Data.images && (<img src={task1Data.image} className="task-img" alt="Task 1" />)}
                                     </>
                                 ) : activeTask === 'task2' && task2Data ? (
                                     <>
-                                        <div style={{ fontSize: '1.05rem', lineHeight: '1.6', marginBottom: '20px' }}>{renderHTML((task2Data.question || task2Data.prompt || "").replace(/\n/g, '<br/>'))}</div>
+                                        <div style={{ fontSize: '1.05rem', lineHeight: '1.6', marginBottom: '20px' }} dangerouslySetInnerHTML={{ __html: (task2Data.question || task2Data.prompt || "").replace(/\n/g, '<br/>') }} />
                                         {task2Data.instruction && (<p style={{ fontStyle: 'italic', color: '#555', borderLeft: '3px solid #ccc', paddingLeft: '10px' }}>{task2Data.instruction}</p>)}
                                     </>
                                 ) : (<p>Loading...</p>)}
