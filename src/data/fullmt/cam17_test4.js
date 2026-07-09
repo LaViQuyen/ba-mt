@@ -418,11 +418,12 @@ export const cam17_test4 = {
           // I will label the options A-F.
           options: ["A", "B", "C", "D", "E", "F"],
           items: [
-            { qNum: 14, text: "an explanation of the need for research to focus on individuals with a fairly consistent income", answer: "E" }, // Check key: Key says E? Wait.
-            { qNum: 14, text: "an explanation of the need for research to focus on individuals with a fairly consistent income", answer: "F" }, // "hold wealth constant" in Para F
+            // Q14 truoc day bi khai bao 2 lan (dap an E va F) lam le tong so cau thanh 41. Giu 1 item, dap an F theo dien giai "hold wealth constant" o doan F. Giao vien can doi chieu lai key goc Cambridge 17 Test 4.
+            { qNum: 14, text: "an explanation of the need for research to focus on individuals with a fairly consistent income", answer: "F" },
             { qNum: 15, text: "examples of the sources the database has been compiled from", answer: "A" },
             { qNum: 16, text: "an account of one individual's refusal to obey an order", answer: "E" }, // Juliana in Para E
-            { qNum: 17, text: "a reference to a region being particularly suited to research into the link between education and economic growth", answer: "G" }, // "excellent laboratory" in Para G. (Since options are A-F, user might be confused if I put G. I will set answer to F assuming F covers the end).
+            // Q17 truoc day dap an "G" nam ngoai dropdown A-F nen khong bao gio cham dung. Dua ve "F" theo y dinh ghi chu goc. Giao vien can doi chieu key goc.
+            { qNum: 17, text: "a reference to a region being particularly suited to research into the link between education and economic growth", answer: "F" },
             { qNum: 18, text: "examples of the items included in a list of personal possessions", answer: "C" }
           ]
         },

@@ -14,13 +14,9 @@ import { generateContentWithRotation } from '../utils/geminiHelper';
 import { ref, push, set, get, child, update } from "firebase/database";
 import { db } from '../firebase';
 
-// Bảng tra audioSrc từ file local — ưu tiên hơn Firebase để tránh link cũ trong DB
-import { allTests } from '../data/index';
-const _localAudioMap = {};
-allTests.forEach(t => {
-    if (t?.id && t?.sections?.listening?.audioSrc)
-        _localAudioMap[t.id] = t.sections.listening.audioSrc;
-});
+// Bảng tra audioSrc từ file local (audioMap.js nhỏ) — ưu tiên hơn Firebase để tránh link cũ trong DB.
+// Tách khỏi allTests để KHÔNG kéo toàn bộ data đề (~1.4MB) vào bundle chính.
+import { audioMap as _localAudioMap } from '../data/audioMap';
 
 // --- CẤU HÌNH ---
 const EMAIL_PUBLIC_KEY = "Tq7e72DxJoSIlhIU4";
@@ -75,6 +71,9 @@ export default function FullTestPage() {
     useEffect(() => { timeLeftRef.current = timeLeft; }, [timeLeft]);
 
     const [isSubmitted, setIsSubmitted] = useState(false);
+    // Chot chong nop/gui email 2 lan (auto het gio + AntiCheat force + bam nut + StrictMode double-invoke).
+    // Ref khoa ngay lap tuc, khong doi setIsSubmitted (async) nen 2 lenh goi cung tick khong cung vao.
+    const submitLockRef = useRef(false);
     const [showResult, setShowResult] = useState(false);
     const [resultData, setResultData] = useState({ score: 0, total: 0 });
 
@@ -550,6 +549,8 @@ export default function FullTestPage() {
     };
 
     const handleSubmitLR = async () => {
+        if (submitLockRef.current) return;
+        submitLockRef.current = true;
         let score = 0;
         const validQuestions = flatQuestions.filter(q => q.qNum);
         let total = validQuestions.length;
@@ -575,6 +576,8 @@ export default function FullTestPage() {
     };
 
     const handleSubmitWriting = async () => {
+        if (submitLockRef.current) return;
+        submitLockRef.current = true;
         setIsSubmitted(true);
         setShowResult(true);
 

@@ -29,5 +29,8 @@ dist-ssr
 _backup-*/
 repomix-output.xml
 
+# File tam do dong bo/FUSE tao ra (khong phai source, tung lot vao review)
+.fuse_hidden*
+
 # Firebase functions dependencies
 functions/node_modules

@@ -74,6 +74,10 @@ export default function WritingTestPage() {
     const timeLeftRef = useRef(timeLeft);
     useEffect(() => { timeLeftRef.current = timeLeft; }, [timeLeft]);
 
+    // Chot chong nop bai 2 lan (bam nut + timer het gio + StrictMode double-invoke): ref khoa ngay lap tuc,
+    // khong doi setState nen 2 lenh goi lien tiep trong cung tick khong the cung vao.
+    const submittedRef = useRef(false);
+
     // =========================================================
     // 🛠️ KHU VỰC CÁC HÀM XỬ LÝ (ĐƯỢC ĐƯA LÊN TRÊN ĐỂ TRÁNH LỖI HOISTING)
     // =========================================================
@@ -214,6 +218,9 @@ export default function WritingTestPage() {
     const handlePreSubmit = () => { setShowConfirmModal(true); };
 
     const handleRealSubmit = async () => {
+        // Da nop roi thi bo qua moi lenh goi sau (chong nop 2 lan)
+        if (submittedRef.current) return;
+        submittedRef.current = true;
         setShowConfirmModal(false); setIsSubmitting(true);
 
         let overallText = "N/A";
@@ -348,10 +355,12 @@ export default function WritingTestPage() {
         if (!sId || sId === "Guest" || loadingData || !isRestored || timeLeftRef.current <= 0) return;
 
         const saveToCloud = async () => {
+            // Da nop bai thi khong ghi nhap nua (tranh ghi de sau khi drafts da bi xoa luc nop)
+            if (submittedRef.current) return;
             try {
                 await update(ref(db, `drafts/${sId}/writing/${t1Id || 'x'}_${t2Id || 'x'}`), {
-                    answers: answersRef.current, 
-                    timeLeft: timeLeftRef.current, 
+                    answers: answersRef.current,
+                    timeLeft: timeLeftRef.current,
                     updatedAt: new Date().toISOString()
                 });
                 console.log("☁️ Backup Cloud Writing thành công.");
@@ -367,19 +376,24 @@ export default function WritingTestPage() {
         return () => clearInterval(autoSaveInterval);
     }, [loadingData, isRestored, t1Id, t2Id]);
 
-    // 👉 4. TIMER ĐẾM NGƯỢC THỜI GIAN
+    // 👉 4. TIMER ĐẾM NGƯỢC THỜI GIAN (chi giam so, KHONG goi submit trong updater)
     useEffect(() => {
         let timer = null;
         if (isTestStarted && timeLeft > 0 && !loadingData) {
             timer = setInterval(() => {
-                setTimeLeft(prev => {
-                    if (prev <= 1) { clearInterval(timer); handleRealSubmit(); return 0; }
-                    return prev - 1;
-                });
+                setTimeLeft(prev => (prev <= 1 ? 0 : prev - 1));
             }, 1000);
         }
         return () => clearInterval(timer);
     }, [isTestStarted, timeLeft, loadingData]);
+
+    // Tu dong nop khi het gio: tach khoi setState updater de tranh StrictMode goi 2 lan (nguon bug email x2).
+    // submittedRef trong handleRealSubmit dam bao chi nop 1 lan du effect chay lai.
+    useEffect(() => {
+        if (timeLeft === 0 && isTestStarted && !loadingData && !submittedRef.current) {
+            handleRealSubmit();
+        }
+    }, [timeLeft, isTestStarted, loadingData]);
 
     // 👉 5. HIỂN THỊ MÀN HÌNH LOADING
     if (loadingData) {

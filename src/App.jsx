@@ -28,6 +28,14 @@ const AdminRoute = ({ isAdmin, children }) => {
   return children;
 };
 
+// 👉 GUARD THEO VAI TRO — chan deep-link vao trang chi danh cho role nhat dinh (vd /review-hub cho 'private').
+//    Day chi la lop UX; enforcement that phai o RTDB rules (xem followup bao mat gui Bak).
+const RoleRoute = ({ isLoggedIn, userRole, allow, children }) => {
+  if (!isLoggedIn) return <Navigate to="/" replace />;
+  if (!allow.includes(userRole)) return <Navigate to="/dashboard" replace />;
+  return children;
+};
+
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -172,6 +180,9 @@ function App() {
         const verifyAdmin = httpsCallable(functions, 'verifyAdminLogin');
         const result = await verifyAdmin({ password });
         if (result.data?.success) {
+          // Luu tam mat khau admin trong sessionStorage de AdminPage goi listUsers, KHONG hardcode trong bundle.
+          // sessionStorage mat khi dong tab; chuoi khong con nam co dinh trong file JS public.
+          sessionStorage.setItem('_ap', password);
           setIsLoggedIn(true); setIsAdmin(true); setStudentName("Quản Trị Viên");
           setShowLoginModal(false); toast.success("🔓 Đăng nhập Admin thành công!");
           navigate('/admin');
@@ -229,22 +240,9 @@ function App() {
     } catch (error) { console.error(error); toast.error("❌ Lỗi hệ thống: " + error.message); }
   };
 
-  const handleResetPassSubmit = async (e) => {
-    e.preventDefault();
-    const { studentId } = passForm;
-    if (!studentId || studentId.length !== 8) { toast.warning("⚠️ Vui lòng nhập đúng Mã học viên (8 số)!"); return; }
-    try {
-        const dbRef = ref(db);
-        const snapshot = await get(child(dbRef, `users/${studentId}`));
-        if (snapshot.exists()) {
-            await update(ref(db, `users/${studentId}`), { password: "BAVNbavn" });
-            toast.success("✅ Khôi phục thành công! Mật khẩu mới là: BAVNbavn", { autoClose: 8000 });
-            setModalView('login');
-            setCredentials({ studentId: studentId, password: '' });
-            setPassForm({ ...passForm, studentId: '' });
-        } else { toast.error("❌ Mã học viên không tồn tại!"); }
-    } catch (error) { console.error(error); toast.error("❌ Lỗi hệ thống: " + error.message); }
-  };
+  // Da BO reset mat khau self-service: truoc day bat ky ai nhap ma hoc vien (8 so, de do) la reset
+  // mat khau nan nhan ve "BAVNbavn" roi chiem tai khoan. Nay chi Admin reset trong panel quan tri.
+  // Hoc vien quen mat khau lien he giao vu de duoc cap lai.
 
   const handleLogout = () => {
     setIsMenuOpen(false); 
@@ -253,8 +251,9 @@ function App() {
 
     localStorage.removeItem("currentStudentId");
     localStorage.removeItem("currentStudentName");
-    localStorage.removeItem("currentUserRole"); 
-    navigate('/'); 
+    localStorage.removeItem("currentUserRole");
+    sessionStorage.removeItem('_ap'); // xoa mat khau admin tam khi thoat
+    navigate('/');
   };
 
   const openModal = () => { setModalView('login'); setShowLoginModal(true); }
@@ -341,7 +340,7 @@ function App() {
                     </form>
                     <div style={{marginTop:'20px', fontSize:'13px', display:'flex', flexDirection:'column', gap:'8px'}}>
                         <span onClick={() => setModalView('change-pass')} className="link-switch-mode"><i className="fa-solid fa-key"></i> Đổi mật khẩu</span>
-                        <span onClick={() => setModalView('reset-pass')} className="link-switch-mode" style={{color:'#d32f2f'}}><i className="fa-solid fa-life-ring"></i> Quên mật khẩu?</span>
+                        <span style={{color:'#94a3b8', fontStyle:'italic'}}><i className="fa-solid fa-life-ring"></i> Quên mật khẩu? Vui lòng liên hệ giáo vụ để được cấp lại.</span>
                     </div>
                   </>
               )}
@@ -368,12 +367,7 @@ function App() {
               {modalView === 'reset-pass' && (
                   <>
                     <h3 style={{color:'#d32f2f', marginTop:0}}>KHÔI PHỤC MẬT KHẨU</h3>
-                    <p style={{color:'#666', fontSize:'13px'}}>Nhập ID để reset mật khẩu về mặc định</p>
-                    <form onSubmit={handleResetPassSubmit}>
-                        <div style={{textAlign:'left', fontSize:'12px', fontWeight:'bold', marginTop:10, color:'#555'}}>Mã Học Viên</div>
-                        <input type="text" className="login-input" placeholder="Nhập 8 số ID..." value={passForm.studentId} onChange={(e) => {if(/^\d*$/.test(e.target.value) && e.target.value.length<=8) setPassForm({...passForm, studentId: e.target.value})}} />
-                        <button type="submit" className="btn-submit-login" style={{background:'#d32f2f'}}>XÁC NHẬN KHÔI PHỤC</button>
-                    </form>
+                    <p style={{color:'#666', fontSize:'13px'}}>Vì lý do bảo mật, việc khôi phục mật khẩu chỉ được thực hiện bởi giáo vụ. Vui lòng liên hệ giáo vụ Be Able VN để được cấp lại mật khẩu.</p>
                     <div style={{marginTop:'20px', fontSize:'13px'}}>
                         <span onClick={() => setModalView('login')} className="link-switch-mode"><i className="fa-solid fa-arrow-left"></i> Quay lại Đăng nhập</span>
                     </div>
@@ -395,7 +389,7 @@ function App() {
           <Route path="/writing-practice/:id" element={<ProtectedRoute isLoggedIn={isLoggedIn}><WritingTestPage /></ProtectedRoute>} />
           <Route path="/history" element={<ProtectedRoute isLoggedIn={isLoggedIn}><TestHistoryPage /></ProtectedRoute>} />
           
-          <Route path="/review-hub" element={<ProtectedRoute isLoggedIn={isLoggedIn}><ReviewHubPage /></ProtectedRoute>} />
+          <Route path="/review-hub" element={<RoleRoute isLoggedIn={isLoggedIn} userRole={userRole} allow={['private']}><ReviewHubPage /></RoleRoute>} />
         </Routes>
       </div>
 

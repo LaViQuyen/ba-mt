@@ -46,15 +46,14 @@ exports.generateContent = onCall(
             throw new HttpsError("unauthenticated", "Yeu cau xac thuc: thieu studentId.");
         }
         const dbRef = admin.database();
-        // Admin (15082022) luon duoc phep, hoc vien phai check DB
-        if (studentId !== "15082022") {
-            const userSnap = await dbRef.ref(`users/${studentId}`).once("value");
-            if (!userSnap.exists()) {
-                throw new HttpsError("unauthenticated", "Tai khoan khong hop le.");
-            }
-            if (userSnap.val()?.isLocked === true) {
-                throw new HttpsError("permission-denied", "Tai khoan bi khoa, khong the su dung AI.");
-            }
+        // Bo cua hau "15082022": MOI studentId (ke ca admin) deu phai ton tai trong DB va khong bi khoa.
+        // Truoc day dac cach admin cho phep bat ky ai gui studentId=15082022 de goi Gemini, dot quota.
+        const userSnap = await dbRef.ref(`users/${studentId}`).once("value");
+        if (!userSnap.exists()) {
+            throw new HttpsError("unauthenticated", "Tai khoan khong hop le.");
+        }
+        if (userSnap.val()?.isLocked === true) {
+            throw new HttpsError("permission-denied", "Tai khoan bi khoa, khong the su dung AI.");
         }
 
         try {

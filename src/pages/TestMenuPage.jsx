@@ -72,7 +72,8 @@ export default function TestMenuPage() {
 
       <div className="test-menu-grid">
           
-          {/* LISTENING */}
+          {/* LISTENING - chi hien khi de co section tuong ung (tranh vao gap man hinh tai vinh vien) */}
+          {testData.sections?.listening && (
           <Link to={`/do-test/${testId}/listening`} state={{ fromMenu: true }}>
             <div className="skill-card-hover">
                 <div className="skill-card-icon">
@@ -91,8 +92,10 @@ export default function TestMenuPage() {
                 </div>
             </div>
           </Link>
+          )}
 
-          {/* READING */}
+          {/* READING - chi hien khi de co section tuong ung */}
+          {testData.sections?.reading && (
           <Link to={`/do-test/${testId}/reading`} state={{ fromMenu: true }}>
             <div className="skill-card-hover">
                 <div className="skill-card-icon">
@@ -110,8 +113,10 @@ export default function TestMenuPage() {
                 </div>
             </div>
           </Link>
+          )}
 
-          {/* WRITING */}
+          {/* WRITING - chi hien khi de co section tuong ung (de MQR khong co Writing) */}
+          {testData.sections?.writing && (
           <Link to={`/do-test/${testId}/writing`} state={{ fromMenu: true }}>
             <div className="skill-card-hover">
                 <div className="skill-card-icon">
@@ -129,6 +134,7 @@ export default function TestMenuPage() {
                 </div>
             </div>
           </Link>
+          )}
 
       </div>
     </div>

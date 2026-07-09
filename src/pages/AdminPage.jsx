@@ -1,7 +1,8 @@
 // src/pages/AdminPage.jsx
 import { useState, useEffect } from 'react';
 import { db, functions } from '../firebase';
-import { allTests } from "../data/index";
+// allTests (~1.4MB) chi dung khi bam "Dong bo de len Cloud" -> dynamic import trong handler,
+// KHONG import tinh de tranh keo toan bo data de vao bundle chinh.
 import { ref, set, get, child, update, remove } from "firebase/database";
 import { httpsCallable } from "firebase/functions";
 import { toast, ToastContainer } from 'react-toastify';
@@ -54,6 +55,8 @@ export default function AdminPage() {
     };
 
     const handleBulkUploadTests = async () => {
+        // Nap data de theo yeu cau (dynamic import) de khong phinh bundle chinh
+        const { allTests } = await import("../data/index");
         toast.info(`⏳ Đang tự động quét và đẩy ${allTests.length} đề lên Cloud...`);
 
         try {
@@ -77,16 +80,16 @@ export default function AdminPage() {
         }
     };
 
-    // Mật khẩu Admin (đã có sẵn public trong App.jsx) — xác thực với Cloud Function listUsers.
-    // Rules chỉ cho đọc users/{id} đích danh, không cho đọc cả thư mục users; nên dùng
-    // Cloud Function (Admin SDK) trả danh sách ĐÃ LỌC BỎ MẬT KHẨU — an toàn, không hạ cấp rules.
-    const ADMIN_PANEL_PASS = "BAVNbavn$67896789#";
+    // Mat khau Admin KHONG con hardcode trong bundle. App.jsx luu tam vao sessionStorage sau khi
+    // verifyAdminLogin thanh cong; AdminPage doc lai de goi listUsers (Cloud Function, Admin SDK,
+    // tra danh sach DA LOC BO MAT KHAU). AdminRoute da chan isAdmin nen chi admin da dang nhap moi vao day.
+    const getAdminPass = () => sessionStorage.getItem('_ap') || '';
 
     const fetchUsers = async () => {
         try {
             setLoadingUsers(true);
             const callListUsers = httpsCallable(functions, "listUsers");
-            const result = await callListUsers({ adminPass: ADMIN_PANEL_PASS });
+            const result = await callListUsers({ adminPass: getAdminPass() });
             const arr = (result.data?.users || []);
             arr.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
             setUsersList(arr);
