@@ -99,6 +99,11 @@ export default function FullTestPage() {
 
     useEffect(() => { emailjs.init(EMAIL_PUBLIC_KEY); }, []);
 
+    // Xóa tất cả toast cũ khi rời trang (tránh toast từ skill trước hiện sang skill mới)
+    useEffect(() => {
+        return () => { toast.dismiss(); };
+    }, []);
+
     // 👉 HÀM LẤY SỐ THỨ TỰ CÂU HỎI (ĐÃ ĐƯỢC BỌC ÁO GIÁP CHỐNG LỖI MÀN HÌNH TRẮNG)
     const flatQuestions = useMemo(() => {
         // Bổ sung chặn đứng ngay lập tức nếu dữ liệu từ mây chưa tải xong

@@ -1790,8 +1790,19 @@ a { text-decoration: none; }
 
 .Toastify__toast-container {
   z-index: 999999 !important;
-  top: 1em !important; /* Đảm bảo nó luôn cách mép trên 1 chút */
-  right: 1em !important; /* Đảm bảo nó luôn cách mép phải */
+}
+
+/* Fix toast chiếm full màn hình trên mobile - giữ nhỏ gọn góc phải */
+@media only screen and (max-width: 480px) {
+  .Toastify__toast-container {
+    width: auto !important;
+    max-width: calc(100vw - 20px) !important;
+    min-width: 260px !important;
+    bottom: 10px !important;
+    right: 10px !important;
+    left: auto !important;
+    top: auto !important;
+  }
 }
 
 /* =================================================================

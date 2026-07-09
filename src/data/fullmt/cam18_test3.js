@@ -1,4 +1,6 @@
-// src/data/cam18_test3.js
+// src/data/fullmt/cam18_test3.js
+// Nguồn: Cambridge IELTS Academic 18, Test 3 (trang 55–76 PDF)
+// Đã đối chiếu toàn bộ với đáp án chính thức trang 123–124.
 
 export const cam18_test3 = {
   id: "m11",
@@ -8,623 +10,730 @@ export const cam18_test3 = {
 
   sections: {
     // ==========================================================================
-    // PHẦN LISTENING (Trang 55 - 60 PDF)
+    // PHẦN LISTENING (Trang 55–60 PDF)
     // ==========================================================================
     listening: {
-      audioSrc: "https://dl.dropboxusercontent.com/scl/fi/g5qsl5x6fdis4b6l3ekul/mt11.mp3?rlkey=9lqej345vb6j3em4zt6po4wqt", // Bạn nhớ kiểm tra file âm thanh
-      timeLimit: 1710, // 30 phút
+      audioSrc: "https://dl.dropboxusercontent.com/scl/fi/g5qsl5x6fdis4b6l3ekul/mt11.mp3?rlkey=9lqej345vb6j3em4zt6po4wqt",
+      timeLimit: 1710,
       passage: "<h3 style='text-align:center; color:#2B6830;'>MOCK TEST 11 - LISTENING SECTION</h3>",
       questions: [
-        // --- PART 1: Questions 1-6 (Notes) ---
+
+        // --- PART 1: Questions 1–4 (Form completion) ---
         {
           "type": "gap",
-          "title": "Part 1: Questions 1-6",
-          "instruction": "Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.",
+          "title": "Part 1: Questions 1–4",
+          "instruction": "Complete the form below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.",
           "htmlContent": `
-            <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd; margin-bottom: 20px;">
-                <h3 style="margin-top:0; color:#2B6830; text-align:center;">Local food shops</h3>
-                <p><strong>Where to go</strong></p>
-                <ul style="line-height: 1.8;">
-                    <li><strong>Kite Place</strong> - near the <span class="q-badge-inline">1</span><input type="text" class="gap-input" data-qnum="1" id="input-1"></li>
-                    <li><strong>Fish market</strong>:
-                        <ul style="list-style-type: circle; padding-left: 20px;">
-                            <li>cross the <span class="q-badge-inline">2</span><input type="text" class="gap-input" data-qnum="2" id="input-2"> and turn right</li>
-                            <li>best to go before <span class="q-badge-inline">3</span><input type="text" class="gap-input" data-qnum="3" id="input-3"> pm, earlier than closing time</li>
-                        </ul>
-                    </li>
-                    <li><strong>Organic shop</strong>:
-                        <ul style="list-style-type: circle; padding-left: 20px;">
-                            <li>called <span class="q-badge-inline">4</span><input type="text" class="gap-input" data-qnum="4" id="input-4"></li>
-                            <li>below a restaurant in the large, grey building</li>
-                            <li>look for the large <span class="q-badge-inline">5</span><input type="text" class="gap-input" data-qnum="5" id="input-5"> outside</li>
-                        </ul>
-                    </li>
-                    <li><strong>Supermarket</strong>:
-                        <ul style="list-style-type: circle; padding-left: 20px;">
-                            <li>take a <span class="q-badge-inline">6</span><input type="text" class="gap-input" data-qnum="6" id="input-6"> minibus, number 289</li>
-                        </ul>
-                    </li>
-                </ul>
+            <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd; margin-bottom:20px;">
+              <h3 style="margin-top:0; color:#2B6830; text-align:center;">Wayside Camera Club<br>membership form</h3>
+              <table style="width:100%; border-collapse:collapse; font-size:0.95rem;">
+                <tbody>
+                  <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px; width:40%; font-weight:bold;">Name:</td>
+                    <td style="padding:10px;">Dan Green</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #ddd; background:#fff;">
+                    <td style="padding:10px; font-weight:bold;">Email address:</td>
+                    <td style="padding:10px;">dan1068@market.com</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px; font-weight:bold;">Home address:</td>
+                    <td style="padding:10px;">52 <span class="q-badge-inline">1</span><input type="text" class="gap-input" data-qnum="1" id="input-1"> Street, Peacetown</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #ddd; background:#fff;">
+                    <td style="padding:10px; font-weight:bold;">Heard about us:</td>
+                    <td style="padding:10px;">from a <span class="q-badge-inline">2</span><input type="text" class="gap-input" data-qnum="2" id="input-2"></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px; font-weight:bold;">Reasons for joining:</td>
+                    <td style="padding:10px;">
+                      to enter competitions<br>
+                      to <span class="q-badge-inline">3</span><input type="text" class="gap-input" data-qnum="3" id="input-3">
+                    </td>
+                  </tr>
+                  <tr style="background:#fff;">
+                    <td style="padding:10px; font-weight:bold;">Type of membership:</td>
+                    <td style="padding:10px;"><span class="q-badge-inline">4</span><input type="text" class="gap-input" data-qnum="4" id="input-4"> membership (£30)</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           `,
           "items": [
-            { "qNum": 1, "answer": ["harbour", "harbor"] },
-            { "qNum": 2, "answer": "bridge" },
-            { "qNum": 3, "answer": ["3.30", "three thirty", "half 3"] },
-            { "qNum": 4, "answer": ["Rose", "rose"] },
-            { "qNum": 5, "answer": "sign" },
-            { "qNum": 6, "answer": "purple" }
+            { "qNum": 1, "answer": "Marrowfield" },
+            { "qNum": 2, "answer": "relative" },
+            { "qNum": 3, "answer": ["socialise", "socialize"] },
+            { "qNum": 4, "answer": "full" }
           ]
         },
 
-        // --- PART 1: Questions 7-10 (Table) ---
+        // --- PART 1: Questions 5–10 (Table completion) ---
         {
           "type": "gap",
-          "title": "Questions 7-10",
-          "instruction": "Complete the table below. Write <strong>ONE WORD ONLY</strong> for each answer.",
+          "title": "Questions 5–10",
+          "instruction": "Complete the table below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.",
           "htmlContent": `
             <div style="background:#fff; padding:15px; border:1px solid #ccc;">
-                <h3 style="text-align: center; margin-top:0; color: #2B6830;">Shopping</h3>
-                <table style="width:100%; border-collapse: collapse; font-size: 0.95rem;">
-                    <thead style="background:#2B6830; color:white;">
-                        <tr>
-                            <th style="padding:10px; border:1px solid #ccc;"></th>
-                            <th style="padding:10px; border:1px solid #ccc;">To buy</th>
-                            <th style="padding:10px; border:1px solid #ccc;">Other ideas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="padding:10px; border:1px solid #ccc; font-weight:bold;">Fish market</td>
-                            <td style="padding:10px; border:1px solid #ccc;">a dozen prawns</td>
-                            <td style="padding:10px; border:1px solid #ccc;">a handful of <span class="q-badge-inline">7</span><input type="text" class="gap-input" data-qnum="7" id="input-7"> (type of seaweed)</td>
-                        </tr>
-                        <tr style="background-color: #f9f9f9;">
-                            <td style="padding:10px; border:1px solid #ccc; font-weight:bold;">Organic shop</td>
-                            <td style="padding:10px; border:1px solid #ccc;">beans and a <span class="q-badge-inline">8</span><input type="text" class="gap-input" data-qnum="8" id="input-8"> for dessert</td>
-                            <td style="padding:10px; border:1px solid #ccc;">spices and <span class="q-badge-inline">9</span><input type="text" class="gap-input" data-qnum="9" id="input-9"></td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px; border:1px solid #ccc; font-weight:bold;">Bakery</td>
-                            <td style="padding:10px; border:1px solid #ccc;">a brown loaf</td>
-                            <td style="padding:10px; border:1px solid #ccc;">a <span class="q-badge-inline">10</span><input type="text" class="gap-input" data-qnum="10" id="input-10"> tart</td>
-                        </tr>
-                    </tbody>
-                </table>
+              <h3 style="text-align:center; margin-top:0; color:#2B6830;">Photography competitions</h3>
+              <table style="width:100%; border-collapse:collapse; font-size:0.95rem;">
+                <thead style="background:#2B6830; color:white;">
+                  <tr>
+                    <th style="padding:10px; border:1px solid #ccc;">Title of competition</th>
+                    <th style="padding:10px; border:1px solid #ccc;">Instructions</th>
+                    <th style="padding:10px; border:1px solid #ccc;">Feedback to Dan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding:10px; border:1px solid #ccc;"><span class="q-badge-inline">5</span><input type="text" class="gap-input" data-qnum="5" id="input-5"></td>
+                    <td style="padding:10px; border:1px solid #ccc;">A scene in the home</td>
+                    <td style="padding:10px; border:1px solid #ccc;">The picture's composition was not good.</td>
+                  </tr>
+                  <tr style="background:#f9f9f9;">
+                    <td style="padding:10px; border:1px solid #ccc;">'Beautiful Sunsets'</td>
+                    <td style="padding:10px; border:1px solid #ccc;">Scene must show some <span class="q-badge-inline">6</span><input type="text" class="gap-input" data-qnum="6" id="input-6"></td>
+                    <td style="padding:10px; border:1px solid #ccc;">The <span class="q-badge-inline">7</span><input type="text" class="gap-input" data-qnum="7" id="input-7"> was wrong.</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px; border:1px solid #ccc;"><span class="q-badge-inline">8</span><input type="text" class="gap-input" data-qnum="8" id="input-8"></td>
+                    <td style="padding:10px; border:1px solid #ccc;">Scene must show <span class="q-badge-inline">9</span><input type="text" class="gap-input" data-qnum="9" id="input-9"></td>
+                    <td style="padding:10px; border:1px solid #ccc;">The photograph was too <span class="q-badge-inline">10</span><input type="text" class="gap-input" data-qnum="10" id="input-10">.</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           `,
           "items": [
-             { "qNum": 7, "answer": "samphire" },
-             { "qNum": 8, "answer": "melon" },
-             { "qNum": 9, "answer": "coconut" },
-             { "qNum": 10, "answer": "strawberry" }
+            { "qNum": 5,  "answer": "Domestic Life" },
+            { "qNum": 6,  "answer": "clouds" },
+            { "qNum": 7,  "answer": "timing" },
+            { "qNum": 8,  "answer": "Animal Magic" },
+            { "qNum": 9,  "answer": ["movement", "animal movement"] },
+            { "qNum": 10, "answer": "dark" }
           ]
         },
 
-        // --- PART 2: Questions 11-16 (Matching) ---
-        {
-          "type": "matching",
-          "title": "Part 2: Questions 11-16",
-          "instruction": "What information is given about each of the following festival workshops? Choose <strong>SIX</strong> answers from the box.",
-          "options": [
-            "A. involves painting and drawing",
-            "B. will be led by a prize-winning author",
-            "C. is aimed at children with a disability",
-            "D. involves a drama activity",
-            "E. focuses on new relationships",
-            "F. is aimed at a specific age group",
-            "G. explores an unhappy feeling",
-            "H. raises awareness of a particular culture"
-          ],
-          "items": [
-            { "qNum": 11, "text": "Superheroes", "answer": "C" },
-            { "qNum": 12, "text": "Just do it", "answer": "D" },
-            { "qNum": 13, "text": "Count on me", "answer": "F" },
-            { "qNum": 14, "text": "Speak up", "answer": "G" },
-            { "qNum": 15, "text": "Jump for joy", "answer": "B" },
-            { "qNum": 16, "text": "Sticks and stones", "answer": "H" }
-          ]
-        },
-
-        // --- PART 2: Questions 17-20 (Multiple Choice) ---
+        // --- PART 2: Questions 11–12 (MCQ Multi – warnings about mushrooms) ---
         {
           "type": "mcq_multi",
-          "title": "Questions 17-18",
-          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
-          "stem": "Which TWO reasons does the speaker give for recommending <em>Alive and Kicking</em>?",
+          "title": "Part 2: Questions 11–12",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A–E</strong>.",
+          "stem": "Which TWO warnings does Dan give about picking mushrooms?",
           "options": [
-            "A. It will appeal to both boys and girls.",
-            "B. The author is well known.",
-            "C. It has colourful illustrations.",
-            "D. It is funny.",
-            "E. It deals with an important topic."
+            "A. Don't pick more than one variety of mushroom at a time.",
+            "B. Don't pick mushrooms near busy roads.",
+            "C. Don't eat mushrooms given to you.",
+            "D. Don't eat mushrooms while picking them.",
+            "E. Don't pick old mushrooms."
           ],
           "items": [
-            { "qNums": [17, 18], "answer": ["D", "E"] }
-          ]
-        },
-        {
-          "type": "mcq_multi",
-          "title": "Questions 19-20",
-          "instruction": "Choose <strong>TWO</strong> letters, <strong>A-E</strong>.",
-          "stem": "Which TWO pieces of advice does the speaker give to parents about reading?",
-          "options": [
-            "A. Encourage children to write down new vocabulary.",
-            "B. Allow children to listen to audio books.",
-            "C. Get recommendations from librarians.",
-            "D. Give children a choice about what they read.",
-            "E. Only read aloud to children until they can read independently."
-          ],
-          "items": [
-            { "qNums": [19, 20], "answer": ["B", "C"] }
+            { "qNums": [11, 12], "answer": ["B", "C"] }
           ]
         },
 
-        // --- PART 3: Questions 21-25 (MCQ) ---
+        // --- PART 2: Questions 13–14 (MCQ Multi – correct ideas about mushrooms) ---
+        {
+          "type": "mcq_multi",
+          "title": "Questions 13–14",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A–E</strong>.",
+          "stem": "Which TWO ideas about wild mushrooms does Dan say are correct?",
+          "options": [
+            "A. Mushrooms should always be peeled before eating.",
+            "B. Mushrooms eaten by animals may be unsafe.",
+            "C. Cooking destroys toxins in mushrooms.",
+            "D. Brightly coloured mushrooms can be edible.",
+            "E. All poisonous mushrooms have a bad smell."
+          ],
+          "items": [
+            { "qNums": [13, 14], "answer": ["B", "D"] }
+          ]
+        },
+
+        // --- PART 2: Questions 15–20 (MCQ Single – advice about mushrooms) ---
         {
           "type": "mcq_single",
-          "title": "Part 3: Questions 21-25",
+          "title": "Questions 15–20",
           "instruction": "Choose the correct letter, <strong>A, B or C</strong>.",
           "items": [
             {
-              "qNum": 21,
-              "text": "How does Clare feel about the students in her Year 12 science class?",
+              "qNum": 15,
+              "text": "What advice does Dan give about picking mushrooms in parks?",
               "options": [
-                "A. worried that they are not making progress",
-                "B. challenged by their poor behaviour in class",
-                "C. frustrated at their lack of interest in the subject"
+                "A. Choose wooded areas.",
+                "B. Don't disturb wildlife.",
+                "C. Get there early."
               ],
               "answer": "C"
             },
             {
-              "qNum": 22,
-              "text": "How does Jake react to Clare's suggestion about an experiment based on children's diet?",
+              "qNum": 16,
+              "text": "Dan says it is a good idea for beginners to",
               "options": [
-                "A. He is concerned that the results might not be meaningful.",
-                "B. He feels some of the data might be difficult to obtain.",
-                "C. He suspects that the conclusions might be upsetting."
+                "A. use a mushroom app.",
+                "B. join a group.",
+                "C. take a reference book."
               ],
               "answer": "B"
             },
             {
-              "qNum": 23,
-              "text": "What problem do they agree may be involved in an experiment involving animals?",
+              "qNum": 17,
+              "text": "What does Dan say is important for conservation?",
               "options": [
-                "A. Any results may not apply to humans.",
-                "B. It may be complicated to get permission.",
-                "C. Students may not be happy about animal experiments."
+                "A. selecting only fully grown mushrooms",
+                "B. picking a limited amount of mushrooms",
+                "C. avoiding areas where rare mushroom species grow"
               ],
-              "answer": "A"
+              "answer": "B"
             },
             {
-              "qNum": 24,
-              "text": "What question do they decide the experiment should address?",
+              "qNum": 18,
+              "text": "According to Dan, some varieties of wild mushrooms are in decline because there is",
               "options": [
-                "A. Are mice capable of controlling their food intake?",
-                "B. Does an increase in sugar lead to health problems?",
-                "C. How much do supplements of different kinds affect health?"
-              ],
-              "answer": "A"
-            },
-            {
-              "qNum": 25,
-              "text": "Clare might also consider doing another experiment involving",
-              "options": [
-                "A. other types of food supplement.",
-                "B. different genetic strains of mice.",
-                "C. varying amounts of exercise."
+                "A. a huge demand for them from restaurants.",
+                "B. a lack of rain in this part of the country.",
+                "C. a rise in building developments locally."
               ],
               "answer": "C"
+            },
+            {
+              "qNum": 19,
+              "text": "Dan says that when storing mushrooms, people should",
+              "options": [
+                "A. keep them in the fridge for no more than two days.",
+                "B. keep them in a brown bag in a dark room.",
+                "C. leave them for a period after washing them."
+              ],
+              "answer": "A"
+            },
+            {
+              "qNum": 20,
+              "text": "What does Dan say about trying new varieties of mushrooms?",
+              "options": [
+                "A. Experiment with different recipes.",
+                "B. Expect some to have a strong taste.",
+                "C. Cook them for a long time."
+              ],
+              "answer": "A"
             }
           ]
         },
 
-        // --- PART 3: Questions 26-30 (Flowchart HTML with Select) ---
+        // --- PART 3: Questions 21–22 (MCQ Multi – opinions about Luddites) ---
         {
-          "type": "gap",
-          "title": "Questions 26-30",
-          "instruction": "Complete the flowchart below. Choose <strong>FIVE</strong> answers from the box and select the correct letter, <strong>A-H</strong>, next to Questions 26-30.",
-          "htmlContent": `
-            <div style="background:#fff; padding:20px; border:1px solid #ccc; max-width: 800px; margin: 0 auto;">
-                <div style="border: 2px solid #2B6830; padding: 15px; margin-bottom: 30px; background: #fdfdfd; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;">
-                    <div><strong>A</strong> size</div>
-                    <div><strong>B</strong> escape</div>
-                    <div><strong>C</strong> age</div>
-                    <div><strong>D</strong> water</div>
-                    <div><strong>E</strong> cereal</div>
-                    <div><strong>F</strong> calculations</div>
-                    <div><strong>G</strong> changes</div>
-                    <div><strong>H</strong> colour</div>
-                </div>
-
-                <div style="border:1px solid #000; padding:15px; text-align:left; background: #fff; border-radius: 4px;">
-                    Choose mice which are all the same <span class="q-badge-inline">26</span><select class="gap-select" data-qnum="26"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
-                </div>
-                <div style="text-align:center; font-size:24px; padding: 5px;">&#8595;</div>
-
-                <div style="border:1px solid #000; padding:15px; text-align:left; background: #fff; border-radius: 4px;">
-                    Divide the mice into two groups, each with a different <span class="q-badge-inline">27</span><select class="gap-select" data-qnum="27"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
-                </div>
-                <div style="text-align:center; font-size:24px; padding: 5px;">&#8595;</div>
-
-                <div style="border:1px solid #000; padding:15px; text-align:left; background: #fff; border-radius: 4px;">
-                    <p style="margin:5px 0;">Feed group A commercial mouse food.</p>
-                    <p style="margin:5px 0;">Feed group B the same, but also sugar contained in <span class="q-badge-inline">28</span><select class="gap-select" data-qnum="28"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select></p>
-                </div>
-                <div style="text-align:center; font-size:24px; padding: 5px;">&#8595;</div>
-
-                <div style="border:1px solid #000; padding:15px; text-align:left; background: #fff; border-radius: 4px;">
-                    <p style="margin:5px 0;">Take measurements using an electronic scale.</p>
-                    <p style="margin:5px 0;">Place them in a weighing chamber to prevent <span class="q-badge-inline">29</span><select class="gap-select" data-qnum="29"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select></p>
-                </div>
-                <div style="text-align:center; font-size:24px; padding: 5px;">&#8595;</div>
-
-                <div style="border:1px solid #000; padding:15px; text-align:left; background: #fff; border-radius: 4px;">
-                    Do all necessary <span class="q-badge-inline">30</span><select class="gap-select" data-qnum="30"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
-                </div>
-            </div>
-          `,
+          "type": "mcq_multi",
+          "title": "Part 3: Questions 21–22",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A–E</strong>.",
+          "stem": "Which TWO opinions about the Luddites do the students express?",
+          "options": [
+            "A. Their actions were ineffective.",
+            "B. They are still influential today.",
+            "C. They have received unfair criticism.",
+            "D. They were proved right.",
+            "E. Their attitude is understandable."
+          ],
           "items": [
-            { "qNum": 26, "answer": "C" },
-            { "qNum": 27, "answer": "H" },
-            { "qNum": 28, "answer": "E" },
-            { "qNum": 29, "answer": "B" },
-            { "qNum": 30, "answer": "F" }
+            { "qNums": [21, 22], "answer": ["A", "E"] }
           ]
         },
 
-        // --- PART 4: Questions 31-40 (Notes) ---
+        // --- PART 3: Questions 23–24 (MCQ Multi – predictions doubtful about) ---
+        {
+          "type": "mcq_multi",
+          "title": "Questions 23–24",
+          "instruction": "Choose <strong>TWO</strong> letters, <strong>A–E</strong>.",
+          "stem": "Which TWO predictions about the future of work are the students doubtful about?",
+          "options": [
+            "A. Work will be more rewarding.",
+            "B. Unemployment will fall.",
+            "C. People will want to delay retiring.",
+            "D. Working hours will be shorter.",
+            "E. People will change jobs more frequently."
+          ],
+          "items": [
+            { "qNums": [23, 24], "answer": ["B", "D"] }
+          ]
+        },
+
+        // --- PART 3: Questions 25–30 (Matching – comments about jobs) ---
+        {
+          "type": "matching",
+          "title": "Questions 25–30",
+          "instruction": "What comment do the students make about each of the following jobs? Choose <strong>SIX</strong> answers from the box and write the correct letter, <strong>A–G</strong>, next to Questions 25–30.",
+          "options": [
+            "A. These jobs are likely to be at risk.",
+            "B. Their role has become more interesting in recent years.",
+            "C. The number of people working in this sector has fallen dramatically.",
+            "D. This job will require more qualifications.",
+            "E. Higher disposable income has led to a huge increase in jobs.",
+            "F. There is likely to be a significant rise in demand for this service.",
+            "G. Both employment and productivity have risen."
+          ],
+          "items": [
+            { "qNum": 25, "text": "Accountants",         "answer": "G" },
+            { "qNum": 26, "text": "Hairdressers",         "answer": "E" },
+            { "qNum": 27, "text": "Administrative staff", "answer": "B" },
+            { "qNum": 28, "text": "Agricultural workers", "answer": "C" },
+            { "qNum": 29, "text": "Care workers",         "answer": "F" },
+            { "qNum": 30, "text": "Bank clerks",          "answer": "A" }
+          ]
+        },
+
+        // --- PART 4: Questions 31–40 (Notes – Space Traffic Management) ---
         {
           "type": "gap",
-          "title": "Part 4: Questions 31-40",
+          "title": "Part 4: Questions 31–40",
           "instruction": "Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.",
           "htmlContent": `
             <div style="background:#f9f9f9; padding:20px; border:1px solid #ddd;">
-                <h3 style="text-align:center; margin-top:0; color:#2B6830;">Microplastics</h3>
-                <p><strong>Where microplastics come from</strong></p>
-                <ul>
-                    <li>fibres from some <span class="q-badge-inline">31</span><input type="text" class="gap-input" data-qnum="31" id="input-31"> during washing</li>
-                    <li>the breakdown of large pieces of plastic</li>
-                    <li>waste from industry</li>
-                    <li>the action of vehicle tyres on roads</li>
-                </ul>
+              <h3 style="text-align:center; margin-top:0; color:#2B6830;">Space Traffic Management</h3>
 
-                <p><strong>Effects of microplastics</strong></p>
-                <ul>
-                    <li>They cause injuries to the <span class="q-badge-inline">32</span><input type="text" class="gap-input" data-qnum="32" id="input-32"> of wildlife and affect their digestive systems.</li>
-                    <li>They enter the food chain, e.g., in bottled and tap water, <span class="q-badge-inline">33</span><input type="text" class="gap-input" data-qnum="33" id="input-33"> and seafood.</li>
-                    <li>They may not affect human health, but they are already banned in skin cleaning products and <span class="q-badge-inline">34</span><input type="text" class="gap-input" data-qnum="34" id="input-34"> in some countries.</li>
-                    <li>Microplastics enter the soil through the air, rain and <span class="q-badge-inline">35</span><input type="text" class="gap-input" data-qnum="35" id="input-35">.</li>
-                </ul>
+              <p><strong>A Space Traffic Management system</strong></p>
+              <ul>
+                <li>is a concept similar to Air Traffic Control, but for satellites rather than planes.</li>
+                <li>would aim to set up legal and <span class="q-badge-inline">31</span><input type="text" class="gap-input" data-qnum="31" id="input-31"> ways of improving safety.</li>
+                <li>does not actually exist at present.</li>
+              </ul>
 
-                <p><strong>Microplastics in the soil - a study by Anglia Ruskin University</strong></p>
-                <ul>
-                    <li>Earthworms are important because they add <span class="q-badge-inline">36</span><input type="text" class="gap-input" data-qnum="36" id="input-36"> to the soil.</li>
-                    <li>The study aimed to find whether microplastics in earthworms affect the <span class="q-badge-inline">37</span><input type="text" class="gap-input" data-qnum="37" id="input-37"> of plants.</li>
-                    <li>The study found that microplastics caused:
-                        <ul>
-                            <li><span class="q-badge-inline">38</span><input type="text" class="gap-input" data-qnum="38" id="input-38"> loss in earthworms</li>
-                            <li>fewer seeds to germinate</li>
-                            <li>a rise in the level of <span class="q-badge-inline">39</span><input type="text" class="gap-input" data-qnum="39" id="input-39"> in the soil.</li>
-                        </ul>
-                    </li>
-                </ul>
-                <p><strong>The study concluded:</strong></p>
-                <ul>
-                    <li>soil should be seen as an important natural process.</li>
-                    <li>changes to soil damage both ecosystems and <span class="q-badge-inline">40</span><input type="text" class="gap-input" data-qnum="40" id="input-40">.</li>
-                </ul>
+              <p><strong>Problems in developing effective Space Traffic Management</strong></p>
+              <ul>
+                <li>Satellites are now quite <span class="q-badge-inline">32</span><input type="text" class="gap-input" data-qnum="32" id="input-32"> and therefore more widespread (e.g. there are constellations made up of <span class="q-badge-inline">33</span><input type="text" class="gap-input" data-qnum="33" id="input-33"> of satellites).</li>
+                <li>At present, satellites are not required to transmit information to help with their <span class="q-badge-inline">34</span><input type="text" class="gap-input" data-qnum="34" id="input-34">.</li>
+                <li>There are few systems for <span class="q-badge-inline">35</span><input type="text" class="gap-input" data-qnum="35" id="input-35"> satellites.</li>
+                <li>Small pieces of debris may be difficult to identify.</li>
+                <li>Operators may be unwilling to share details of satellites used for <span class="q-badge-inline">36</span><input type="text" class="gap-input" data-qnum="36" id="input-36"> or commercial reasons.</li>
+                <li>It may be hard to collect details of the object's <span class="q-badge-inline">37</span><input type="text" class="gap-input" data-qnum="37" id="input-37"> at a given time.</li>
+                <li>Scientists can only make a <span class="q-badge-inline">38</span><input type="text" class="gap-input" data-qnum="38" id="input-38"> about where the satellite will go.</li>
+              </ul>
+
+              <p><strong>Solutions</strong></p>
+              <ul>
+                <li>Common standards should be agreed on for the presentation of information.</li>
+                <li>The information should be combined in one <span class="q-badge-inline">39</span><input type="text" class="gap-input" data-qnum="39" id="input-39">.</li>
+                <li>A coordinated system must be designed to create <span class="q-badge-inline">40</span><input type="text" class="gap-input" data-qnum="40" id="input-40"> in its users.</li>
+              </ul>
             </div>
           `,
           "items": [
-            { "qNum": 31, "answer": "clothing" },
-            { "qNum": 32, "answer": "mouths" },
-            { "qNum": 33, "answer": "salt" },
-            { "qNum": 34, "answer": "toothpaste" },
-            { "qNum": 35, "answer": ["fertilisers", "fertilizers"] },
-            { "qNum": 36, "answer": "nutrients" },
-            { "qNum": 37, "answer": "growth" },
-            { "qNum": 38, "answer": "weight" },
-            { "qNum": 39, "answer": "acid" },
-            { "qNum": 40, "answer": "society" }
+            { "qNum": 31, "answer": "technical"      },
+            { "qNum": 32, "answer": "cheap"          },
+            { "qNum": 33, "answer": "thousands"      },
+            { "qNum": 34, "answer": "identification" },
+            { "qNum": 35, "answer": "tracking"       },
+            { "qNum": 36, "answer": "military"       },
+            { "qNum": 37, "answer": "location"       },
+            { "qNum": 38, "answer": "prediction"     },
+            { "qNum": 39, "answer": "database"       },
+            { "qNum": 40, "answer": "trust"          }
           ]
         }
+
       ]
     },
 
     // ==========================================================================
-    // PHẦN READING (Trang 61 - 74 PDF)
+    // PHẦN READING (Trang 61–74 PDF)
     // ==========================================================================
     reading: {
-      timeLimit: 3600, // 60 phút
+      timeLimit: 3600,
       passage: `
-        <div style="margin-bottom: 50px;">
-            <h2 style="color: #2B6830; border-bottom: 2px solid #ccc; padding-bottom: 10px;">READING PASSAGE 1</h2>
-            <p style="font-style: italic; color: #666;">You should spend about 20 minutes on <strong>Questions 1-13</strong>, which are based on Reading Passage 1 below.</p>
-            
-            <h3 style="text-align: center; color: #333;">Archaeologists discover evidence of prehistoric island settlers</h3>
-            
-            <p>In early April 2019, Dr Ceri Shipton and his colleagues from Australian National University became the first archaeologists to explore Obi, one of many tropical islands in Indonesia's Maluku Utara province. The research team's discoveries suggest that the prehistoric people who lived on Obi were adept on both land and sea, hunting in the dense rainforest, foraging on the seashore, and possibly even voyaging between islands.</p>
-            
-            <p>The excavations were part of a project to learn more about how people first dispersed from mainland Asia, through the Indonesian archipelago and into the prehistoric continent that once connected Australia and New Guinea. The team's earlier research suggested that the northernmost islands in the group, known as the Wallacean islands, including Obi, would have offered the easiest migration route. It also seemed likely that these islands were crucial 'stepping stones' on humans' island-hopping voyages through this region millennia ago. But to support this idea, they needed archaeological evidence for humans living in this remote area in the ancient past. So, they travelled to Obi to look for sites that might reveal evidence of early occupation.</p>
+        <div style="margin-bottom:50px;">
+          <h2 style="color:#2B6830; border-bottom:2px solid #ccc; padding-bottom:10px;">READING PASSAGE 1</h2>
+          <p style="font-style:italic; color:#666;">You should spend about 20 minutes on <strong>Questions 1–13</strong>, which are based on Reading Passage 1 below.</p>
 
-            <p>Just inland from the village of Kelo on Obi's northern coast, Shipton and his colleagues found two caves containing prehistoric rock shelters that were suitable for excavation. With the permission and help of the local people of Kelo, they dug a small test excavation in each shelter. There they found numerous artefacts, including fragments of axes, some dating to about 14,000 years ago. The earliest axes at Kelo were made using clam shells. Axes made from clam shells from roughly the same time had also previously been found elsewhere in this region, including on the nearby island of Gebe to the northeast. As on Gebe, it is highly likely that Obi's axes were used in the construction of canoes, thus allowing these early peoples to maintain connections between communities on neighbouring islands.</p>
+          <h3 style="text-align:center; color:#333;">Materials to take us beyond concrete</h3>
+          <p style="text-align:center; font-style:italic;">Concrete is everywhere, but it's bad for the planet, generating large amounts of carbon dioxide – alternatives are being developed</p>
 
-            <p>The oldest cultural layers from the Kelo site provided the team with the earliest record for human occupation on Obi, dating back around 18,000 years. At this time the climate was drier and colder than today, and the island's dense rainforests would likely have been much less impenetrable than they are now. Sea levels were about 120 metres lower, meaning Obi was a much larger island, encompassing what is today the separate island of Bisa, as well as several other small islands nearby.</p>
+          <p><strong>A</strong> Concrete is the second most used substance in the global economy, after water – and one of the world's biggest single sources of greenhouse gas emissions. The chemical process by which cement, the key ingredient of concrete, is created results in large quantities of carbon dioxide. The UN estimates that there will be 9.8 billion people living on the planet by mid-century. They will need somewhere to live. If concrete is the only answer to the construction of new cities, then carbon emissions will soar, aggravating global warming. And so scientists have started innovating with other materials, in a scramble for alternatives to a universal commodity that has underpinned our modern life for many years.</p>
 
-            <p>Roughly 11,700 years ago, as the most recent ice age ended, the climate became significantly warmer and wetter, no doubt making Obi's jungle much thicker. According to the researchers, it is no coincidence that around this time the first axes crafted from stone rather than sea shells appear, likely in response to their heavy-duty use for clearing and modification of the increasingly dense rainforest. While stone takes about twice as long to grind into an axe compared to shell, the harder material keeps its sharp edge for longer.</p>
+          <p><strong>B</strong> The problem with replacing concrete is that it is so very good at what it does. Chris Cheeseman, an engineering professor at Imperial College London, says the key thing to consider is the extent to which concrete is used around the world, and is likely to continue to be used. 'Concrete is not a high-carbon product. Cement is high carbon, but concrete is not. But it is the scale on which it is used that makes it high carbon. The sheer scale of manufacture is so huge, that is the issue.'</p>
 
-            <p>Judging by the bones which the researchers unearthed in the Kelo caves, people living there mainly hunted the Rothschild's cuscus, a possum-like creature that still lives on Obi today. As the forest grew more dense, people probably used axes to clear patches of forest and make hunting easier.</p>
+          <p><strong>C</strong> Not only are the ingredients of concrete relatively cheap and found in abundance in most places around the globe, the stuff itself has marvellous properties: Portland cement, the vital component of concrete, is mouldable and pourable, but quickly sets hard. Cheeseman also notes another advantage: concrete and steel have similar thermal expansion properties, so steel can be used to reinforce concrete, making it far stronger and more flexible as a building material than it could be on its own. According to Cheeseman, all these factors together make concrete hard to beat. 'Concrete is amazing stuff. Making anything with similar properties is going to be very difficult.'</p>
 
-            <p>Shipton's team's excavation of the shelters at the Kelo site unearthed a volcanic glass substance called obsidian, which must have been brought over from another island, as there is no known source on Obi. It also revealed particular types of beads, similar to those previously found on islands in southern Wallacea. These finds again support the idea that Obi islanders routinely travelled to other islands.</p>
+          <p><strong>D</strong> A possible alternative to concrete is wood. Making buildings from wood may seem like a rather medieval idea, but climate change is driving architects to turn to treated timber as a possible resource. Recent years have seen the emergence of tall buildings constructed almost entirely from timber. Vancouver, Vienna and Brumunddal in Norway are all home to constructed tall, wooden buildings.</p>
 
-            <p>The excavations suggest people successfully lived in the two Kelo shelters for about 10,000 years. But then, about 8,000 years ago, both were abandoned. Did the residents leave Obi completely, or move elsewhere on the island? Perhaps the jungle had grown so thick that axes were no longer a match for the dense undergrowth. Perhaps people simply moved to the coast and turned to fishing rather than hunting as a means of survival.</p>
+          <p><strong>E</strong> Using wood to construct buildings, however, is not straightforward. Wood expands as it absorbs moisture from the air and is susceptible to pests, not to mention fire. But treating wood and combining it with other materials can improve its properties. Cross-laminated timber is engineered wood. An adhesive is used to stick layers of solid-sawn timber together, crosswise, to form building blocks. This material is light but has the strength of concrete and steel. Construction experts say that wooden buildings can be constructed at a greater speed than ones of concrete and steel and the process, it seems, is quieter.</p>
 
-            <p>Whatever the reason for the departure, there is no evidence for use of the Kelo shelters after this time, until about 1,000 years ago, when they were re-occupied by people who owned pottery as well as items made out of gold and silver. It seems likely, in view of Obi's location, that this final phase of occupation also saw the Kelo shelters used by people involved in the historic trade in spices between the Maluku islands and the rest of the world.</p>
+          <p><strong>F</strong> Stora Enso is Europe's biggest supplier of cross-laminated timber, and its vice-president Markus Mannström reports that the company is seeing increasing demand globally for building in wood, with climate change concerns the key driver. Finland, with its large forests, where Stora Enso is based, has been leading the way, but the company is seeing a rise in demand for its timber products across the world, including in Asia. Of course, using timber in a building also locks away the carbon that it absorbed as it grew. But even treated wood has its limitations and only when a wider range of construction projects has been proven in practice will it be possible to see wood as a real alternative to concrete in constructing tall buildings.</p>
+
+          <p><strong>G</strong> Fly ash and slag from iron ore are possible alternatives to cement in a concrete mix. Fly ash, a byproduct of coal-burning power plants, can be incorporated into concrete mixes to make up as much as 15 to 30% of the cement, without harming the strength or durability of the resulting mix. Iron-ore slag, a byproduct of the iron-ore smelting process, can be used in a similar way. Their incorporation into concrete mixes has the potential to reduce greenhouse gas emissions. But Anna Surgenor, of the UK's Green Building Council, notes that although these waste products can save carbon in the concrete mix, their use is not always straightforward. 'It's possible to replace the cement content in concrete with waste products to lower the overall carbon impact. But there are several calculations that need to be considered across the entire life cycle of the building – these include factoring in where these materials are being shipped from. If they are transported over long distances, using fossil fuels, the use of alternative materials might not make sense from an overall carbon reduction perspective.'</p>
+
+          <p><strong>H</strong> While these technologies are all promising ideas, they are either unproven or based on materials that are not abundant. In their overview of innovation in the concrete industry, Felix Preston and Johanna Lehne of the UK's Royal Institute of International Affairs reached the conclusion that, 'Some novel cements have been discussed for more than a decade within the research community, without breaking through. At present, these alternatives are rarely as cost-effective as conventional cement, and they face raw-material shortages and resistance from customers.'</p>
         </div>
 
-        <hr style="border: 2px dashed #999; margin: 40px 0;">
+        <hr style="border:2px dashed #999; margin:40px 0;">
 
-        <div style="margin-bottom: 50px;">
-            <h2 style="color: #2B6830; border-bottom: 2px solid #ccc; padding-bottom: 10px;">READING PASSAGE 2</h2>
-            <p style="font-style: italic; color: #666;">You should spend about 20 minutes on <strong>Questions 14-26</strong>, which are based on Reading Passage 2 below.</p>
-            <h3 style="text-align: center;">The global importance of wetlands</h3>
+        <div style="margin-bottom:50px;">
+          <h2 style="color:#2B6830; border-bottom:2px solid #ccc; padding-bottom:10px;">READING PASSAGE 2</h2>
+          <p style="font-style:italic; color:#666;">You should spend about 20 minutes on <strong>Questions 14–26</strong>, which are based on Reading Passage 2 below.</p>
 
-            <p><strong>A</strong> Wetlands are areas where water covers the soil, or is present either at or near the surface of the soil, for all or part of the year. These are complex ecosystems, rich in unique plant and animal life. But according to the World Wide Fund for Nature (WWFN), half of the world's wetlands have disappeared since 1900-converted or destroyed for commercial development, drainage schemes and the extraction of minerals and peat. Many of those that remain have been damaged by agricultural pesticides and fertilisers, industrial pollutants, and construction works.</p>
+          <h3 style="text-align:center; color:#333;">The steam car</h3>
+          <p style="text-align:center; font-style:italic;">The successes and failures of the Doble brothers and their steam cars</p>
 
-            <p><strong>B</strong> Throughout history, humans have gathered around wetlands, and their fertile ecosystems have played an important part in human development. Consequently, they are of considerable religious, historical and archaeological value to many communities around the world. 'Wetlands directly support the livelihoods and well-being of millions of people,' says Dr Matthew McCartney, principal researcher and hydrologist at the International Water Management Institute (IWMI). 'In many developing countries, large numbers of people are dependent on wetland agriculture for their livelihoods.'</p>
+          <p><strong>A</strong> When primitive automobiles first began to appear in the 1800s, their engines were based on steam power. Steam had already enjoyed a long and successful career in the railways, so it was only natural that the technology evolved into a miniaturized version which was separate from the trains. But these early cars inherited steam's weaknesses along with its strengths. The boilers had to be lit by hand, and they required about twenty minutes to build up pressure before they could be driven. Furthermore, their water reservoirs only lasted for about thirty miles before needing replenishment. Despite such shortcomings, these newly designed self-propelled carriages offered quick transportation, and by the early 1900s it was not uncommon to see such machines shuttling wealthy citizens around town.</p>
 
-            <p><strong>C</strong> They also serve a crucial environmental purpose. 'Wetlands are one of the key tools in mitigating climate change across the planet,' says Pieter van Eijk, head of Climate Adaptation at Wetlands International (WI), pointing to their use as buffers that protect coastal areas from sea-level rise and extreme weather events such as hurricanes and flooding. Wetland coastal forests provide food and water, as well as shelter from storms, and WI and other agencies are working to restore those forests which have been lost. 'It can be as simple as planting a few trees per hectare to create shade and substantially change a microclimate,' he says. 'Implementing climate change projects isn't so much about money.'</p>
+          <p><strong>B</strong> But the glory days of steam cars were few. A new technology called the Internal Combustion Engine soon appeared, which offered the ability to drive down the road just moments after starting up. At first, these noisy gasoline cars were unpopular because they were more complicated to operate and they had difficult hand-crank starters, which were known to break arms when the engines backfired. But in 1912 General Motors introduced the electric starter, and over the following few years steam power was gradually phased out.</p>
 
-            <p><strong>D</strong> The world's wetlands are, unfortunately, rich sources for in-demand commodities, such as palm oil and pulpwood. Peatlands - wetlands with a waterlogged organic soil layer - are particularly targeted. When peatlands are drained for cultivation, they become net carbon emitters instead of active carbon stores, and, according to Marcel Silvius, head of Climate-smart Land-use at WI, this practice causes six per cent of all global carbon emissions. The clearance of peatlands for planting also increases the risk of forest fires, which release huge amounts of CO2. 'We're seeing huge peatland forests with extremely high biodiversity value being lost for a few decades of oil palm revenues,' says Silvius.</p>
+          <p><strong>C</strong> Even as the market was declining, four brothers made one last effort to rekindle the technology. Between 1906 and 1909, while still attending high school, Abner Doble and his three brothers built their first steam car in their parents' basement. It comprised parts taken from a wrecked early steam car but reconfigured to drive an engine of their own design. Though it did not run well, the Doble brothers went on to build a second and third prototype in the following years. Though the Doble boys' third prototype, nicknamed the Model B, still lacked the convenience of an internal combustion engine, it drew the attention of automobile trade magazines due to its numerous improvements over previous steam cars. The Model B proved to be superior to gasoline automobiles in many ways. Its high-pressure steam drove the engine pistons in virtual silence, in contrast to clattering gas engines which emitted the aroma of burned hydrocarbons. Perhaps most impressively, the Model B was amazingly swift. It could accelerate from zero to sixty miles per hour in just fifteen seconds, a feat described as 'remarkable acceleration' by <em>Automobile</em> magazine in 1914.</p>
 
-            <p><strong>E</strong> The damage starts when logging companies arrive to clear the trees. They dig ditches to enter the peat swamps by boat and then float the logs out the same way. These are then used to drain water out of the peatlands to allow for the planting of corn, oil palms or pulpwood trees. Once the water has drained away, bacteria and fungi then break down the carbon in the peat and turn it into CO2 and methane. Meanwhile, the remainder of the solid matter in the peat starts to move downwards, in a process known as subsidence. Peat comprises 90 per cent water, so this is one of the most alarming consequences of peatland clearances. 'In the tropics, peat subsides at about four centimetres a year, so within half a century, very large landscapes on Sumatra and Borneo will become flooded as the peat drops below water level,' says Silvius. 'It's a huge catastrophe that's in preparation. Some provinces will lose 40 per cent of their landmass.'</p>
+          <p><strong>D</strong> The following year Abner Doble drove the Model B from Massachusetts to Detroit in order to seek investment in his automobile design, which he used to open the General Engineering Company. He and his brothers immediately began working on the Model C, which was intended to expand upon the innovations of the Model B. The brothers added features such as a key-based ignition in the cabin, eliminating the need for the operator to manually ignite the boiler. With these enhancements, the Dobles' new car company promised a steam vehicle which would provide all of the convenience of a gasoline car, but with much greater speed, much simpler driving controls, and a virtually silent powerplant. By the following April, the General Engineering Company had received 5,390 deposits for Doble Detroits, which were scheduled for delivery in early 1918.</p>
 
-            <p><strong>F</strong> And while these industries affect wetlands in ways that can easily be documented, Dr Dave Tickner of the WWFN believes that more subtle impacts can be even more devastating. 'Sediment run-off and fertilisers can be pretty invisible,' says Tickner. 'Over-extraction of water is equally invisible. You do get shock stories about rivers running red, or even catching fire, but there's seldom one big impact that really hurts a wetland.' Tickner does not blame anyone for deliberate damage, however. 'I've worked on wetland issues for 20 years and have never met anybody who wanted to damage a wetland,' he says. 'It isn't something that people generally set out to do. Quite often, the effects simply come from people trying to make a living.'</p>
+          <p><strong>E</strong> Later that year Abner Doble delivered unhappy news to those eagerly awaiting the delivery of their modern new cars. Those buyers who received the handful of completed cars complained that the vehicles were sluggish and erratic, sometimes going in reverse when they should go forward. The new engine design, though innovative, was still plagued with serious glitches.</p>
 
-            <p><strong>G</strong> Silvius also acknowledges the importance of income generation. 'It's not that we just want to restore the biodiversity of wetlands - which we do - but we recognise there's a need to provide an income for local people.' This approach is supported by IWMI. 'The idea is that people in a developing country will only protect wetlands if they value and profit from them,' says McCartney. 'For sustainability, it's essential that local people are involved in wetland planning and decision making and have clear rights to use wetlands.'</p>
+          <p><strong>F</strong> The brothers made one final attempt to produce a viable steam automobile. In early 1924, the Doble brothers shipped a Model E to New York City to be road-tested by the Automobile Club of America. After sitting overnight in freezing temperatures, the car was pushed out into the road and left to sit for over an hour in the frosty morning air. At the turn of the key, the boiler lit and reached its operating pressure inside of forty seconds. As they drove the test vehicle further, they found that its evenly distributed weight lent it surprisingly good handling, even though it was so heavy. As the new Doble steamer was further developed and tested, its maximum speed was pushed to over a hundred miles per hour, and it achieved about fifteen miles per gallon of kerosene with negligible emissions.</p>
 
-            <p><strong>H</strong> The fortunes of wetlands would be improved, Silvius suggests, if more governments recognised their long-term value. 'Different governments have different attitudes,' he says, and goes on to explain that some countries place a high priority on restoring wetlands, while others still deny the issue. McCartney is cautiously optimistic, however. 'Awareness of the importance of wetlands is growing,' he says. 'It's true that wetland degradation still continues at a rapid pace, but my impression is that things are slowly changing.'</p>
+          <p><strong>G</strong> Sadly, the Dobles' brilliant steam car never was a financial success. Priced at around $18,000 in 1924, it was popular only among the very wealthy. Plus, it is said that no two Model Es were quite the same, because Abner Doble tinkered endlessly with the design. By the time the company folded in 1931, fewer than fifty of the amazing Model E steam cars had been produced. For his whole career, until his death in 1961, Abner Doble remained adamant that steam-powered automobiles were at least equal to gasoline cars, if not superior. Given the evidence, he may have been right. Many of the Model E Dobles which have survived are still in good working condition, some having been driven over half a million miles with only normal maintenance. Astonishingly, an unmodified Doble Model E runs clean enough to pass the emissions laws in California today, and they are pretty strict. It is true that the technology poses some difficult problems, but you cannot help but wonder how efficient a steam car might be with the benefit of modern materials and computers. Under the current pressure to improve automotive performance and reduce emissions, it is not unthinkable that the steam car may rise again.</p>
         </div>
 
-        <hr style="border: 2px dashed #999; margin: 40px 0;">
+        <hr style="border:2px dashed #999; margin:40px 0;">
 
-        <div style="margin-bottom: 50px;">
-            <h2 style="color: #2B6830; border-bottom: 2px solid #ccc; padding-bottom: 10px;">READING PASSAGE 3</h2>
-            <p style="font-style: italic; color: #666;">You should spend about 20 minutes on <strong>Questions 27-40</strong>, which are based on Reading Passage 3 below.</p>
-            
-            <h3 style="text-align: center;">Is the era of artificial speech translation upon us?</h3>
-            <p style="text-align:center; font-style:italic;">Once the stuff of science fiction, technology that enables people to talk using different languages is now here. But how effective is it?</p>
+        <div style="margin-bottom:50px;">
+          <h2 style="color:#2B6830; border-bottom:2px solid #ccc; padding-bottom:10px;">READING PASSAGE 3</h2>
+          <p style="font-style:italic; color:#666;">You should spend about 20 minutes on <strong>Questions 27–40</strong>, which are based on Reading Passage 3 below.</p>
 
-            <p>Noise, Alex Waibel tells me, is one of the major challenges that artificial speech translation has to meet. A device may be able to recognise speech in a laboratory, or a meeting room, but will struggle to cope with the kind of background noise I can hear in my office surrounding Professor Waibel as he speaks to me from Kyoto station in Japan. I'm struggling to follow him in English, on a scratchy line that reminds me we are nearly 10,000 kilometres apart - and that distance is still an obstacle to communication even if you're speaking the same language, as we are. We haven't reached the future yet. If we had, Waibel would have been able to speak more comfortably in his native German and I would have been able to hear his words in English.</p>
+          <h3 style="text-align:center; color:#333;">The case for mixed-ability classes</h3>
 
-            <p>At Karlsruhe Institute of Technology, where he is a professor of computer science, Waibel and his colleagues already give lectures in German that their students can follow in English via an electronic translator. The system generates text that students can read on their laptops or phones, so the process is somewhat similar to subtitling. It helps that lecturers speak clearly, don't have to compete with background chatter, and say much the same thing each year.</p>
+          <p>Picture this scene. It's an English literature lesson in a UK school, and the teacher has just read an extract from Shakespeare's <em>Romeo and Juliet</em> with a class of 15-year-olds. He's given some of the students copies of <em>No Fear Shakespeare</em>, a kid-friendly translation of the original. For three students, even these literacy demands are beyond them. Another girl simply can't focus and he gives her pens and paper to draw with. The teacher can ask the <em>No Fear</em> group to identify the key characters and maybe provide a tentative plot summary. He can ask most of the class about character development, and five of them might be able to support their statements with textual evidence. Now two curious students are wondering whether Shakespeare advocates living a life of moderation or one of passionate engagement.</p>
 
-            <p>The idea of artificial speech translation has been around for a long time. Douglas Adams' science fiction novel, The Hitchhiker's Guide to the Galaxy, published in 1979, featured a life form called the 'Babel fish' which, when placed in the ear, enabled a listener to understand any language in the universe. It came to represent one of those devices that technology enthusiasts dream of long before they become practically realisable, like TVs flat enough to hang on walls: objects that we once could only dream of having but that are now commonplace. Now devices that look like prototype Babel fish have started to appear, riding a wave of advances in artificial translation and voice recognition.</p>
+          <p>As a teacher myself, I'd think my lesson would be going rather well if the discussion went as described above. But wouldn't this kind of class work better if there weren't such a huge gap between the top and the bottom? If we put all the kids who needed literacy support into one class, and all the students who want to discuss the virtue of moderation into another?</p>
 
-            <p>At this stage, however, they seem to be regarded as eye-catching novelties rather than steps towards what Waibel calls 'making a language-transparent society'. They tend to be domestic devices or applications suitable for hotel check-ins, for example, providing a practical alternative to speaking traveller's English. The efficiency of the translator is less important than the social function. However, 'Professionals are less inclined to be patient in a conversation,' founder and CEO at Waverly Labs, Andrew Ochoa, observes. To redress this, Waverly is now preparing a new model for professional applications, which entails performance improvements in speech recognition, translation accuracy and the time it takes to deliver the translated speech.</p>
+          <p>The practice of 'streaming', or 'tracking', involves separating students into classes depending on their diagnosed levels of attainment. At a macro level, it requires the establishment of academically selective schools for the brightest students, and comprehensive schools for the rest. Within schools, it means selecting students into a 'stream' of general ability, or 'sets' of subject-specific ability. The practice is intuitively appealing to almost every stakeholder.</p>
 
-            <p>For a conversation, both speakers need to have devices called Pilots (translator earpieces) in their ears. 'We find that there's a barrier with sharing one of the earphones with a stranger,' says Ochoa. That can't have been totally unexpected. The problem would be solved if earpiece translators became sufficiently prevalent that strangers would be likely to already have their own in their ears. Whether that happens, and how quickly, will probably depend not so much on the earpieces themselves, but on the prevalence of voice-controlled devices and artificial translation in general.</p>
+          <p>I have heard the mixed-ability model attacked by way of analogy: a group hike. The fittest in the group take the lead and set a brisk pace, only to have to stop and wait every 20 minutes. This is frustrating, and their enthusiasm wanes. Meanwhile, the slowest ones are not only embarrassed but physically struggling to keep up. What's worse, they never get a long enough break. They honestly just want to quit. Hiking, they feel, is not for them.</p>
 
-            <p>Waibel highlights the significance of certain Asian nations, noting that voice translation has really taken off in countries such as Japan with a range of systems. There is still a long way to go, though. A translation system needs to be simultaneous, like the translator's voice speaking over the foreign politician being interviewed on the TV, rather than in sections that oblige speakers to pause after every few remarks and wait for the translation to be delivered. It needs to work offline, for situations where internet access isn't possible, and to address apprehensions about the amount of private speech data accumulating in the cloud, having been sent to servers for processing.</p>
+          <p>Mixed-ability classes bore students, frustrate parents and burn out teachers. The brightest ones will never summit Mount Qomolangma, and the stragglers won't enjoy the lovely stroll in the park they are perhaps more suited to. Individuals suffer at the demands of the collective, mediocrity prevails. So: is learning like hiking?</p>
 
-            <p>Systems not only need to cope with physical challenges such as noise, they will also need to be socially aware by addressing people in the right way. Some cultural traditions demand solemn respect for academic status, for example, and it is only polite to respect this. Etiquette-sensitive artificial translators could relieve people of the need to know these differing cultural norms. At the same time, they might help to preserve local customs, slowing the spread of habits associated with international English, such as its readiness to get on first-name terms.</p>
+          <p>The current pedagogical paradigm is arguably that of constructivism, which emerged out of the work of psychologist Lev Vygotsky. In the 1930s, Vygotsky emphasised the importance of targeting a student's specific 'zone of proximal development' (ZPD). This is the gap between what they can achieve only with support – teachers, textbooks, worked examples, parents and so on – and what they can achieve independently. The purpose of teaching is to provide and then gradually remove this 'scaffolding' until they are autonomous. If we accept this model, it follows that streaming students with similar ZPDs would be an efficient and effective solution. And that forcing everyone on the same hike regardless of aptitude – would be madness.</p>
 
-            <p>Professors and other professionals will not outsource language awareness to software, though. If the technology matures into seamless, ubiquitous artificial speech translation, it will actually add value to language skills. Whether it will help people conduct their family lives or relationships is open to question - though one noteworthy possibility is that it could overcome the language barriers that often arise between generations after migration, leaving children and their grandparents without a shared language.</p>
+          <p>Despite all this, there is limited empirical evidence to suggest that streaming results in better outcomes for students. Professor John Hattie, director of the Melbourne Education Research Institute, notes that 'tracking has minimal effects on learning outcomes'. What is more, streaming appears to significantly – and negatively – affect those students assigned to the lowest sets. These students tend to have much higher representation of low socioeconomic class. Less significant is the small benefit for those lucky clever students in the higher sets. The overall result is that the smart stay smart and the dumb get dumber, further entrenching the social divide.</p>
 
-            <p>Whatever uses it is put to, though, it will never be as good as the real thing. Even if voice-morphing technology simulates the speaker's voice, their lip movements won't match, and they will look like they are in a dubbed movie. The contrast will underline the value of shared languages, and the value of learning them. Sharing a language can promote a sense of belonging and community, as with the international scientists who use English as a lingua franca, where their predecessors used Latin. Though the practical need for a common language will diminish, the social value of sharing one will persist. And software will never be a substitute for the subtle but vital understanding that comes with knowledge of a language.</p>
+          <p>In the latest update of Hattie's influential meta-analysis of factors influencing student achievement, one of the most significant factors is the teachers' estimate of achievement. Streaming students by diagnosed achievement automatically limits what the teacher feels the student is capable of. Meanwhile, in a mixed environment, teachers' estimates need to be more diverse and flexible.</p>
+
+          <p>While streaming might seem to help teachers effectively target a student's ZPD, it can underestimate the importance of peer-to-peer learning. A crucial aspect of constructivist theory is the role of the MKO – 'more-knowledgeable other' – in knowledge construction. While teachers are traditionally the MKOs in classrooms, the value of knowledgeable student peers must not go unrecognised either.</p>
+
+          <p>I find it amazing to watch students get over an idea to their peers in ways that I would never think of. They operate with different language tools and different social tools from teachers and, having just learnt it themselves, they possess similar cognitive structures to their struggling classmates. There is also something exciting about passing on skills and knowledge that you yourself have just mastered – a certain pride and zeal, a certain freshness to the interaction between 'teacher' and 'learner' that is often lost by the expert for whom the steps are obvious and the joy of discovery forgotten.</p>
+
+          <p>Having a variety of different abilities in a collaborative learning environment provides valuable resources for helping students meet their learning needs, not to mention improving their communication and social skills. And today, more than ever, we need the many to flourish – not suffer at the expense of a few bright stars. Once a year, I go on a hike with my class, a mixed bunch of students. It is challenging. The fittest students realise they need to encourage the reluctant. There are lookouts who report back, and extra items to carry for others. We make it – together.</p>
         </div>
       `,
       questions: [
-        // --- PASSAGE 1 QUESTIONS (True/False/Not Given) ---
-        {
-          "type": "tfng",
-          "title": "Questions 1-7",
-          "instruction": "Do the following statements agree with the information given in Reading Passage 1?",
-          "items": [
-            { "qNum": 1, "text": "Archaeological research had taken place on the island of Obi before the arrival of Ceri Shipton and his colleagues.", "answer": "FALSE" },
-            { "qNum": 2, "text": "At the Kelo sites, the researchers found the first clam shell axes ever to be discovered in the region.", "answer": "FALSE" },
-            { "qNum": 3, "text": "The size of Obi today is less than it was 18,000 years ago.", "answer": "TRUE" },
-            { "qNum": 4, "text": "A change in the climate around 11,700 years ago had a greater impact on Obi than on the surrounding islands.", "answer": "NOT GIVEN" },
-            { "qNum": 5, "text": "The researchers believe there is a connection between warmer, wetter weather and a change in the material used to make axes.", "answer": "TRUE" },
-            { "qNum": 6, "text": "Shipton's team were surprised to find evidence of the Obi islanders' hunting practices.", "answer": "NOT GIVEN" },
-            { "qNum": 7, "text": "It is thought that the Kelo shelters were occupied continuously until about 1,000 years ago.", "answer": "FALSE" }
-          ]
-        },
-        
-        // --- PASSAGE 1 QUESTIONS (Note Completion) ---
-        {
-          "type": "gap",
-          "title": "Questions 8-13",
-          "instruction": "Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
-          "htmlContent": `
-            <div style="background:#f9f9f9; padding:20px; border-radius:8px;">
-                <h3 style="text-align:center; margin-top:0;">Archaeological findings on Obi</h3>
-                <p>Excavations of rock shelters inside <span class="q-badge-inline">8</span><input type="text" class="gap-input" data-qnum="8" id="input-8"> near the village of Kelo revealed:</p>
-                <ul>
-                    <li>axes from around 14,000 years ago, probably used to make canoes</li>
-                    <li>axes made out of <span class="q-badge-inline">9</span><input type="text" class="gap-input" data-qnum="9" id="input-9"> dating from around 11,700 years ago</li>
-                    <li><span class="q-badge-inline">10</span><input type="text" class="gap-input" data-qnum="10" id="input-10"> of an animal: evidence of what ancient islanders ate</li>
-                    <li>evidence of travel between islands:
-                        <ul>
-                            <li>obsidian: a material that is not found naturally on Obi</li>
-                            <li><span class="q-badge-inline">11</span><input type="text" class="gap-input" data-qnum="11" id="input-11"> which resembled ones found on other islands.</li>
-                        </ul>
-                    </li>
-                </ul>
-                <p>It is thought that from 8,000 years ago, Obi islanders:</p>
-                <ul>
-                    <li>may have switched from hunting to fishing</li>
-                    <li>had <span class="q-badge-inline">12</span><input type="text" class="gap-input" data-qnum="12" id="input-12"> as well as items made out of metal</li>
-                    <li>probably took part in the production and sale of <span class="q-badge-inline">13</span><input type="text" class="gap-input" data-qnum="13" id="input-13"></li>
-                </ul>
-            </div>
-          `,
-          "items": [
-            { "qNum": 8, "answer": "caves" },
-            { "qNum": 9, "answer": "stone" },
-            { "qNum": 10, "answer": "bones" },
-            { "qNum": 11, "answer": "beads" },
-            { "qNum": 12, "answer": "pottery" },
-            { "qNum": 13, "answer": "spices" }
-          ]
-        },
 
-        // --- PASSAGE 2 QUESTIONS (Matching Information) ---
+        // --- PASSAGE 1: Questions 1–4 (Matching information to paragraphs A–H) ---
         {
           "type": "matching_info",
-          "title": "Questions 14-17",
-          "instruction": "Reading Passage 2 has eight paragraphs, <strong>A-H</strong>. Which paragraph contains the following information?",
+          "title": "Questions 1–4",
+          "instruction": "Reading Passage 1 has eight sections, <strong>A–H</strong>. Which section contains the following information?",
           "options": ["A", "B", "C", "D", "E", "F", "G", "H"],
           "items": [
-            { "qNum": 14, "text": "reference to the need to ensure that inhabitants of wetland regions continue to benefit from them", "answer": "G" },
-            { "qNum": 15, "text": "the proportion of wetlands which have already been lost", "answer": "A" },
-            { "qNum": 16, "text": "reference to the idea that people are beginning to appreciate the value of wetlands", "answer": "H" },
-            { "qNum": 17, "text": "mention of the cultural significance of wetlands", "answer": "B" }
+            { "qNum": 1, "text": "an explanation of the industrial processes that create potential raw materials for concrete", "answer": "G" },
+            { "qNum": 2, "text": "a reference to the various locations where high-rise wooden buildings can be found", "answer": "D" },
+            { "qNum": 3, "text": "an indication of how widely available the raw materials of concrete are", "answer": "C" },
+            { "qNum": 4, "text": "the belief that more high-rise wooden buildings are needed before wood can be regarded as a viable construction material", "answer": "F" }
           ]
         },
 
-        // --- PASSAGE 2 QUESTIONS (Sentence Completion) ---
+        // --- PASSAGE 1: Questions 5–8 (Summary completion – Making buildings with wood) ---
         {
           "type": "gap",
-          "title": "Questions 18-22",
-          "instruction": "Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
+          "title": "Questions 5–8",
+          "instruction": "Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "htmlContent": `
-            <div style="background:#fff; padding:15px; border:1px solid #eee;">
-                <p>18. Peatlands which have been drained begin to release <span class="q-badge-inline">18</span><input type="text" class="gap-input" data-qnum="18" id="input-18"> instead of storing it.</p>
-                <p>19. Once peatland areas have been cleared, <span class="q-badge-inline">19</span><input type="text" class="gap-input" data-qnum="19" id="input-19"> are more likely to occur.</p>
-                <p>20. Clearing peatland forests to make way for oil palm plantations destroys the <span class="q-badge-inline">20</span><input type="text" class="gap-input" data-qnum="20" id="input-20"> of the local environment.</p>
-                <p>21. Water is drained out of peatlands through the <span class="q-badge-inline">21</span><input type="text" class="gap-input" data-qnum="21" id="input-21"> which are created by logging companies.</p>
-                <p>22. Draining peatlands leads to <span class="q-badge-inline">22</span><input type="text" class="gap-input" data-qnum="22" id="input-22">: a serious problem which can eventually result in coastal flooding and land loss.</p>
+            <div style="background:#f9f9f9; padding:20px; border-radius:8px; border:1px solid #ddd;">
+              <h3 style="text-align:center; margin-top:0; color:#2B6830;">Making buildings with wood</h3>
+              <p>Wood is a traditional building material, but current environmental concerns are encouraging
+                <span class="q-badge-inline">5</span><input type="text" class="gap-input" data-qnum="5" id="input-5">
+                to use wood in modern construction projects. Using wood, however, has its challenges. For example, as
+                <span class="q-badge-inline">6</span><input type="text" class="gap-input" data-qnum="6" id="input-6">
+                in the atmosphere enters wood, it increases in size. In addition, wood is prone to pests and the risk of fire is greater. However, wood can be turned into a better construction material if it is treated and combined with other materials. In one process,
+                <span class="q-badge-inline">7</span><input type="text" class="gap-input" data-qnum="7" id="input-7">
+                of solid wood are glued together to create building blocks. These blocks are lighter than concrete and steel but equal them in strength. Experts say that wooden buildings are an improvement on those made of concrete and steel in terms of the
+                <span class="q-badge-inline">8</span><input type="text" class="gap-input" data-qnum="8" id="input-8">
+                with which they can be constructed and how much noise is generated by the process.
+              </p>
             </div>
           `,
           "items": [
-            { "qNum": 18, "answer": "carbon" },
-            { "qNum": 19, "answer": "fires" },
-            { "qNum": 20, "answer": "biodiversity" },
-            { "qNum": 21, "answer": "ditches" },
-            { "qNum": 22, "answer": "subsidence" }
+            { "qNum": 5, "answer": "architects" },
+            { "qNum": 6, "answer": "moisture"   },
+            { "qNum": 7, "answer": "layers"     },
+            { "qNum": 8, "answer": "speed"      }
           ]
         },
 
-        // --- PASSAGE 2 QUESTIONS (Matching Experts) ---
+        // --- PASSAGE 1: Questions 9–13 (Match statements to people, can repeat) ---
         {
           "type": "matching",
-          "title": "Questions 23-26",
-          "instruction": "Match each statement with the correct expert, <strong>A-D</strong>.",
+          "title": "Questions 9–13",
+          "instruction": "Look at the following statements (Questions 9–13) and the list of people below. Match each statement with the correct person, <strong>A, B, C or D</strong>. <em>NB You may use any letter more than once.</em>",
           "options": [
-            "A. Matthew McCartney",
-            "B. Pieter van Eijk",
-            "C. Marcel Silvius",
-            "D. Dave Tickner"
+            "A. Chris Cheeseman",
+            "B. Markus Mannström",
+            "C. Anna Surgenor",
+            "D. Felix Preston and Johanna Lehne"
           ],
           "items": [
-            { "qNum": 23, "text": "Communities living in wetland regions must be included in discussions about the future of these areas.", "answer": "A" },
-            { "qNum": 24, "text": "Official policies towards wetlands vary from one nation to the next.", "answer": "C" },
-            { "qNum": 25, "text": "People cause harm to wetlands without having any intention to do so.", "answer": "D" },
-            { "qNum": 26, "text": "Initiatives to reverse environmental damage need not be complex.", "answer": "B" }
+            { "qNum": 9,  "text": "The environmental advantage of cement alternatives may not be as great as initially assumed.", "answer": "C" },
+            { "qNum": 10, "text": "It would be hard to create a construction alternative to concrete that offers so many comparable benefits.", "answer": "A" },
+            { "qNum": 11, "text": "Worries about the environment have led to increased interest in wood as a construction material.", "answer": "B" },
+            { "qNum": 12, "text": "Expense has been a factor in the negative response to the development of new cements.", "answer": "D" },
+            { "qNum": 13, "text": "The environmental damage caused by concrete is due to it being produced in large quantities.", "answer": "A" }
           ]
         },
 
-        // --- PASSAGE 3 QUESTIONS (MCQ) ---
+        // --- PASSAGE 2: Questions 14–20 (Heading matching – paragraphs A–G) ---
+        {
+          "type": "gap",
+          "title": "Questions 14–20",
+          "instruction": "Reading Passage 2 has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for each paragraph from the list of headings below. Write the correct number, <strong>i–viii</strong>, next to Questions 14–20.",
+          "htmlContent": `
+            <div style="background:#fff; padding:20px; border:1px solid #ccc;">
+              <div style="border:2px solid #2B6830; padding:15px; margin-bottom:20px; background:#fdfdfd;">
+                <strong>List of Headings</strong>
+                <ul style="list-style:none; padding-left:0; margin-top:8px; line-height:2;">
+                  <li><strong>i</strong>&emsp;A period in cold conditions before the technology is assessed</li>
+                  <li><strong>ii</strong>&emsp;Marketing issues lead to failure</li>
+                  <li><strong>iii</strong>&emsp;Good and bad aspects of steam technology are passed on</li>
+                  <li><strong>iv</strong>&emsp;A possible solution to the issues of today</li>
+                  <li><strong>v</strong>&emsp;Further improvements lead to commercial orders</li>
+                  <li><strong>vi</strong>&emsp;Positive publicity at last for this quiet, clean, fast vehicle</li>
+                  <li><strong>vii</strong>&emsp;A disappointing outcome for customers</li>
+                  <li><strong>viii</strong>&emsp;A better option than the steam car arises</li>
+                </ul>
+              </div>
+              <table style="width:100%; border-collapse:collapse; font-size:0.95rem;">
+                <tbody>
+                  <tr>
+                    <td style="padding:10px; border:1px solid #ddd; width:35%;"><span class="q-badge-inline">14</span> Paragraph A</td>
+                    <td style="padding:10px; border:1px solid #ddd;"><select class="gap-select" data-qnum="14"><option value="">...</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></td>
+                  </tr>
+                  <tr style="background:#f9f9f9;">
+                    <td style="padding:10px; border:1px solid #ddd;"><span class="q-badge-inline">15</span> Paragraph B</td>
+                    <td style="padding:10px; border:1px solid #ddd;"><select class="gap-select" data-qnum="15"><option value="">...</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px; border:1px solid #ddd;"><span class="q-badge-inline">16</span> Paragraph C</td>
+                    <td style="padding:10px; border:1px solid #ddd;"><select class="gap-select" data-qnum="16"><option value="">...</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></td>
+                  </tr>
+                  <tr style="background:#f9f9f9;">
+                    <td style="padding:10px; border:1px solid #ddd;"><span class="q-badge-inline">17</span> Paragraph D</td>
+                    <td style="padding:10px; border:1px solid #ddd;"><select class="gap-select" data-qnum="17"><option value="">...</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px; border:1px solid #ddd;"><span class="q-badge-inline">18</span> Paragraph E</td>
+                    <td style="padding:10px; border:1px solid #ddd;"><select class="gap-select" data-qnum="18"><option value="">...</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></td>
+                  </tr>
+                  <tr style="background:#f9f9f9;">
+                    <td style="padding:10px; border:1px solid #ddd;"><span class="q-badge-inline">19</span> Paragraph F</td>
+                    <td style="padding:10px; border:1px solid #ddd;"><select class="gap-select" data-qnum="19"><option value="">...</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:10px; border:1px solid #ddd;"><span class="q-badge-inline">20</span> Paragraph G</td>
+                    <td style="padding:10px; border:1px solid #ddd;"><select class="gap-select" data-qnum="20"><option value="">...</option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `,
+          "items": [
+            { "qNum": 14, "answer": "iii"  },
+            { "qNum": 15, "answer": "viii" },
+            { "qNum": 16, "answer": "vi"   },
+            { "qNum": 17, "answer": "v"    },
+            { "qNum": 18, "answer": "vii"  },
+            { "qNum": 19, "answer": "i"    },
+            { "qNum": 20, "answer": "iv"   }
+          ]
+        },
+
+        // --- PASSAGE 2: Questions 21–23 (MCQ) ---
         {
           "type": "mcq_single",
-          "title": "Questions 27-30",
+          "title": "Questions 21–23",
+          "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
+          "items": [
+            {
+              "qNum": 21,
+              "text": "What point does the writer make about the steam car in Paragraph B?",
+              "options": [
+                "A. Its success was short-lived.",
+                "B. Not enough cars were made.",
+                "C. Car companies found them hard to sell.",
+                "D. People found them hard to drive."
+              ],
+              "answer": "A"
+            },
+            {
+              "qNum": 22,
+              "text": "When building their first steam car, the Doble brothers",
+              "options": [
+                "A. constructed all the parts themselves.",
+                "B. made written notes at each stage of the construction.",
+                "C. needed several attempts to achieve a competitive model.",
+                "D. sought the advice of experienced people in the car industry."
+              ],
+              "answer": "C"
+            },
+            {
+              "qNum": 23,
+              "text": "In order to produce the Model C, the Doble brothers",
+              "options": [
+                "A. moved production to a different city.",
+                "B. raised financial capital.",
+                "C. employed an additional worker.",
+                "D. abandoned their earlier designs."
+              ],
+              "answer": "B"
+            }
+          ]
+        },
+
+        // --- PASSAGE 2: Questions 24–26 (Summary completion – The Model E) ---
+        {
+          "type": "gap",
+          "title": "Questions 24–26",
+          "instruction": "Complete the summary below. Choose <strong>ONE WORD AND/OR A NUMBER</strong> from the passage for each answer.",
+          "htmlContent": `
+            <div style="background:#f9f9f9; padding:20px; border-radius:8px; border:1px solid #ddd;">
+              <h3 style="text-align:center; margin-top:0; color:#2B6830;">The Model E</h3>
+              <p>The Model E was road-tested in 1924 by the Automobile Club of America. They found it easy to drive, despite its weight, and it impressed the spectators. A later version of the Model E raised its
+                <span class="q-badge-inline">24</span><input type="text" class="gap-input" data-qnum="24" id="input-24">,
+                while keeping its emissions extremely low.
+              </p>
+              <p>The steam car was too expensive for many people and its design was constantly being altered. Under
+                <span class="q-badge-inline">25</span><input type="text" class="gap-input" data-qnum="25" id="input-25">
+                cars were produced before the company went out of business. However, even today, there are Model Es on the road in the US. They are straightforward to maintain, and they satisfy California's
+                <span class="q-badge-inline">26</span><input type="text" class="gap-input" data-qnum="26" id="input-26">
+                emissions laws. Perhaps today's technology and materials would help us revive the steam car.
+              </p>
+            </div>
+          `,
+          "items": [
+            { "qNum": 24, "answer": "speed"          },
+            { "qNum": 25, "answer": ["fifty", "50"]  },
+            { "qNum": 26, "answer": "strict"         }
+          ]
+        },
+
+        // --- PASSAGE 3: Questions 27–30 (MCQ) ---
+        {
+          "type": "mcq_single",
+          "title": "Questions 27–30",
           "instruction": "Choose the correct letter, <strong>A, B, C or D</strong>.",
           "items": [
             {
               "qNum": 27,
-              "text": "What does the reader learn about the conversation in the first paragraph?",
+              "text": "The writer describes the <em>Romeo and Juliet</em> lesson in order to demonstrate",
               "options": [
-                "A. The speakers are communicating in different languages.",
-                "B. Neither of the speakers is familiar with their environment.",
-                "C. The topic of the conversation is difficult for both speakers.",
-                "D. Aspects of the conversation are challenging for both speakers."
+                "A. how few students are interested in literature.",
+                "B. how a teacher handles a range of learning needs.",
+                "C. how unsuitable Shakespeare is for most teenagers.",
+                "D. how weaker students can disrupt their classmates' learning."
               ],
-              "answer": "D"
+              "answer": "B"
             },
             {
               "qNum": 28,
-              "text": "What assists the electronic translator during lectures at Karlsruhe Institute of Technology?",
+              "text": "What does the writer say about streaming in the third paragraph?",
               "options": [
-                "A. the repeated content of lectures",
-                "B. the students' reading skills",
-                "C. the languages used",
-                "D. the lecturers' technical ability"
+                "A. It has a very broad appeal.",
+                "B. It favours cleverer students.",
+                "C. It is relatively simple to implement.",
+                "D. It works better in some schools than others."
               ],
               "answer": "A"
             },
             {
               "qNum": 29,
-              "text": "When referring to The Hitchhiker's Guide to the Galaxy, the writer suggests that",
+              "text": "What idea is suggested by the reference to Mount Qomolangma in the fifth paragraph?",
               "options": [
-                "A. the Babel fish was considered undesirable at the time.",
-                "B. this book was not seriously intending to predict the future.",
-                "C. artificial speech translation was not a surprising development.",
-                "D. some speech translation techniques are better than others."
+                "A. students following unsuitable paths",
+                "B. students attempting interesting tasks",
+                "C. students not achieving their full potential",
+                "D. students not being aware of their limitations"
               ],
               "answer": "C"
             },
             {
               "qNum": 30,
-              "text": "What does the writer say about sharing earpieces?",
+              "text": "What does the word 'scaffolding' in the sixth paragraph refer to?",
               "options": [
-                "A. It is something people will get used to doing.",
-                "B. The reluctance to do this is understandable.",
-                "C. The equipment will be unnecessary in the future.",
-                "D. It is something few people need to worry about."
+                "A. the factors which prevent a student from learning effectively",
+                "B. the environment where most of a student's learning takes place",
+                "C. the assistance given to a student in their initial stages of learning",
+                "D. the setting of appropriate learning targets for a student's aptitude"
               ],
-              "answer": "B"
+              "answer": "C"
             }
           ]
         },
 
-        // --- PASSAGE 3 QUESTIONS (Matching Sentence Endings) ---
+        // --- PASSAGE 3: Questions 31–35 (Summary completion – phrase list A–I) ---
         {
-          "type": "matching",
-          "title": "Questions 31-34",
-          "instruction": "Complete each sentence with the correct ending, <strong>A-F</strong>, below.",
-          "options": [
-            "A. but there are concerns about this.",
-            "B. as systems do not need to conform to standard practices.",
-            "C. but they are far from perfect.",
-            "D. despite the noise issues.",
-            "E. because translation is immediate.",
-            "F. and have an awareness of good manners."
-          ],
+          "type": "gap",
+          "title": "Questions 31–35",
+          "instruction": "Complete the summary using the list of phrases, <strong>A–I</strong>, below. Write the correct letter, <strong>A–I</strong>, in boxes 31–35.",
+          "htmlContent": `
+            <div style="background:#fff; padding:20px; border:1px solid #ccc;">
+              <div style="border:2px solid #2B6830; padding:15px; margin-bottom:20px; background:#fdfdfd; display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; font-size:0.93rem;">
+                <div><strong>A</strong> wrong classes</div>
+                <div><strong>B</strong> lower expectations</div>
+                <div><strong>C</strong> average learners</div>
+                <div><strong>D</strong> bottom sets</div>
+                <div><strong>E</strong> brightest pupils</div>
+                <div><strong>F</strong> disadvantaged backgrounds</div>
+                <div><strong>G</strong> weaker students</div>
+                <div><strong>H</strong> higher achievements</div>
+                <div><strong>I</strong> positive impressions</div>
+              </div>
+              <h3 style="text-align:center; margin-top:0; color:#2B6830;">Is streaming effective?</h3>
+              <p>
+                According to Professor John Hattie of the Melbourne Education Research Institute,
+                there is very little indication that streaming leads to
+                <span class="q-badge-inline">31</span><select class="gap-select" data-qnum="31"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select>.
+                He points out that, in schools which use streaming, the most significant impact is on those students placed in the
+                <span class="q-badge-inline">32</span><select class="gap-select" data-qnum="32"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select>,
+                especially where a large proportion of them have
+                <span class="q-badge-inline">33</span><select class="gap-select" data-qnum="33"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select>.
+                Meanwhile, for the
+                <span class="q-badge-inline">34</span><select class="gap-select" data-qnum="34"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select>,
+                there appears to be only minimal advantage. A further issue is that teachers tend to have
+                <span class="q-badge-inline">35</span><select class="gap-select" data-qnum="35"><option value="">...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option><option value="I">I</option></select>
+                of students in streamed groups.
+              </p>
+            </div>
+          `,
           "items": [
-            { "qNum": 31, "text": "Speech translation methods are developing fast in Japan", "answer": "C" },
-            { "qNum": 32, "text": "TV interviews that use translation voiceover methods are successful", "answer": "E" },
-            { "qNum": 33, "text": "Future translation systems should address people appropriately", "answer": "F" },
-            { "qNum": 34, "text": "Users may be able to maintain their local customs", "answer": "B" }
+            { "qNum": 31, "answer": "H" },
+            { "qNum": 32, "answer": "D" },
+            { "qNum": 33, "answer": "F" },
+            { "qNum": 34, "answer": "E" },
+            { "qNum": 35, "answer": "B" }
           ]
         },
 
-        // --- PASSAGE 3 QUESTIONS (Yes/No/Not Given) ---
+        // --- PASSAGE 3: Questions 36–40 (YES/NO/NOT GIVEN) ---
         {
           "type": "ynng",
-          "title": "Questions 35-40",
+          "title": "Questions 36–40",
           "instruction": "Do the following statements agree with the views of the writer in Reading Passage 3?",
           "items": [
-            { "qNum": 35, "text": "Language translation systems will be seen as very useful throughout the academic and professional worlds.", "answer": "NO" },
-            { "qNum": 36, "text": "The overall value of automated translation to family life is yet to be shown.", "answer": "YES" },
-            { "qNum": 37, "text": "Automated translation could make life more difficult for immigrant families.", "answer": "NO" },
-            { "qNum": 38, "text": "Visual aspects of language translation are being considered by scientists.", "answer": "NOT GIVEN" },
-            { "qNum": 39, "text": "International scientists have found English easier to translate into other languages than Latin.", "answer": "NOT GIVEN" },
-            { "qNum": 40, "text": "As far as language is concerned, there is a difference between people's social and practical needs.", "answer": "YES" }
+            { "qNum": 36, "text": "The Vygotsky model of education supports the concept of a mixed-ability class.", "answer": "NO" },
+            { "qNum": 37, "text": "Some teachers are uncertain about allowing students to take on MKO roles in the classroom.", "answer": "NOT GIVEN" },
+            { "qNum": 38, "text": "It can be rewarding to teach knowledge which you have only recently acquired.", "answer": "YES" },
+            { "qNum": 39, "text": "The priority should be to ensure that the highest-achieving students attain their goals.", "answer": "NO" },
+            { "qNum": 40, "text": "Taking part in collaborative outdoor activities with teachers and classmates can improve student outcomes in the classroom.", "answer": "NOT GIVEN" }
           ]
         }
+
       ]
     },
 
     // ==========================================================================
-    // PHẦN WRITING (Trang 75 - 76 PDF)
+    // PHẦN WRITING (Trang 75–76 PDF)
     // ==========================================================================
     writing: {
       task1: {
         title: "WRITING TASK 1",
-        // Lưu ý: Bạn cần cắt ảnh từ PDF (trang 75) và lưu vào thư mục public/images/cam18/
-        image: "https://i.postimg.cc/jjCzhJjf/Screenshot-2026-02-06-111808.png", 
+        image: "https://i.postimg.cc/jjCzhJjf/Screenshot-2026-02-06-111808.png",
         prompt: `
           You should spend about 20 minutes on this task.
 
@@ -641,13 +750,13 @@ export const cam18_test3 = {
           You should spend about 40 minutes on this task.
 
           Write about the following topic:
-  
+
             In many countries around the world, rural people are moving to cities, so the population in the countryside is decreasing.
-            
+
             Do you think this is a positive or a negative development?
-  
+
           Give reasons for your answer and include any relevant examples from your own knowledge or experience.
-          
+
           Write at least 250 words.
         `
       }
