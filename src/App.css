@@ -361,6 +361,7 @@ a { text-decoration: none; }
   background: white;
   padding: 30px;
   width: 350px;
+  max-width: calc(100vw - 24px); /* Không tràn màn hình điện thoại nhỏ */
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   text-align: center;
@@ -372,6 +373,7 @@ a { text-decoration: none; }
   background: white;
   padding: 30px;
   width: 650px;
+  max-width: calc(100vw - 24px); /* Không tràn màn hình mobile/tablet */
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   text-align: center;
@@ -1754,7 +1756,7 @@ a { text-decoration: none; }
 .confirm-box {
   background: white; padding: 30px; border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  width: 400px; text-align: center;
+  width: 400px; max-width: calc(100vw - 24px); text-align: center;
   animation: popIn 0.3s ease-out;
 }
 
@@ -2231,8 +2233,12 @@ a { text-decoration: none; }
   padding: 40px 20px;
 }
 
-@media (max-width: 600px) {
-  .detailed-result-container { padding: 15px; }
-  .result-grid { grid-template-columns: repeat(2, 1fr); /* Mobile chia 2 cột */ }
+/* Responsive: LandingPage h1 quá lớn trên mobile */
+@media (max-width: 480px) {
+  .landing-title {
+    font-size: 1.8rem !important;
+  }
+}
+ia 2 cột */ }
 }
 

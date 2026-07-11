@@ -35,5 +35,8 @@ export default defineConfig({
         ]
       }
     })
-  ]
+  ],
+  build: {
+    cssMinify: 'esbuild' // lightningcss có bug với bundle này, esbuild tương đương
+  }
 })

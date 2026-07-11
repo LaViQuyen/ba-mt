@@ -6,7 +6,7 @@ export default function LandingPage({ onOpenLogin }) {
     // Giảm paddingTop từ 100px xuống 80px để nội dung đẩy lên cao một chút, cân đối với màn hình
     <div className="container" style={{textAlign: 'center', paddingTop: '80px'}}>
       
-      <h1 style={{fontSize: '3rem', color: '#2B6830', marginBottom: '20px'}}>
+      <h1 className="landing-title" style={{fontSize: '3rem', color: '#2B6830', marginBottom: '20px'}}>
         CHÀO MỪNG ĐẾN VỚI BE ABLE VN
       </h1>
       

@@ -329,18 +329,20 @@ export default function AdminPage() {
         <button
             onClick={() => setActiveTab(id)}
             style={{
-                background: activeTab === id ? '#1e40af' : 'transparent', color: 'white',
+                background: activeTab === id ? '#1E5225' : 'transparent', color: 'white',
                 border: 'none', padding: '10px 15px', borderRadius: '8px', textAlign: 'left',
                 cursor: 'pointer', fontSize: '0.95rem', fontWeight: activeTab === id ? 'bold' : 'normal',
                 transition: '0.2s', display: 'flex', alignItems: 'center', gap: '10px'
             }}
+            onMouseOver={e => { if (activeTab !== id) e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
+            onMouseOut={e => { if (activeTab !== id) e.currentTarget.style.background = 'transparent'; }}
         >
             <i className={icon} style={{ width: '20px' }}></i> {label}
         </button>
     );
 
     return (
-        <div style={{ display: 'flex', height: 'calc(100vh - 65px)', background: '#f8fafc', overflow: 'hidden' }}>
+        <div className="admin-layout" style={{ display: 'flex', height: 'calc(100vh - 65px)', background: '#f8fafc', overflow: 'hidden' }}>
             <ToastContainer position="top-right" autoClose={3000} theme="colored" />
 
             <style>{`
@@ -350,10 +352,18 @@ export default function AdminPage() {
           /* Fix: dropdown picker của Quill bị clip bởi overflow:hidden container */
           .ql-snow .ql-picker-options { z-index: 200 !important; }
           .ql-snow .ql-picker.ql-expanded .ql-picker-label { z-index: 201 !important; }
+          /* Responsive AdminPage trên mobile/tablet */
+          @media (max-width: 768px) {
+            .admin-layout { flex-direction: column !important; height: auto !important; overflow: visible !important; }
+            .admin-sidebar { width: 100% !important; height: auto !important; flex-direction: row !important; flex-wrap: wrap !important; padding: 12px 10px !important; gap: 6px !important; overflow-y: visible !important; }
+            .admin-sidebar h2 { display: none !important; }
+            .admin-sidebar > div[style*="font-size: 0.8rem"] { display: none !important; }
+            .admin-content { padding: 16px !important; height: auto !important; overflow-y: visible !important; }
+          }
       `}</style>
 
             {/* --- SIDEBAR TRÁI --- */}
-            <div style={{
+            <div className="admin-sidebar" style={{
                 width: '280px', background: '#2B6830', color: 'white', padding: '30px 20px',
                 display: 'flex', flexDirection: 'column', gap: '5px', boxShadow: '2px 0 10px rgba(0,0,0,0.1)', flexShrink: 0,
                 height: '100%', overflowY: 'auto'
@@ -382,7 +392,7 @@ export default function AdminPage() {
             </div>
 
             {/* --- CONTENT PHẢI --- */}
-            <div style={{ flex: 1, padding: '20px 40px', overflowY: 'auto', height: '100%' }}>
+            <div className="admin-content" style={{ flex: 1, padding: '20px 40px', overflowY: 'auto', height: '100%' }}>
 
                 {/* TAB 1: DANH SÁCH TÀI KHOẢN */}
                 {activeTab === 'userList' && (
@@ -456,11 +466,11 @@ export default function AdminPage() {
                                                                     <i className={safeRole === 'normal' ? "fa-solid fa-arrow-up" : "fa-solid fa-arrow-down"}></i>
                                                                 </button>
 
-                                                                <button onClick={() => handleToggleLock(user.id, isLocked)} title={isLocked ? "Mở khóa tài khoản" : "Khóa tài khoản"} style={{ background: isLocked ? '#dcfce7' : '#fff7ed', border: `1px solid ${isLocked ? '#86efac' : '#fed7aa'}`, borderRadius: '4px', padding: '6px 10px', cursor: 'pointer', color: isLocked ? '#166534' : '#c2410c' }}>
+                                                                <button onClick={() => handleToggleLock(user.id, isLocked)} title={isLocked ? "Mở khóa tài khoản" : "Khóa tài khoản"} style={{ background: isLocked ? '#dcfce7' : '#fff7ed', border: `1px solid ${isLocked ? '#86efac' : '#fed7aa'}`, borderRadius: '4px', padding: '6px 10px', cursor: 'pointer', color: isLocked ? '#166534' : '#2B6830' }}>
                                                                     <i className={isLocked ? "fa-solid fa-lock-open" : "fa-solid fa-lock"}></i>
                                                                 </button>
 
-                                                                <button onClick={() => handleResetPassword(user.id)} title="Reset Pass" style={{ background: '#E8F4EC', border: '1px solid #bae6fd', borderRadius: '4px', padding: '6px 10px', cursor: 'pointer', color: '#0284c7' }}>
+                                                                <button onClick={() => handleResetPassword(user.id)} title="Reset Pass" style={{ background: '#E8F4EC', border: '1px solid #b7d9bc', borderRadius: '4px', padding: '6px 10px', cursor: 'pointer', color: '#2B6830' }}>
                                                                     <i className="fa-solid fa-key"></i>
                                                                 </button>
                                                                 <button onClick={() => handleDeleteUser(user.id, user.fullName)} title="Xóa tài khoản" style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: '4px', padding: '6px 10px', cursor: 'pointer', color: '#dc2626' }}>
@@ -515,8 +525,8 @@ export default function AdminPage() {
                 {/* TAB 3: TẢI LÊN MOCK TEST */}
                 {activeTab === 'mock' && (
                     <div style={{ maxWidth: '800px', margin: '0 auto', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                        <div className="card" style={{ padding: '20px 30px', borderTop: '5px solid #c2410c', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                            <h2 style={{ color: '#c2410c', marginTop: 0, marginBottom: '5px' }}>
+                        <div className="card" style={{ padding: '20px 30px', borderTop: '5px solid #2B6830', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                            <h2 style={{ color: '#2B6830', marginTop: 0, marginBottom: '5px' }}>
                                 <i className="fa-solid fa-code"></i> Tải Lên Đề Mock Test
                             </h2>
                             <p style={{ color: '#64748b', marginBottom: '15px', fontSize: '0.95rem' }}>
@@ -531,35 +541,20 @@ export default function AdminPage() {
                                     style={{ flex: 1, width: '100%', padding: '15px', borderRadius: '8px', minHeight: '220px', border: '1px solid #cbd5e1', background: '#1e293b', color: '#10b981', fontFamily: 'monospace', fontSize: '13px', resize: 'vertical', lineHeight: '1.6' }}
                                     spellCheck="false"
                                 />
-                                <button onClick={handleUploadMockTest} className="btn-submit-login" style={{ background: '#c2410c', fontSize: '1rem', padding: '12px' }}>
+                                <button onClick={handleUploadMockTest} className="btn-submit-login" style={{ background: '#2B6830', fontSize: '1rem', padding: '12px' }}
+                                    onMouseOver={e => e.currentTarget.style.background = '#1E5225'}
+                                    onMouseOut={e => e.currentTarget.style.background = '#2B6830'}>
                                     <i className="fa-solid fa-cloud-arrow-up"></i> KIỂM TRA CODE & TẢI LÊN MÂY
                                 </button>
                             </div>
                         </div>
                     </div>
                 )}
-                <button
-                    onClick={handleBulkUploadTests}
-                    style={{
-                        background: '#10b981',
-                        color: 'white',
-                        padding: '12px 25px',
-                        fontSize: '1rem',
-                        fontWeight: 'bold',
-                        border: 'none',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-                        margin: '20px 0'
-                    }}
-                >
-                    🚀 ĐỒNG BỘ 28 ĐỀ THI LÊN FIREBASE (BULK UPLOAD)
-                </button>
                 {/* TAB 4: TẠO ĐỀ WRITING VỚI RICH TEXT EDITOR */}
                 {activeTab === 'writing' && (
                     <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-                        <div className="card" style={{ padding: '20px 30px', borderTop: '5px solid #0f766e' }}>
-                            <h2 style={{ color: '#0f766e', marginTop: 0, marginBottom: '5px' }}>
+                        <div className="card" style={{ padding: '20px 30px', borderTop: '5px solid #2B6830' }}>
+                            <h2 style={{ color: '#2B6830', marginTop: 0, marginBottom: '5px' }}>
                                 <i className="fa-solid fa-pen-nib"></i> Tạo Đề Writing
                             </h2>
                             <p style={{ color: '#64748b', marginBottom: '15px', fontSize: '0.95rem' }}>Đề bài tải lên sẽ mặc định ở trạng thái <strong>Chờ duyệt (Pending)</strong>.</p>
@@ -638,7 +633,9 @@ export default function AdminPage() {
                                     />
                                 </div>
 
-                                <button type="submit" className="btn-submit-login" style={{ background: '#0f766e', fontSize: '1rem', padding: '12px' }}>ĐẨY LÊN HỆ THỐNG (PENDING)</button>
+                                <button type="submit" className="btn-submit-login" style={{ background: '#2B6830', fontSize: '1rem', padding: '12px' }}
+                                    onMouseOver={e => e.currentTarget.style.background = '#1E5225'}
+                                    onMouseOut={e => e.currentTarget.style.background = '#2B6830'}>ĐẨY LÊN HỆ THỐNG (PENDING)</button>
                             </form>
                         </div>
                     </div>
@@ -660,25 +657,27 @@ export default function AdminPage() {
                         : currentList;
 
                     const tabDefs = [
-                        { id: 'task1', label: 'Task 1', icon: 'fa-solid fa-chart-pie', color: '#0369a1', bg: '#e0f2fe', count: t1List.length },
-                        { id: 'task2', label: 'Task 2', icon: 'fa-solid fa-pen-fancy', color: '#15803d', bg: '#f0fdf4', count: t2List.length },
+                        { id: 'task1', label: 'Task 1', icon: 'fa-solid fa-chart-pie', color: '#2B6830', bg: '#E8F4EC', count: t1List.length },
+                        { id: 'task2', label: 'Task 2', icon: 'fa-solid fa-pen-fancy', color: '#2B6830', bg: '#E8F4EC', count: t2List.length },
                     ];
 
                     return (
                         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-                            <div className="card" style={{ padding: '24px 30px', minHeight: '400px', borderTop: '5px solid #7c3aed' }}>
+                            <div className="card" style={{ padding: '24px 30px', minHeight: '400px', borderTop: '5px solid #2B6830' }}>
 
                                 {/* ── Header ── */}
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '22px' }}>
                                     <div>
-                                        <h2 style={{ color: '#7c3aed', margin: 0, fontSize: '1.25rem' }}>
+                                        <h2 style={{ color: '#2B6830', margin: 0, fontSize: '1.25rem' }}>
                                             <i className="fa-solid fa-list-check"></i> Quản Lý Writing Library
                                         </h2>
                                         <p style={{ margin: '4px 0 0 0', color: '#94a3b8', fontSize: '0.85rem' }}>
                                             Tổng: {writingList.length} đề ({t1List.length} Task 1 · {t2List.length} Task 2)
                                         </p>
                                     </div>
-                                    <button onClick={fetchAllWriting} style={{ background: '#7c3aed', color: 'white', border: 'none', padding: '9px 18px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '7px' }}>
+                                    <button onClick={fetchAllWriting} style={{ background: '#2B6830', color: 'white', border: 'none', padding: '9px 18px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '7px' }}
+                                        onMouseOver={e => e.currentTarget.style.background = '#1E5225'}
+                                        onMouseOut={e => e.currentTarget.style.background = '#2B6830'}>
                                         <i className="fa-solid fa-arrows-rotate"></i> Tải lại
                                     </button>
                                 </div>
@@ -712,7 +711,7 @@ export default function AdminPage() {
                                 </div>
 
                                 {loadingWritingList ? (
-                                    <div style={{ textAlign: 'center', padding: '60px', color: '#7c3aed' }}>
+                                    <div style={{ textAlign: 'center', padding: '60px', color: '#2B6830' }}>
                                         <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2rem' }}></i>
                                         <p style={{ marginTop: '12px' }}>Đang tải danh sách...</p>
                                     </div>
@@ -728,7 +727,7 @@ export default function AdminPage() {
                                                     value={searchVal}
                                                     onChange={e => setSearch(e.target.value)}
                                                     style={{ width: '100%', padding: '9px 12px 9px 36px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '0.9rem', outline: 'none', transition: '0.15s', boxSizing: 'border-box' }}
-                                                    onFocus={e => e.target.style.borderColor = '#7c3aed'}
+                                                    onFocus={e => e.target.style.borderColor = '#2B6830'}
                                                     onBlur={e => e.target.style.borderColor = '#cbd5e1'}
                                                 />
                                             </div>
@@ -870,7 +869,7 @@ export default function AdminPage() {
                                                 </div>
 
                                                 <div style={{ display: 'flex', gap: '10px' }}>
-                                                    <button onClick={() => handleResolveBug(test.id, test._collection)} style={{ background: '#10b981', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => e.target.style.background = '#059669'} onMouseOut={e => e.target.style.background = '#10b981'}>
+                                                    <button onClick={() => handleResolveBug(test.id, test._collection)} style={{ background: '#2B6830', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => e.target.style.background = '#1E5225'} onMouseOut={e => e.target.style.background = '#2B6830'}>
                                                         <i className="fa-solid fa-circle-check"></i> ĐÃ SỬA XONG
                                                     </button>
 
@@ -879,7 +878,6 @@ export default function AdminPage() {
                                                     </button>
                                                 </div>
                                             </div>
-
                                             <div style={{ background: '#fef2f2', borderLeft: '4px solid #ef4444', padding: '15px', borderRadius: '4px', color: '#991b1b', fontSize: '0.95rem', fontFamily: 'monospace', whiteSpace: 'pre-line', lineHeight: '1.6' }}>
                                                 {test.bugNotes || "Không có nội dung mô tả lỗi cụ thể."}
                                             </div>
