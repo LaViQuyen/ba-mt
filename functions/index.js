@@ -196,6 +196,7 @@ exports.listUsers = onCall(
             fullName: u?.fullName || "",
             role: u?.role || "normal",
             isLocked: u?.isLocked || false,
+            examSystem: u?.examSystem || "both",
             createdAt: u?.createdAt || null
         }));
         return { users };
@@ -209,7 +210,7 @@ exports.adminCreateUser = onCall(
     { memory: "256MiB", maxInstances: 5 },
     async (request) => {
         assertAdmin(request);
-        const { studentId, password, fullName, role } = request.data || {};
+        const { studentId, password, fullName, role, examSystem } = request.data || {};
         if (!isValidStudentId(studentId)) throw new HttpsError("invalid-argument", "Ma hoc vien phai 8 chu so.");
         if (studentId === ADMIN_UID) throw new HttpsError("invalid-argument", "ID nay danh cho quan tri.");
         if (!password || typeof password !== "string" || password.length < 6) {
@@ -217,12 +218,14 @@ exports.adminCreateUser = onCall(
         }
         if (!fullName || typeof fullName !== "string") throw new HttpsError("invalid-argument", "Thieu ho ten.");
         const newRole = role === "private" ? "private" : "normal";
+        // He thi duoc phep: 'ielts' | 'sat' | 'both' (mac dinh ca 2, khong gioi han).
+        const newExamSystem = ["ielts", "sat", "both"].includes(examSystem) ? examSystem : "both";
 
         const exists = await db().ref(`users/${studentId}`).once("value");
         if (exists.exists()) throw new HttpsError("already-exists", "ID da ton tai.");
 
         await db().ref(`users/${studentId}`).set({
-            fullName, role: newRole, isLocked: false, createdAt: new Date().toISOString()
+            fullName, role: newRole, isLocked: false, examSystem: newExamSystem, createdAt: new Date().toISOString()
         });
         await db().ref(`authSecrets/${studentId}/passwordHash`).set(await hashPassword(password));
         return { success: true };
@@ -250,6 +253,20 @@ exports.adminSetRole = onCall(
         const newRole = role === "private" ? "private" : "normal";
         await db().ref(`users/${studentId}/role`).set(newRole);
         return { success: true, role: newRole };
+    }
+);
+
+// He thi duoc phep hoc vien truy cap: 'ielts' | 'sat' | 'both'. Tach truc voi "role"
+// (role = normal/private la vai tro kiem duyet, khong lien quan quyen chon he thi).
+exports.adminSetExamSystem = onCall(
+    { memory: "128MiB", maxInstances: 5 },
+    async (request) => {
+        assertAdmin(request);
+        const { studentId, examSystem } = request.data || {};
+        if (!isValidStudentId(studentId)) throw new HttpsError("invalid-argument", "ID khong hop le.");
+        const newExamSystem = ["ielts", "sat", "both"].includes(examSystem) ? examSystem : "both";
+        await db().ref(`users/${studentId}/examSystem`).set(newExamSystem);
+        return { success: true, examSystem: newExamSystem };
     }
 );
 

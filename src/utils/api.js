@@ -39,10 +39,11 @@ export async function changePassword(oldPassword, newPassword) {
 // --- Admin (yeu cau token role='admin') -------------------------
 export const adminApi = {
   listUsers: () => call("listUsers")().then((r) => r.data?.users || []),
-  createUser: (studentId, password, fullName, role) =>
-    call("adminCreateUser")({ studentId, password, fullName, role }),
+  createUser: (studentId, password, fullName, role, examSystem) =>
+    call("adminCreateUser")({ studentId, password, fullName, role, examSystem }),
   deleteUser: (studentId) => call("adminDeleteUser")({ studentId }),
   setRole: (studentId, role) => call("adminSetRole")({ studentId, role }),
+  setExamSystem: (studentId, examSystem) => call("adminSetExamSystem")({ studentId, examSystem }),
   resetPassword: (studentId) => call("adminResetPassword")({ studentId }),
   toggleLock: (studentId, isLocked) => call("adminToggleLock")({ studentId, isLocked }),
   uploadMock: (testObj) => call("adminUploadMock", { timeout: 120000 })({ testObj }),

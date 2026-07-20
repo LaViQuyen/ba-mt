@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ref, get, child } from "firebase/database";
 import { db } from '../firebase';
 import { toast } from 'react-toastify';
-import { satTests } from '../data/sat'; // Danh muc de SAT Adaptive (metadata nhe, data nap khi vao thi)
 import { isTestProtected, isTestUnlocked, tryUnlockTest, clearAllTestUnlocks } from '../utils/testLock';
+import { fetchAllowedExamSystem, canAccessSystem } from '../utils/examSystem';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -22,13 +22,18 @@ export default function HomePage() {
   const [pwError, setPwError] = useState('');
   useEffect(() => { clearAllTestUnlocks(); }, []);
 
-  // 👉 TAB IELTS / SAT: tach 2 he de thi thanh 2 tab rieng cho gon giao dien.
-  //    Ghi nho tab dang chon vao localStorage de lan sau mo lai dung tab cu.
-  const [activeTab, setActiveTab] = useState(() => localStorage.getItem('exam_home_tab') || 'ielts');
-  const switchTab = (tab) => {
-    setActiveTab(tab);
-    try { localStorage.setItem('exam_home_tab', tab); } catch (e) { console.error(e); }
-  };
+  // 🔒 GÁC CỔNG HỆ THI: trang này chỉ dành cho hệ IELTS — học viên chỉ được gán hệ SAT
+  // (hoặc vào thẳng URL /dashboard/ielts) sẽ bị đẩy về màn chọn hệ kèm thông báo.
+  useEffect(() => {
+    const studentId = localStorage.getItem("currentStudentId");
+    fetchAllowedExamSystem(studentId).then((examSystem) => {
+      if (!canAccessSystem(examSystem, 'ielts')) {
+        toast.error("🚫 Tài khoản của bạn không có quyền truy cập hệ IELTS.", { autoClose: 5000 });
+        navigate('/dashboard', { replace: true });
+      }
+    }).catch((error) => console.error("Lỗi kiểm tra quyền hệ thi:", error));
+  }, [navigate]);
+
   // 👉 GỌI DỮ LIỆU IELTS TỪ FIREBASE KHI TRANG VỪA MỞ LÊN
   useEffect(() => {
     const fetchTests = async () => {
@@ -80,7 +85,6 @@ export default function HomePage() {
       navigate(`/test-menu/${testId}`);
     }
   });
-  const handleStartSat = (e, satId) => checkLockThenRun(e, () => navigate(`/sat-test/${satId}`));
 
   const handlePwSubmit = (e) => {
     e.preventDefault();
@@ -138,91 +142,44 @@ export default function HomePage() {
         {/* HEADER */}
         <div className="hp-header">
           <div className="hp-title">
-            <h1>{activeTab === 'sat' ? 'SAT PRACTICE TEST SYSTEM' : 'IELTS PRACTICE TEST SYSTEM'}</h1>
+            <h1>IELTS PRACTICE TEST SYSTEM</h1>
           </div>
           <div className="hp-nav">
-            <Link to="/dashboard" className="hp-link active">MOCK TEST</Link>
+            <Link to="/dashboard/ielts" className="hp-link active">MOCK TEST</Link>
             <Link to="/writing-library" className="hp-link">WRITING</Link>
           </div>
         </div>
 
-        {/* 👉 TAB BAR: IELTS | SAT */}
-        <div className="hp-tab-bar">
-          <button className={`hp-tab ${activeTab === 'ielts' ? 'active' : ''}`} onClick={() => switchTab('ielts')}>
-            <i className="fa-solid fa-earth-asia"></i> IELTS
-          </button>
-          <button className={`hp-tab ${activeTab === 'sat' ? 'active' : ''}`} onClick={() => switchTab('sat')}>
-            <i className="fa-solid fa-graduation-cap"></i> SAT <span className="hp-tab-badge">Adaptive</span>
-          </button>
-        </div>
-
-        {/* ===== TAB IELTS ===== */}
-        {activeTab === 'ielts' && (
-          loading ? (
-            <div style={{ textAlign: 'center', padding: '50px', color: '#2B6830' }}>
-              <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2.5rem', marginBottom: '15px' }}></i>
-              <h3 style={{ margin: 0 }}>Đang kết nối hệ thống...</h3>
-              <p style={{ color: '#666' }}>Vui lòng chờ trong giây lát</p>
-            </div>
-          ) : (
-            <div className="hp-grid">
-              {tests.length > 0 ? (
-                tests.map(test => (
-                  <div key={test.id} className="hp-card">
-                    <h3>{test.testName}</h3>
-                    <p className="hp-card-desc">{test.description}</p>
-                    <button
-                      className="btn-start"
-                      onClick={(e) => handleStartTest(e, test.id)}
-                      style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-                    >
-                      START TEST
-                    </button>
-                  </div>
-                ))
-              ) : (
-                <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '50px', background: 'white', borderRadius: '12px', border: '1px dashed #ccc' }}>
-                  <i className="fa-regular fa-folder-open" style={{ fontSize: '3rem', color: '#ccc', marginBottom: '15px' }}></i>
-                  <h3 style={{ margin: '0 0 10px 0', color: '#555' }}>Chưa có đề thi nào</h3>
-                  <p style={{ color: '#888' }}>Hiện tại chưa có bài thi nào được xuất bản trên hệ thống.</p>
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '50px', color: '#2B6830' }}>
+            <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2.5rem', marginBottom: '15px' }}></i>
+            <h3 style={{ margin: 0 }}>Đang kết nối hệ thống...</h3>
+            <p style={{ color: '#666' }}>Vui lòng chờ trong giây lát</p>
+          </div>
+        ) : (
+          <div className="hp-grid">
+            {tests.length > 0 ? (
+              tests.map(test => (
+                <div key={test.id} className="hp-card">
+                  <h3>{test.testName}</h3>
+                  <p className="hp-card-desc">{test.description}</p>
+                  <button
+                    className="btn-start"
+                    onClick={(e) => handleStartTest(e, test.id)}
+                    style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                  >
+                    START TEST
+                  </button>
                 </div>
-              )}
-            </div>
-          )
-        )}
-
-        {/* ===== TAB SAT ===== */}
-        {activeTab === 'sat' && (
-          <>
-            <div className="sat-tab-note">
-              <i className="fa-solid fa-circle-info"></i>&nbsp;
-              Đề SAT chạy theo cơ chế <b>Adaptive</b>: 2 module Reading & Writing, mỗi module 27 câu / 32 phút.
-              Kết quả Module 1 quyết định độ khó và trần điểm của Module 2.
-            </div>
-            <div className="hp-grid">
-              {satTests.length > 0 ? (
-                satTests.map(t => (
-                  <div key={t.id} className="hp-card sat-card-accent">
-                    <h3>{t.testName}</h3>
-                    <p className="hp-card-desc">{t.description}</p>
-                    <button
-                      className="btn-start"
-                      onClick={(e) => handleStartSat(e, t.id)}
-                      style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-                    >
-                      START SAT TEST
-                    </button>
-                  </div>
-                ))
-              ) : (
-                <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '50px', background: 'white', borderRadius: '12px', border: '1px dashed #ccc' }}>
-                  <i className="fa-regular fa-folder-open" style={{ fontSize: '3rem', color: '#ccc', marginBottom: '15px' }}></i>
-                  <h3 style={{ margin: '0 0 10px 0', color: '#555' }}>Chưa có đề SAT nào</h3>
-                  <p style={{ color: '#888' }}>Đề SAT Adaptive sẽ xuất hiện tại đây khi được phát hành.</p>
-                </div>
-              )}
-            </div>
-          </>
+              ))
+            ) : (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '50px', background: 'white', borderRadius: '12px', border: '1px dashed #ccc' }}>
+                <i className="fa-regular fa-folder-open" style={{ fontSize: '3rem', color: '#ccc', marginBottom: '15px' }}></i>
+                <h3 style={{ margin: '0 0 10px 0', color: '#555' }}>Chưa có đề thi nào</h3>
+                <p style={{ color: '#888' }}>Hiện tại chưa có bài thi nào được xuất bản trên hệ thống.</p>
+              </div>
+            )}
+          </div>
         )}
 
       </div>

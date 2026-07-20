@@ -1,8 +1,10 @@
 // src/App.jsx
 import { useState, useEffect, useRef } from 'react'; 
 import { Routes, Route, Link, useNavigate, Navigate, useLocation } from 'react-router-dom';
-import HomePage from './pages/HomePage';       
-import FullTestPage from './pages/FullTestPage'; 
+import HomePage from './pages/HomePage';
+import SystemChooserPage from './pages/SystemChooserPage'; // Man hinh chon he IELTS/SAT sau dang nhap
+import SatHomePage from './pages/SatHomePage'; // Danh sach de SAT (tach tu HomePage tab cu)
+import FullTestPage from './pages/FullTestPage';
 import LandingPage from './pages/LandingPage';   
 import AdminPage from './pages/AdminPage'; 
 import TestMenuPage from './pages/TestMenuPage';
@@ -434,7 +436,10 @@ function App() {
         <Routes>
           <Route path="/" element={ !isLoggedIn ? <LandingPage onOpenLogin={openModal} /> : (isAdmin ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />) } />
           <Route path="/admin" element={<AdminRoute isAdmin={isAdmin}><AdminPage /></AdminRoute>} />
-          <Route path="/dashboard" element={<ProtectedRoute isLoggedIn={isLoggedIn}><HomePage /></ProtectedRoute>} />
+          {/* Man hinh chon he IELTS/SAT — hien ngay sau dang nhap */}
+          <Route path="/dashboard" element={<ProtectedRoute isLoggedIn={isLoggedIn}><SystemChooserPage /></ProtectedRoute>} />
+          <Route path="/dashboard/ielts" element={<ProtectedRoute isLoggedIn={isLoggedIn}><HomePage /></ProtectedRoute>} />
+          <Route path="/dashboard/sat" element={<ProtectedRoute isLoggedIn={isLoggedIn}><SatHomePage /></ProtectedRoute>} />
           <Route path="/test-menu/:testId" element={<ProtectedRoute isLoggedIn={isLoggedIn}><TestMenuPage /></ProtectedRoute>} />
           <Route path="/do-test/:testId/:skill" element={<ProtectedRoute isLoggedIn={isLoggedIn}><FullTestPage /></ProtectedRoute>} />
           {/* Thi SAT Reading & Writing theo co che Adaptive (2 module, re nhanh Kho/De) */}

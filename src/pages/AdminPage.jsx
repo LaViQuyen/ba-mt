@@ -24,6 +24,8 @@ export default function AdminPage() {
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [role, setRole] = useState('normal');
+    // Quyen truy cap he thi khi tao tai khoan moi: 'ielts' | 'sat' | 'both'
+    const [examSystem, setExamSystem] = useState('both');
 
     const [usersList, setUsersList] = useState([]);
     const [loadingUsers, setLoadingUsers] = useState(false);
@@ -184,9 +186,9 @@ export default function AdminPage() {
         setBusy(true);
         try {
             // Tạo qua Function: kiểm trùng ID + hash password server-side (không lưu plaintext).
-            await adminApi.createUser(studentId, password, fullName, role);
+            await adminApi.createUser(studentId, password, fullName, role, examSystem);
             toast.success(`✅ Đã tạo tài khoản: ${fullName}`);
-            setStudentId(''); setPassword(''); setFullName(''); setRole('normal');
+            setStudentId(''); setPassword(''); setFullName(''); setRole('normal'); setExamSystem('both');
             setActiveTab('userList');
         } catch (error) {
             const dup = (error?.message || '').includes('ton tai');
@@ -209,6 +211,23 @@ export default function AdminPage() {
                     toast.success(`🔄 Đã cập nhật quyền cho ${userId}`);
                     fetchUsers();
                 } catch (error) { toast.error("❌ Lỗi đổi quyền: " + error.message); }
+            }
+        });
+    };
+
+    // 👉 HÀM ĐỔI QUYỀN HỆ THI (IELTS / SAT / Cả 2) — tách trục với role (normal/private)
+    const EXAM_SYSTEM_LABEL = { ielts: 'CHỈ IELTS', sat: 'CHỈ SAT', both: 'CẢ 2 HỆ' };
+    const handleSetExamSystem = (userId, newExamSystem) => {
+        setConfirmReq({
+            title: 'ĐỔI QUYỀN HỆ THI?',
+            message: `Tài khoản ${userId} sẽ chỉ được truy cập: ${EXAM_SYSTEM_LABEL[newExamSystem]}.`,
+            yesLabel: 'XÁC NHẬN',
+            onYes: async () => {
+                try {
+                    await adminApi.setExamSystem(userId, newExamSystem);
+                    toast.success(`🔄 Đã cập nhật hệ thi cho ${userId}`);
+                    fetchUsers();
+                } catch (error) { toast.error("❌ Lỗi đổi hệ thi: " + error.message); }
             }
         });
     };
@@ -530,15 +549,26 @@ export default function AdminPage() {
                                             {filteredUsers.map((user) => {
                                                 const safeRole = user.role || 'normal';
                                                 const isLocked = user.isLocked || false;
+                                                const safeExamSystem = user.examSystem || 'both';
 
                                                 return (
                                                     <tr key={user.id} style={{ borderBottom: '1px solid #e2e8f0', transition: '0.2s', opacity: isLocked ? 0.7 : 1 }} onMouseOver={e => e.currentTarget.style.background = '#f8fafc'} onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
                                                         <td style={{ padding: '12px 10px', fontWeight: 'bold', color: '#0f172a' }}>{user.id}</td>
                                                         <td style={{ padding: '12px 10px', color: '#334155', textDecoration: isLocked ? 'line-through' : 'none' }}>{user.fullName}</td>
-                                                        <td style={{ padding: '12px 10px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                        <td style={{ padding: '12px 10px', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                                                             <span style={{ padding: '4px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 'bold', background: safeRole === 'private' ? '#fef3c7' : '#E8F4EC', color: safeRole === 'private' ? '#d97706' : '#3D8B47' }}>
                                                                 {safeRole === 'private' ? '🕵️‍♂️ PRIVATE' : '👤 NORMAL'}
                                                             </span>
+                                                            <select
+                                                                value={safeExamSystem}
+                                                                onChange={(e) => handleSetExamSystem(user.id, e.target.value)}
+                                                                title="Quyền truy cập hệ thi"
+                                                                style={{ padding: '4px 8px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 'bold', border: '1px solid #cbd5e1', background: '#f8fafc', color: '#334155', cursor: 'pointer' }}
+                                                            >
+                                                                <option value="both">🌐 CẢ 2 HỆ</option>
+                                                                <option value="ielts">🌏 CHỈ IELTS</option>
+                                                                <option value="sat">🎓 CHỈ SAT</option>
+                                                            </select>
                                                             {isLocked && (
                                                                 <span style={{ padding: '4px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 'bold', background: '#fee2e2', color: '#dc2626' }}>
                                                                     <i className="fa-solid fa-lock"></i> BỊ KHÓA
@@ -594,11 +624,19 @@ export default function AdminPage() {
                                     <label style={{ fontWeight: 'bold', display: 'block', marginBottom: 5, color: '#334155' }}>Mật khẩu</label>
                                     <input type="password" className="login-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Nhập mật khẩu..." />
                                 </div>
-                                <div style={{ marginBottom: 20 }}>
+                                <div style={{ marginBottom: 15 }}>
                                     <label style={{ fontWeight: 'bold', display: 'block', marginBottom: 5, color: '#334155' }}>Phân quyền (Role)</label>
                                     <select className="login-input" value={role} onChange={(e) => setRole(e.target.value)} style={{ cursor: 'pointer', background: '#f8fafc' }}>
                                         <option value="normal">👤 Normal (Học viên thi bình thường)</option>
                                         <option value="private">🕵️‍♂️ Private (Người kiểm duyệt đề)</option>
+                                    </select>
+                                </div>
+                                <div style={{ marginBottom: 20 }}>
+                                    <label style={{ fontWeight: 'bold', display: 'block', marginBottom: 5, color: '#334155' }}>Hệ thi được phép</label>
+                                    <select className="login-input" value={examSystem} onChange={(e) => setExamSystem(e.target.value)} style={{ cursor: 'pointer', background: '#f8fafc' }}>
+                                        <option value="both">🌐 Cả 2 hệ (IELTS + SAT)</option>
+                                        <option value="ielts">🌏 Chỉ IELTS</option>
+                                        <option value="sat">🎓 Chỉ SAT</option>
                                     </select>
                                 </div>
                                 <button type="submit" className="btn-submit-login" disabled={busy} style={{ fontSize: '1rem', padding: '12px', opacity: busy ? 0.6 : 1, cursor: busy ? 'wait' : 'pointer' }}>

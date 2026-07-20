@@ -72,7 +72,7 @@ export default function TestMenuPage() {
         <i className="fa-regular fa-face-frown" style={{ fontSize: '4rem', color: '#ef4444', marginBottom: '20px' }}></i>
         <h2 style={{ color: '#2B6830' }}>❌ Không tìm thấy đề thi!</h2>
         <p style={{ color: '#666', marginBottom: '20px' }}>Đề thi này không tồn tại hoặc đã bị gỡ bỏ.</p>
-        <Link to="/dashboard" style={{ background: '#2B6830', color: 'white', padding: '10px 20px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold' }}>Quay lại Trang chủ</Link>
+        <Link to="/dashboard/ielts" style={{ background: '#2B6830', color: 'white', padding: '10px 20px', borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold' }}>Quay lại Trang chủ</Link>
       </div>
     );
   }

@@ -809,7 +809,7 @@ export default function FullTestPage() {
             <div style={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#F2F8F4' }}>
                 <i className="fa-regular fa-face-frown" style={{ fontSize: '4rem', color: '#ef4444', marginBottom: '20px' }}></i>
                 <h2 style={{ color: '#2B6830' }}>❌ Không tìm thấy đề thi!</h2>
-                <button onClick={() => navigate('/dashboard')} style={{ background: '#2B6830', color: 'white', padding: '10px 20px', borderRadius: '6px', border: 'none', cursor: 'pointer', marginTop: '15px' }}>Quay lại Trang chủ</button>
+                <button onClick={() => navigate('/dashboard/ielts')} style={{ background: '#2B6830', color: 'white', padding: '10px 20px', borderRadius: '6px', border: 'none', cursor: 'pointer', marginTop: '15px' }}>Quay lại Trang chủ</button>
             </div>
         );
     }

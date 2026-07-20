@@ -345,7 +345,7 @@ export default function SatAdaptiveTestPage() {
   if (loadError) return (
     <div style={{ textAlign: 'center', padding: '80px 20px' }}>
       <h2 style={{ color: FG }}>❌ Không tìm thấy đề SAT!</h2>
-      <Link to="/dashboard" style={{ background: FG, color: 'white', padding: '10px 20px', borderRadius: 6, textDecoration: 'none', fontWeight: 'bold' }}>Quay lại Trang chủ</Link>
+      <Link to="/dashboard/sat" style={{ background: FG, color: 'white', padding: '10px 20px', borderRadius: 6, textDecoration: 'none', fontWeight: 'bold' }}>Quay lại Trang chủ</Link>
     </div>
   );
   if (!testData) return (
@@ -452,7 +452,7 @@ export default function SatAdaptiveTestPage() {
         </table>
         </div>
         <p style={{ color: '#666', fontSize: '0.9rem' }}>Kết quả đã được lưu vào lịch sử và gửi email cho giáo viên.</p>
-        <Link to="/dashboard" style={{ background: FG, color: 'white', padding: '12px 26px', borderRadius: 8, textDecoration: 'none', fontWeight: 'bold' }}>Về Trang chủ</Link>
+        <Link to="/dashboard/sat" style={{ background: FG, color: 'white', padding: '12px 26px', borderRadius: 8, textDecoration: 'none', fontWeight: 'bold' }}>Về Trang chủ</Link>
       </div>
     </div>
   );
