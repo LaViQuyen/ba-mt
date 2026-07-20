@@ -145,6 +145,11 @@ svg { max-width: 100%; }
   padding: 20px;
   position: relative;
   -webkit-overflow-scrolling: touch;
+  /* Giu co dinh khoang trang cho thanh cuon du co hien hay khong — tranh header
+     "nhay" ngang khi chuyen trang giua Mock Test (noi dung dai, co cuon) va
+     Writing (khong cuon): thieu dong nay be rong noi dung se doi theo su xuat
+     hien/bien mat cua scrollbar. */
+  scrollbar-gutter: stable;
 }
 
 /* Anh trong luong noi dung khong duoc pha vo khung.
@@ -737,8 +742,17 @@ svg { max-width: 100%; }
 }
 
 .lib-header-wrapper {
-  padding: 32px 40px 0;
+  /* Padding trai/phai/tren khop voi .hp-container (40px 60px) de tieu de khong
+     bi lech vi tri khi chuyen trang — chi giu bottom = 0 (lib-body tu co padding-top rieng). */
+  padding: 40px 60px 0;
   flex-shrink: 0;
+  /* Dong bo voi .hp-container (Mock Test): cung max-width + can giua, chi gioi han
+     chieu ngang cua HEADER — khong dung cho .lib-body de tranh doi chieu cao gay
+     cuon trang (.lib-body van full-width nhu cu). */
+  max-width: 1400px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .lib-body {
@@ -1960,6 +1974,7 @@ svg { max-width: 100%; }
 
   /* --- Dashboard --- */
   .hp-container { padding: 20px 15px; }
+  .lib-header-wrapper { padding: 20px 15px 0; }
 
   .hp-header {
     flex-direction: column;
